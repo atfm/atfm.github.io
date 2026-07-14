@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Дневной чек-лист — продуктивность</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --surface2: #243044;
+      --text: #e8edf4;
+      --muted: #8b9cb3;
+      --accent: #5b9fd4;
+      --accent2: #6bc9a8;
+      --warn: #e8b86d;
+      --danger: #e88a8a;
+      --border: #2d3a4f;
+      --radius: 12px;
+      --font: "Segoe UI", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 1.25rem;
+    }
+    .wrap { max-width: 640px; margin: 0 auto; }
+    header { margin-bottom: 1.5rem; }
+    h1 { font-size: 1.35rem; font-weight: 600; margin: 0 0 0.35rem; }
+    .sub { color: var(--muted); font-size: 0.9rem; }
+    #jsStatus {
+      margin-top: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+    }
+    #jsStatus.ok { border-color: var(--accent2); color: var(--accent2); }
+    #jsStatus.err { border-color: var(--danger); color: var(--danger); }
+    .date-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    input[type="date"] {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      font: inherit;
+    }
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      padding: 0.5rem 0.9rem;
+      background: var(--surface2);
+      color: var(--text);
+    }
+    button:hover { filter: brightness(1.1); }
+    button:active { transform: scale(0.98); }
+    button.primary { background: var(--accent); color: #0a1018; font-weight: 600; }
+    .score-card {
+      background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .score-main {
+      display: flex;
+      align-items: baseline;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+    .score-num {
+      font-size: 2.75rem;
+      font-weight: 700;
+      color: var(--accent2);
+      line-height: 1;
+    }
+    .score-max { font-size: 1.25rem; color: var(--muted); }
+    .score-label { font-size: 0.85rem; color: var(--muted); margin-top: 0.25rem; }
+    .bar-wrap {
+      height: 8px;
+      background: var(--bg);
+      border-radius: 4px;
+      margin-top: 0.75rem;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 4px;
+      transition: width 0.3s ease;
+      width: 0%;
+    }
+    .level { margin-top: 0.5rem; font-size: 0.95rem; }
+    section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.15rem;
+      margin-bottom: 1rem;
+    }
+    section h2 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin: 0 0 0.75rem;
+      font-weight: 600;
+    }
+    label.item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+    label.item:last-child { border-bottom: none; }
+    label.item input {
+      margin-top: 0.2rem;
+      width: 1.1rem;
+      height: 1.1rem;
+      accent-color: var(--accent);
+      flex-shrink: 0;
+    }
+    .item-text { flex: 1; }
+    .item-title { font-weight: 500; }
+    .item-desc { font-size: 0.82rem; color: var(--muted); margin-top: 0.15rem; }
+    .pts {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--warn);
+      white-space: nowrap;
+      padding-top: 0.15rem;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    textarea#exportBox {
+      width: 100%;
+      min-height: 100px;
+      margin-top: 0.75rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 0.75rem;
+      font: inherit;
+      font-size: 0.85rem;
+      resize: vertical;
+      display: none;
+    }
+    textarea#exportBox.visible { display: block; }
+    .hint { font-size: 0.8rem; color: var(--muted); margin-top: 1rem; }
+    .projects-done { color: var(--accent2); font-size: 0.9rem; margin-top: 0.5rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Дневной чек-лист</h1>
+      <p class="sub">Цели на ближайшее время · баллы сохраняются в браузере по дате</p>
+      <div id="jsStatus">Загрузка…</div>
+      <div class="date-row">
+        <label>
+          Дата:
+          <input type="date" id="datePick" onchange="ProdCheck.syncUI()" />
+        </label>
+        <button type="button" onclick="ProdCheck.onToday()">Сегодня</button>
+        <button type="button" onclick="ProdCheck.onReset()">Сбросить день</button>
+      </div>
+    </header>
+
+    <div class="score-card">
+      <div class="score-main">
+        <span class="score-num" id="scoreNow">0</span>
+        <span class="score-max">/ <span id="scoreMax">95</span> за день</span>
+      </div>
+      <p class="score-label">+ проекты (мантра, старт книги) — отдельно, не сбрасываются</p>
+      <div class="bar-wrap"><div class="bar-fill" id="barFill"></div></div>
+      <p class="level" id="levelText">Отметьте выполненное</p>
+      <p class="projects-done" id="projectsBonus"></p>
+    </div>
+
+    <section>
+      <h2>Ежедневно</h2>
+      <label class="item">
+        <input type="checkbox" data-id="diary_full" data-project="0" onchange="ProdCheck.onToggle(this)" />
+        <span class="item-text">
+          <span class="item-title">Дневник за день</span>
+          <span class="item-desc">Мысли, выводы, новая информация — полноценная запись</span>
+        </span>
+        <span class="pts">+20</span>
+      </label>
+      <label class="item">
+        <input type="checkbox" data-id="book_intel" data-project="0" onchange="ProdCheck.onToggle(this)" />
+        <span class="item-text">
+          <span class="item-title">≥ 20 страниц «Психология разведывательного анализа»</span>
+          <span class="item-desc">Дочитать книгу по плану</span>
+        </span>
+        <span class="pts">+15</span>
+      </label>
+      <label class="item">
+        <input type="checkbox" data-id="book_intel_notes" data-project="0" onchange="ProdCheck.onToggle(this)" />
+        <span class="item-text">
+          <span class="item-title">Выводы по чтению</span>
+          <span class="item-desc">Записать выводы после страниц</span>
+        </span>
+        <span class="pts">+10</span>
+      </label>
+      <label class="item">
+        <input type="checkbox" data-id="mantra_read" data-project="0" onchange="ProdCheck.onToggle(this)" />
+        <span class="item-text">
+          <span class="item-title">Прочитал утреннюю мантру</span>
+          <span class="item-desc">Свои цели и задачи вслух или про себя</span>
+        </span>
+        <span class="pts">+15</span>
+      </label>
+      <label class="item">
+        <input type="checkbox" data-id="squats" data-project="0" onchange="ProdCheck.onToggle(this)" />
+        <span class="item-text">
+          <span class="item-title">Приседания</span>
+          <span class="item-desc">В рамках зарядки</span>
+        </span>
+        <span class="pts">+5</span>
+      </label>
+      <label class="item">
+        <input type="checkbox" data-id="pushups" data-project="0" onchange="ProdCheck.onToggle(this)" />
+        <span class="item-text">
+          <span class="item-title">Отжимания</span>
+          <span class="item-desc">В рамках зарядки</span>
+        </span>
+        <span class="pts">+5</span>
+      </label>
+      <label class="item">
+        <input type="checkbox" data-id="dumbbells" data-project="0" onchange="ProdCheck.onToggle(this)" />
+        <span class="item-text">
+          <span class="item-title">Гантели / доп. упражнение</span>
+          <span class="item-desc">По возможности</span>
+        </span>
+        <span class="pts">+5</span>
+      </label>
+      <label class="item">
+        <input type="checkbox" data-id="new_book" data-project="0" onchange="ProdCheck.onToggle(this)" />
+        <span class="item-text">
+          <span class="item-title">Читал новую книгу сегодня</span>
+          <span class="item-desc">После старта — ежедневная привычка</span>
+        </span>
+        <span class="pts">+15</span>
+      </label>
+    </section>
+
+    <section>
+      <h2>Проекты (один раз)</h2>
+      <label class="item">
+        <input type="checkbox" data-id="mantra_written" data-project="1" onchange="ProdCheck.onToggle(this)" />
+        <span class="item-text">
+          <span class="item-title">Написал утреннюю мантру</span>
+          <span class="item-desc">Свои цели и задачи в одном тексте</span>
+        </span>
+        <span class="pts">+20</span>
+      </label>
+      <label class="item">
+        <input type="checkbox" data-id="new_book_started" data-project="1" onchange="ProdCheck.onToggle(this)" />
+        <span class="item-text">
+          <span class="item-title">Приступил к новой книге</span>
+          <span class="item-desc">Выбрал книгу и начал читать</span>
+        </span>
+        <span class="pts">+15</span>
+      </label>
+    </section>
+
+    <div class="actions">
+      <button type="button" class="primary" onclick="ProdCheck.onCopy()">Скопировать для Obsidian</button>
+      <button type="button" onclick="ProdCheck.onShowExport()">Показать текст</button>
+    </div>
+    <textarea id="exportBox" readonly></textarea>
+    <p class="hint">Открывайте этот файл в Chrome или Edge (двойной клик или файл «Открыть чек-лист.bat»). В Obsidian скрипты не работают.</p>
+  </div>
+
+  <script>
+  /* eslint-disable */
+  var ProdCheck = (function () {
+    var DAILY = [
+      { id: "diary_full", title: "Дневник за день", pts: 20 },
+      { id: "book_intel", title: "\u2265 20 \u0441\u0442\u0440. \u00ab\u041f\u0441\u0438\u0445\u043e\u043b\u043e\u0433\u0438\u044f \u0440\u0430\u0437\u0432\u0435\u0434\u044b\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u0430\u043d\u0430\u043b\u0438\u0437\u0430\u00bb", pts: 15 },
+      { id: "book_intel_notes", title: "\u0412\u044b\u0432\u043e\u0434\u044b \u043f\u043e \u0447\u0442\u0435\u043d\u0438\u044e", pts: 10 },
+      { id: "mantra_read", title: "\u041f\u0440\u043e\u0447\u0438\u0442\u0430\u043b \u0443\u0442\u0440\u0435\u043d\u043d\u044e\u044e \u043c\u0430\u043d\u0442\u0440\u0443", pts: 15 },
+      { id: "squats", title: "\u041f\u0440\u0438\u0441\u0435\u0434\u0430\u043d\u0438\u044f", pts: 5 },
+      { id: "pushups", title: "\u041e\u0442\u0436\u0438\u043c\u0430\u043d\u0438\u044f", pts: 5 },
+      { id: "dumbbells", title: "\u0413\u0430\u043d\u0442\u0435\u043b\u0438 / \u0434\u043e\u043f. \u0443\u043f\u0440\u0430\u0436\u043d\u0435\u043d\u0438\u0435", pts: 5 },
+      { id: "new_book", title: "\u0427\u0438\u0442\u0430\u043b \u043d\u043e\u0432\u0443\u044e \u043a\u043d\u0438\u0433\u0443 \u0441\u0435\u0433\u043e\u0434\u043d\u044f", pts: 15 }
+    ];
+    var PROJECTS = [
+      { id: "mantra_written", title: "\u041d\u0430\u043f\u0438\u0441\u0430\u043b \u0443\u0442\u0440\u0435\u043d\u043d\u044e\u044e \u043c\u0430\u043d\u0442\u0440\u0443", pts: 20 },
+      { id: "new_book_started", title: "\u041f\u0440\u0438\u0441\u0442\u0443\u043f\u0438\u043b \u043a \u043d\u043e\u0432\u043e\u0439 \u043a\u043d\u0438\u0433\u0435", pts: 15 }
+    ];
+    var BONUS = 5;
+    var KEY_DAILY = "prodChecklist_daily_v2";
+    var KEY_PROJ = "prodChecklist_projects_v2";
+    var memDaily = {};
+    var memProj = {};
+    var storageOk = true;
+
+    function $(id) { return document.getElementById(id); }
+
+    function setStatus(ok, text) {
+      var el = $("jsStatus");
+      if (!el) return;
+      el.className = ok ? "ok" : "err";
+      el.textContent = text;
+    }
+
+    function todayISO() {
+      var d = new Date();
+      var y = d.getFullYear();
+      var m = String(d.getMonth() + 1);
+      if (m.length < 2) m = "0" + m;
+      var day = String(d.getDate());
+      if (day.length < 2) day = "0" + day;
+      return y + "-" + m + "-" + day;
+    }
+
+    function storageGet(key) {
+      if (!storageOk) {
+        return key === KEY_DAILY ? memDaily : memProj;
+      }
+      try {
+        var raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) {
+        storageOk = false;
+        return key === KEY_DAILY ? memDaily : memProj;
+      }
+    }
+
+    function storageSet(key, obj) {
+      if (!storageOk) {
+        if (key === KEY_DAILY) memDaily = obj;
+        else memProj = obj;
+        return;
+      }
+      try {
+        localStorage.setItem(key, JSON.stringify(obj));
+      } catch (e) {
+        storageOk = false;
+        if (key === KEY_DAILY) memDaily = obj;
+        else memProj = obj;
+      }
+    }
+
+    function getDayState() {
+      var store = storageGet(KEY_DAILY);
+      var key = $("datePick").value;
+      if (!store[key]) store[key] = {};
+      return store[key];
+    }
+
+    function setDayState(dayState) {
+      var store = storageGet(KEY_DAILY);
+      store[$("datePick").value] = dayState;
+      storageSet(KEY_DAILY, store);
+    }
+
+    function maxDaily() {
+      var s = 0;
+      for (var i = 0; i < DAILY.length; i++) s += DAILY[i].pts;
+      return s + BONUS;
+    }
+
+    function levelMessage(pct) {
+      if (pct >= 100) return "\u041e\u0442\u043b\u0438\u0447\u043d\u044b\u0439 \u0434\u0435\u043d\u044c \u2014 \u0432\u0441\u0451 \u043f\u043e \u043f\u043b\u0430\u043d\u0443";
+      if (pct >= 80) return "\u0421\u0438\u043b\u044c\u043d\u044b\u0439 \u0434\u0435\u043d\u044c";
+      if (pct >= 60) return "\u0425\u043e\u0440\u043e\u0448\u0438\u0439 \u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441";
+      if (pct >= 40) return "\u0415\u0441\u0442\u044c \u0437\u0430 \u0447\u0442\u043e \u0437\u0430\u0446\u0435\u043f\u0438\u0442\u044c\u0441\u044f";
+      if (pct > 0) return "\u041d\u0430\u0447\u0430\u043b\u043e \u043f\u043e\u043b\u043e\u0436\u0435\u043d\u043e \u2014 \u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0430\u0439\u0442\u0435";
+      return "\u041e\u0442\u043c\u0435\u0442\u044c\u0442\u0435 \u0432\u044b\u043f\u043e\u043b\u043d\u0435\u043d\u043d\u043e\u0435";
+    }
+
+    function updateScore() {
+      var day = getDayState();
+      var projects = storageGet(KEY_PROJ);
+      var daily = 0;
+      var allDaily = true;
+      var i;
+      for (i = 0; i < DAILY.length; i++) {
+        if (day[DAILY[i].id]) daily += DAILY[i].pts;
+        else allDaily = false;
+      }
+      if (allDaily && DAILY.length) daily += BONUS;
+
+      var projPts = 0;
+      var projDone = [];
+      for (i = 0; i < PROJECTS.length; i++) {
+        if (projects[PROJECTS[i].id]) {
+          projPts += PROJECTS[i].pts;
+          projDone.push(PROJECTS[i].title);
+        }
+      }
+
+      var max = maxDaily();
+      $("scoreNow").textContent = String(daily);
+      $("scoreMax").textContent = String(max);
+      var pct = max ? Math.min(100, Math.round((daily / max) * 100)) : 0;
+      $("barFill").style.width = pct + "%";
+      var lvl = levelMessage(pct);
+      if (allDaily && daily) lvl += " \u00b7 \u0431\u043e\u043d\u0443\u0441 +" + BONUS;
+      $("levelText").textContent = lvl;
+
+      if (projDone.length) {
+        $("projectsBonus").textContent = "\u041f\u0440\u043e\u0435\u043a\u0442\u044b: +" + projPts + " (" + projDone.join("; ") + ")";
+      } else {
+        $("projectsBonus").textContent = "\u041f\u0440\u043e\u0435\u043a\u0442\u044b \u043f\u043e\u043a\u0430 \u043d\u0435 \u043e\u0442\u043c\u0435\u0447\u0435\u043d\u044b";
+      }
+
+      return { daily: daily, max: max, projPts: projPts, allDaily: allDaily };
+    }
+
+    function syncUI() {
+      var day = getDayState();
+      var projects = storageGet(KEY_PROJ);
+      var boxes = document.querySelectorAll('input[type="checkbox"][data-id]');
+      for (var i = 0; i < boxes.length; i++) {
+        var cb = boxes[i];
+        var id = cb.getAttribute("data-id");
+        var isProj = cb.getAttribute("data-project") === "1";
+        cb.checked = isProj ? !!projects[id] : !!day[id];
+      }
+      updateScore();
+    }
+
+    function onToggle(cb) {
+      var id = cb.getAttribute("data-id");
+      var isProj = cb.getAttribute("data-project") === "1";
+      if (isProj) {
+        var store = storageGet(KEY_PROJ);
+        if (cb.checked) store[id] = true;
+        else delete store[id];
+        storageSet(KEY_PROJ, store);
+      } else {
+        var day = getDayState();
+        if (cb.checked) day[id] = true;
+        else delete day[id];
+        setDayState(day);
+      }
+      updateScore();
+    }
+
+    function buildExportText() {
+      var r = updateScore();
+      var day = getDayState();
+      var projects = storageGet(KEY_PROJ);
+      var date = $("datePick").value;
+      var lines = [
+        "## \u041f\u0440\u043e\u0434\u0443\u043a\u0442\u0438\u0432\u043d\u043e\u0441\u0442\u044c " + date,
+        "",
+        "**\u0411\u0430\u043b\u043b\u044b \u0437\u0430 \u0434\u0435\u043d\u044c:** " + r.daily + " / " + r.max,
+        "### \u0412\u044b\u043f\u043e\u043b\u043d\u0435\u043d\u043e"
+      ];
+      var i;
+      for (i = 0; i < DAILY.length; i++) {
+        if (day[DAILY[i].id]) lines.push("- [x] " + DAILY[i].title + " (+" + DAILY[i].pts + ")");
+      }
+      for (i = 0; i < PROJECTS.length; i++) {
+        if (projects[PROJECTS[i].id]) lines.push("- [x] " + PROJECTS[i].title + " (+" + PROJECTS[i].pts + ")");
+      }
+      lines.push("", "#\u043f\u0440\u043e\u0434\u0443\u043a\u0442\u0438\u0432\u043d\u043e\u0441\u0442\u044c #daily");
+      return lines.join("\n");
+    }
+
+    function onToday() {
+      $("datePick").value = todayISO();
+      syncUI();
+    }
+
+    function onReset() {
+      if (!window.confirm("\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u043e\u0442\u043c\u0435\u0442\u043a\u0438 \u0437\u0430 " + $("datePick").value + "?")) return;
+      var store = storageGet(KEY_DAILY);
+      delete store[$("datePick").value];
+      storageSet(KEY_DAILY, store);
+      syncUI();
+    }
+
+    function onCopy() {
+      var text = buildExportText();
+      var ta = $("exportBox");
+      ta.value = text;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          $("levelText").textContent = "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u2014 \u0432\u0441\u0442\u0430\u0432\u044c\u0442\u0435 \u0432 \u0437\u0430\u043c\u0435\u0442\u043a\u0443 \u0434\u043d\u044f";
+        }).catch(function () {
+          ta.className = "visible";
+          ta.focus();
+          ta.select();
+        });
+      } else {
+        ta.className = "visible";
+        ta.focus();
+        ta.select();
+      }
+    }
+
+    function onShowExport() {
+      var ta = $("exportBox");
+      ta.value = buildExportText();
+      ta.className = ta.className.indexOf("visible") >= 0 ? "" : "visible";
+    }
+
+    function init() {
+      $("datePick").value = todayISO();
+      $("scoreMax").textContent = String(maxDaily());
+      syncUI();
+      var hint = storageOk ? "\u0421\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0438\u0435: localStorage" : "\u0421\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0438\u0435: \u043f\u0430\u043c\u044f\u0442\u044c (\u0434\u043e \u0437\u0430\u043a\u0440\u044b\u0442\u0438\u044f \u0432\u043a\u043b\u0430\u0434\u043a\u0438)";
+      setStatus(true, "\u0421\u043a\u0440\u0438\u043f\u0442 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 \u00b7 " + hint);
+    }
+
+    return {
+      init: init,
+      syncUI: syncUI,
+      onToggle: onToggle,
+      onToday: onToday,
+      onReset: onReset,
+      onCopy: onCopy,
+      onShowExport: onShowExport
+    };
+  })();
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () { ProdCheck.init(); });
+  } else {
+    ProdCheck.init();
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Latviešu — латышский за 7 дней</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #e8eef2;
+      --bg-deep: #d4e0e8;
+      --surface: #f7fafc;
+      --ink: #14202b;
+      --muted: #5a6d7c;
+      --line: #c5d4de;
+      --crimson: #9e1b32;
+      --crimson-deep: #7a1226;
+      --sea: #1e5a6e;
+      --sea-soft: #2a7a8f;
+      --success: #1f7a4c;
+      --success-bg: #e2f5eb;
+      --danger: #b83333;
+      --danger-bg: #fce8e8;
+      --xp: #c4871a;
+      --radius: 18px;
+      --shadow: 0 18px 40px rgba(20, 32, 43, 0.08);
+      --font-display: "Bricolage Grotesque", Georgia, serif;
+      --font-body: "Figtree", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-body);
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 10% -10%, rgba(158, 27, 50, 0.12), transparent 55%),
+        radial-gradient(900px 420px at 100% 0%, rgba(30, 90, 110, 0.16), transparent 50%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+      line-height: 1.45;
+    }
+
+    button, input { font: inherit; }
+    button {
+      cursor: pointer;
+      border: 0;
+      background: none;
+    }
+
+    .app {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 1.25rem 1rem 3rem;
+    }
+
+    /* ——— Hero / home ——— */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      min-height: min(72vh, 560px);
+      padding: 1.75rem 1.5rem 1.5rem;
+      color: #f4f7f9;
+      background:
+        linear-gradient(160deg, rgba(14, 28, 38, 0.55) 0%, rgba(14, 28, 38, 0.82) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%231e5a6e'/%3E%3Cstop offset='1' stop-color='%239e1b32'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='500' fill='url(%23g)'/%3E%3Cpath d='M0 340c80-40 140-20 220-50s140-70 220-40 140 80 220 70 140-40 140-40v220H0Z' fill='%230e1c26' opacity='.35'/%3E%3Cpath d='M0 380c90-30 150-10 230-40s130-55 210-30 160 65 240 55 120-30 120-30v165H0Z' fill='%23f4f7f9' opacity='.08'/%3E%3C/svg%3E") center / cover no-repeat;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 1rem;
+      animation: fadeRise 0.7s ease both;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 45%;
+      background: linear-gradient(to top, rgba(10, 18, 26, 0.75), transparent);
+      pointer-events: none;
+    }
+
+    .hero > * { position: relative; z-index: 1; }
+
+    .brand {
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 10vw, 4.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 0.95;
+      margin: 0;
+      animation: brandIn 0.9s 0.1s cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .brand span {
+      display: block;
+      font-size: 0.28em;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      margin-bottom: 0.55rem;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 28ch;
+      font-size: 1.05rem;
+      color: rgba(244, 247, 249, 0.88);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-top: 0.35rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.85rem 1.25rem;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(1px); }
+    .btn-primary {
+      background: var(--crimson);
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(158, 27, 50, 0.35);
+    }
+    .btn-primary:hover { background: var(--crimson-deep); }
+    .btn-ghost {
+      background: rgba(244, 247, 249, 0.14);
+      color: #fff;
+      border: 1px solid rgba(244, 247, 249, 0.28);
+      backdrop-filter: blur(8px);
+    }
+    .btn-sea {
+      background: var(--sea);
+      color: #fff;
+      width: 100%;
+      border-radius: 14px;
+    }
+    .btn-sea:hover { background: var(--sea-soft); }
+    .btn-outline {
+      background: var(--surface);
+      color: var(--ink);
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      width: 100%;
+    }
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .stats-bar {
+      display: flex;
+      gap: 0.75rem;
+      margin: 1.25rem 0 1.5rem;
+      animation: fadeRise 0.6s 0.15s ease both;
+    }
+    .stat {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 0.85rem 0.9rem;
+      box-shadow: var(--shadow);
+    }
+    .stat .label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+    .stat .value {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin-top: 0.15rem;
+    }
+    .stat .value.xp { color: var(--xp); }
+    .stat .value.streak { color: var(--crimson); }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      margin: 0 0 0.85rem;
+      letter-spacing: -0.02em;
+    }
+
+    .path {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      animation: fadeRise 0.65s 0.22s ease both;
+    }
+
+    .day-card {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.9rem;
+      align-items: center;
+      width: 100%;
+      text-align: left;
+      padding: 1rem 1.05rem;
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .day-card:hover:not(:disabled) {
+      border-color: var(--sea-soft);
+      transform: translateX(3px);
+    }
+    .day-card.locked { opacity: 0.55; }
+    .day-card.done { border-color: rgba(31, 122, 76, 0.45); }
+    .day-card.current { border-color: var(--crimson); }
+
+    .day-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.15rem;
+      background: #e3eef3;
+      color: var(--sea);
+    }
+    .day-card.done .day-num {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+    .day-card.current .day-num {
+      background: #f8e6ea;
+      color: var(--crimson);
+    }
+
+    .day-info h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+    .day-info p {
+      margin: 0.2rem 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .day-meta {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-align: right;
+    }
+    .day-card.done .day-meta { color: var(--success); }
+    .day-card.current .day-meta { color: var(--crimson); }
+
+    /* ——— Lesson shell ——— */
+    .screen { display: none; }
+    .screen.active { display: block; animation: fadeRise 0.4s ease both; }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      font-size: 1.1rem;
+      color: var(--ink);
+    }
+    .progress-track {
+      flex: 1;
+      height: 12px;
+      background: rgba(20, 32, 43, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--crimson), var(--sea-soft));
+      border-radius: inherit;
+      transition: width 0.35s ease;
+    }
+    .hearts {
+      font-weight: 700;
+      color: var(--crimson);
+      white-space:nowrap;
+    }
+
+    .lesson-panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 1.35rem 1.2rem 1.2rem;
+      box-shadow: var(--shadow);
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .prompt-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.55rem;
+    }
+    .prompt {
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 4.5vw, 1.85rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 1.25rem;
+      line-height: 1.2;
+    }
+
+    .speak-row {
+      display: flex;
+      gap: 0.5rem;
+      margin: -0.4rem 0 1.1rem;
+    }
+    .speak-btn {
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      background: #e8f2f5;
+      color: var(--sea);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .options {
+      display: grid;
+      gap: 0.65rem;
+      margin-top: auto;
+    }
+    .option {
+      text-align: left;
+      padding: 0.95rem 1rem;
+      border-radius: 14px;
+      border: 2px solid var(--line);
+      background: #fff;
+      font-weight: 600;
+      transition: border-color 0.15s, background 0.15s, transform 0.15s;
+    }
+    .option:hover:not(:disabled) {
+      border-color: var(--sea-soft);
+      transform: scale(1.01);
+    }
+    .option.selected { border-color: var(--sea); background: #eef7fa; }
+    .option.correct {
+      border-color: var(--success);
+      background: var(--success-bg);
+      color: var(--success);
+      animation: pop 0.35s ease;
+    }
+    .option.wrong {
+      border-color: var(--danger);
+      background: var(--danger-bg);
+      color: var(--danger);
+      animation: shake 0.35s ease;
+    }
+
+    .type-wrap { margin-top: auto; }
+    .type-input {
+      width: 100%;
+      padding: 0.95rem 1rem;
+      border-radius: 14px;
+      border: 2px solid var(--line);
+      background: #fff;
+      outline: none;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+    .type-input:focus { border-color: var(--sea-soft); }
+    .type-hint {
+      margin: 0.5rem 0 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .match-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.55rem;
+      margin-top: auto;
+    }
+    .match-chip {
+      padding: 0.8rem 0.7rem;
+      border-radius: 12px;
+      border: 2px solid var(--line);
+      background: #fff;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .match-chip.lv { font-family: var(--font-display); }
+    .match-chip.picked { border-color: var(--sea); background: #eef7fa; }
+    .match-chip.matched {
+      opacity: 0.35;
+      border-color: var(--success);
+      pointer-events: none;
+    }
+    .match-chip.bad { animation: shake 0.35s ease; border-color: var(--danger); }
+
+    .feedback {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: 14px;
+      font-weight: 600;
+      display: none;
+    }
+    .feedback.show { display: block; animation: fadeRise 0.3s ease; }
+    .feedback.ok { background: var(--success-bg); color: var(--success); }
+    .feedback.bad { background: var(--danger-bg); color: var(--danger); }
+
+    .footer-actions {
+      margin-top: 1rem;
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    /* ——— Study intro ——— */
+    .vocab-list {
+      display: grid;
+      gap: 0.55rem;
+      margin: 0.5rem 0 1.25rem;
+    }
+    .vocab-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+    .vocab-item .lv {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .vocab-item .ru { color: var(--muted); font-weight: 500; }
+    .vocab-item .play {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #e8f2f5;
+      color: var(--sea);
+      display: grid;
+      place-items: center;
+      font-size: 0.9rem;
+    }
+
+    /* ——— Result ——— */
+    .result {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    .result-score {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 14vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--crimson);
+      line-height: 1;
+      margin: 0.5rem 0;
+      animation: brandIn 0.7s cubic-bezier(.2,.8,.2,1) both;
+    }
+    .result h2 {
+      font-family: var(--font-display);
+      margin: 0;
+      font-size: 1.6rem;
+    }
+    .result p { color: var(--muted); margin: 0.5rem 0 1.5rem; }
+
+    .hidden { display: none !important; }
+
+    @keyframes fadeRise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes brandIn {
+      from { opacity: 0; transform: translateY(18px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes pop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    @media (max-width: 480px) {
+      .app { padding: 1rem 0.75rem 2.5rem; }
+      .hero { min-height: 62vh; padding: 1.4rem 1.15rem 1.25rem; }
+      .stats-bar { gap: 0.5rem; }
+      .stat { padding: 0.7rem; }
+      .match-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- HOME -->
+    <section id="screen-home" class="screen active">
+      <header class="hero">
+        <h1 class="brand"><span>7 dienas · латышский</span>Latviešu</h1>
+        <p>Короткий путь как у Duolingo: слова, фразы и тесты на каждый день — только латышский.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" id="btn-continue">Продолжить путь</button>
+          <button class="btn btn-ghost" id="btn-reset">Сбросить прогресс</button>
+        </div>
+      </header>
+
+      <div class="stats-bar">
+        <div class="stat">
+          <div class="label">XP</div>
+          <div class="value xp" id="stat-xp">0</div>
+        </div>
+        <div class="stat">
+          <div class="label">Серия</div>
+          <div class="value streak" id="stat-streak">0</div>
+        </div>
+        <div class="stat">
+          <div class="label">День</div>
+          <div class="value" id="stat-day">1/7</div>
+        </div>
+      </div>
+
+      <h2 class="section-title">Путь на 7 дней</h2>
+      <div class="path" id="day-path"></div>
+    </section>
+
+    <!-- STUDY -->
+    <section id="screen-study" class="screen">
+      <div class="topbar">
+        <button class="icon-btn" id="study-back" aria-label="Назад">←</button>
+        <div class="progress-track"><div class="progress-fill" id="study-progress" style="width:100%"></div></div>
+      </div>
+      <div class="lesson-panel">
+        <div class="prompt-label" id="study-label">Словарь дня</div>
+        <h2 class="prompt" id="study-title">День 1</h2>
+        <div class="vocab-list" id="vocab-list"></div>
+        <button class="btn btn-sea" id="start-quiz">Начать тест</button>
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="screen-quiz" class="screen">
+      <div class="topbar">
+        <button class="icon-btn" id="quiz-back" aria-label="Выйти">✕</button>
+        <div class="progress-track"><div class="progress-fill" id="quiz-progress"></div></div>
+        <div class="hearts" id="quiz-hearts">❤ 3</div>
+      </div>
+      <div class="lesson-panel" id="quiz-panel">
+        <div class="prompt-label" id="q-label">Перевод</div>
+        <h2 class="prompt" id="q-prompt">…</h2>
+        <div class="speak-row hidden" id="speak-row">
+          <button class="speak-btn" id="speak-btn" type="button">🔊 Произнести</button>
+        </div>
+        <div id="q-body"></div>
+        <div class="feedback" id="q-feedback"></div>
+        <div class="footer-actions">
+          <button class="btn btn-sea" id="q-check">Проверить</button>
+          <button class="btn btn-outline hidden" id="q-next">Дальше</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section id="screen-result" class="screen">
+      <div class="lesson-panel result">
+        <div class="prompt-label">Результат</div>
+        <h2 id="result-title">День пройден!</h2>
+        <div class="result-score" id="result-score">0%</div>
+        <p id="result-text">Отличная работа.</p>
+        <div class="footer-actions">
+          <button class="btn btn-sea" id="result-home">К пути</button>
+          <button class="btn btn-outline" id="result-retry">Пройти ещё раз</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "latviesu-7days-v1";
+
+    const DAYS = [
+      {
+        id: 1,
+        title: "Sveiciens",
+        subtitle: "Приветствия и вежливость",
+        words: [
+          { lv: "Sveiki", ru: "Привет / Здравствуйте" },
+          { lv: "Labrīt", ru: "Доброе утро" },
+          { lv: "Labdien", ru: "Добрый день" },
+          { lv: "Labvakar", ru: "Добрый вечер" },
+          { lv: "Uz redzēšanos", ru: "До свидания" },
+          { lv: "Paldies", ru: "Спасибо" },
+          { lv: "Lūdzu", ru: "Пожалуйста" },
+          { lv: "Jā", ru: "Да" },
+          { lv: "Nē", ru: "Нет" },
+          { lv: "Atvainojiet", ru: "Извините" }
+        ]
+      },
+      {
+        id: 2,
+        title: "Skaitļi",
+        subtitle: "Числа 1–10",
+        words: [
+          { lv: "viens", ru: "один" },
+          { lv: "divi", ru: "два" },
+          { lv: "trīs", ru: "три" },
+          { lv: "četri", ru: "четыре" },
+          { lv: "pieci", ru: "пять" },
+          { lv: "seši", ru: "шесть" },
+          { lv: "septiņi", ru: "семь" },
+          { lv: "astoņi", ru: "восемь" },
+          { lv: "deviņi", ru: "девять" },
+          { lv: "desmit", ru: "десять" }
+        ]
+      },
+      {
+        id: 3,
+        title: "Ģimene",
+        subtitle: "Семья и люди",
+        words: [
+          { lv: "es", ru: "я" },
+          { lv: "tu", ru: "ты" },
+          { lv: "viņš", ru: "он" },
+          { lv: "viņa", ru: "она" },
+          { lv: "māte", ru: "мать" },
+          { lv: "tēvs", ru: "отец" },
+          { lv: "brālis", ru: "брат" },
+          { lv: "māsa", ru: "сестра" },
+          { lv: "draugs", ru: "друг" },
+          { lv: "ģimene", ru: "семья" }
+        ]
+      },
+      {
+        id: 4,
+        title: "Ēdiens",
+        subtitle: "Еда и напитки",
+        words: [
+          { lv: "maize", ru: "хлеб" },
+          { lv: "ūdens", ru: "вода" },
+          { lv: "kafija", ru: "кофе" },
+          { lv: "tēja", ru: "чай" },
+          { lv: "piens", ru: "молоко" },
+          { lv: "ābols", ru: "яблоко" },
+          { lv: "gaļa", ru: "мясо" },
+          { lv: "zivs", ru: "рыба" },
+          { lv: "dārzeņi", ru: "овощи" },
+          { lv: "ēst", ru: "есть / кушать" }
+        ]
+      },
+      {
+        id: 5,
+        title: "Krāsas",
+        subtitle: "Цвета и качества",
+        words: [
+          { lv: "sarkans", ru: "красный" },
+          { lv: "zils", ru: "синий" },
+          { lv: "zaļš", ru: "зелёный" },
+          { lv: "balts", ru: "белый" },
+          { lv: "melns", ru: "чёрный" },
+          { lv: "liels", ru: "большой" },
+          { lv: "mazs", ru: "маленький" },
+          { lv: "labs", ru: "хороший" },
+          { lv: "slikts", ru: "плохой" },
+          { lv: "skaists", ru: "красивый" }
+        ]
+      },
+      {
+        id: 6,
+        title: "Ceļojums",
+        subtitle: "Фразы в городе",
+        words: [
+          { lv: "Cik tas maksā?", ru: "Сколько это стоит?" },
+          { lv: "Kur ir…?", ru: "Где находится…?" },
+          { lv: "Es nesaprotu", ru: "Я не понимаю" },
+          { lv: "Runājat angliski?", ru: "Вы говорите по-английски?" },
+          { lv: "Palīdziet!", ru: "Помогите!" },
+          { lv: "Viena biļete", ru: "Один билет" },
+          { lv: "stacija", ru: "вокзал / станция" },
+          { lv: "viesnīca", ru: "гостиница" },
+          { lv: "Labi", ru: "Хорошо / Ладно" },
+          { lv: "Cik tālu?", ru: "Как далеко?" }
+        ]
+      },
+      {
+        id: 7,
+        title: "Ikdiena",
+        subtitle: "Глаголы и финальный тест",
+        words: [
+          { lv: "būt", ru: "быть" },
+          { lv: "iet", ru: "идти" },
+          { lv: "nākt", ru: "приходить" },
+          { lv: "darīt", ru: "делать" },
+          { lv: "gribēt", ru: "хотеть" },
+          { lv: "varēt", ru: "мочь" },
+          { lv: "zināt", ru: "знать" },
+          { lv: "mīlēt", ru: "любить" },
+          { lv: "strādāt", ru: "работать" },
+          { lv: "mācīties", ru: "учиться" }
+        ],
+        mixAll: true
+      }
+    ];
+
+    function defaultState() {
+      return {
+        xp: 0,
+        streak: 0,
+        lastStudyDate: null,
+        unlocked: 1,
+        scores: {},
+        completed: {}
+      };
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return defaultState();
+        return { ...defaultState(), ...JSON.parse(raw) };
+      } catch {
+        return defaultState();
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    let state = loadState();
+    let currentDay = 1;
+    let quiz = null;
+
+    const $ = (sel) => document.querySelector(sel);
+
+    function showScreen(id) {
+      document.querySelectorAll(".screen").forEach((el) => el.classList.remove("active"));
+      $(`#screen-${id}`).classList.add("active");
+    }
+
+    function speak(text) {
+      if (!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      const voices = window.speechSynthesis.getVoices();
+      const lv = voices.find((v) => /lv|Latv/i.test(v.lang) || /Latvian/i.test(v.name));
+      if (lv) u.voice = lv;
+      u.lang = lv ? lv.lang : "lv-LV";
+      u.rate = 0.92;
+      window.speechSynthesis.speak(u);
+    }
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function pickDistractors(correct, pool, n = 3) {
+      const others = pool.filter((w) => w.lv !== correct.lv);
+      return shuffle(others).slice(0, n);
+    }
+
+    function buildQuestions(day) {
+      let pool = day.words;
+      if (day.mixAll) {
+        pool = DAYS.flatMap((d) => d.words);
+      }
+      const words = shuffle(day.mixAll ? shuffle(pool).slice(0, 12) : [...day.words]);
+      const questions = [];
+
+      words.forEach((w, idx) => {
+        const typeRoll = idx % 4;
+        if (typeRoll === 0) {
+          const opts = shuffle([w, ...pickDistractors(w, pool)]).map((x) => x.lv);
+          questions.push({
+            type: "choice",
+            label: "Выберите перевод",
+            prompt: w.ru,
+            speak: null,
+            options: opts,
+            answer: w.lv
+          });
+        } else if (typeRoll === 1) {
+          const opts = shuffle([w, ...pickDistractors(w, pool)]).map((x) => x.ru);
+          questions.push({
+            type: "choice",
+            label: "Что значит это слово?",
+            prompt: w.lv,
+            speak: w.lv,
+            options: opts,
+            answer: w.ru
+          });
+        } else if (typeRoll === 2) {
+          questions.push({
+            type: "type",
+            label: "Напишите по-латышски",
+            prompt: w.ru,
+            speak: null,
+            answer: w.lv
+          });
+        } else {
+          const pairPool = shuffle(pool).slice(0, 4);
+          if (pairPool.length < 4) {
+            const opts = shuffle([w, ...pickDistractors(w, pool)]).map((x) => x.lv);
+            questions.push({
+              type: "choice",
+              label: "Выберите перевод",
+              prompt: w.ru,
+              speak: null,
+              options: opts,
+              answer: w.lv
+            });
+          } else {
+            questions.push({
+              type: "match",
+              label: "Соедините пары",
+              prompt: "Нажмите латышское слово и его перевод",
+              speak: null,
+              pairs: pairPool.map((p) => ({ lv: p.lv, ru: p.ru }))
+            });
+          }
+        }
+      });
+
+      return questions.slice(0, day.mixAll ? 10 : 8);
+    }
+
+    function updateStats() {
+      $("#stat-xp").textContent = state.xp;
+      $("#stat-streak").textContent = state.streak;
+      const doneCount = Object.keys(state.completed).length;
+      const current = Math.min(state.unlocked, 7);
+      $("#stat-day").textContent = `${current}/7`;
+      if (doneCount === 7) $("#stat-day").textContent = "7/7";
+    }
+
+    function renderPath() {
+      const path = $("#day-path");
+      path.innerHTML = "";
+      DAYS.forEach((day) => {
+        const unlocked = day.id <= state.unlocked;
+        const done = !!state.completed[day.id];
+        const isCurrent = unlocked && !done && day.id === state.unlocked;
+        const score = state.scores[day.id];
+
+        const btn = document.createElement("button");
+        btn.className = "day-card";
+        if (!unlocked) btn.classList.add("locked");
+        if (done) btn.classList.add("done");
+        if (isCurrent) btn.classList.add("current");
+        btn.disabled = !unlocked;
+        btn.innerHTML = `
+          <div class="day-num">${done ? "✓" : day.id}</div>
+          <div class="day-info">
+            <h3>День ${day.id}: ${day.title}</h3>
+            <p>${day.subtitle}</p>
+          </div>
+          <div class="day-meta">${
+            !unlocked ? "🔒" : done ? (score != null ? score + "%" : "Готово") : isCurrent ? "Сейчас" : "Открыто"
+          }</div>
+        `;
+        btn.addEventListener("click", () => openStudy(day.id));
+        path.appendChild(btn);
+      });
+      updateStats();
+    }
+
+    function openStudy(dayId) {
+      currentDay = dayId;
+      const day = DAYS[dayId - 1];
+      $("#study-title").textContent = `День ${day.id}: ${day.title}`;
+      $("#study-label").textContent = day.subtitle;
+      const list = $("#vocab-list");
+      list.innerHTML = "";
+      day.words.forEach((w) => {
+        const row = document.createElement("div");
+        row.className = "vocab-item";
+        row.innerHTML = `
+          <div>
+            <div class="lv">${w.lv}</div>
+            <div class="ru">${w.ru}</div>
+          </div>
+          <button class="play" type="button" aria-label="Произнести">🔊</button>
+        `;
+        row.querySelector(".play").addEventListener("click", () => speak(w.lv));
+        list.appendChild(row);
+      });
+      showScreen("study");
+    }
+
+    function startQuiz() {
+      const day = DAYS[currentDay - 1];
+      quiz = {
+        dayId: currentDay,
+        questions: buildQuestions(day),
+        index: 0,
+        correct: 0,
+        answered: 0,
+        hearts: 3,
+        selected: null,
+        matchState: null,
+        locked: false
+      };
+      $("#q-check").classList.remove("hidden");
+      $("#q-next").classList.add("hidden");
+      renderQuestion();
+      showScreen("quiz");
+    }
+
+    function normalizeAnswer(s) {
+      return String(s)
+        .trim()
+        .toLowerCase()
+        .replace(/[.…!?]/g, "")
+        .replace(/\s+/g, " ");
+    }
+
+    function answersEqual(a, b) {
+      return normalizeAnswer(a) === normalizeAnswer(b);
+    }
+
+    function updateQuizChrome() {
+      const total = quiz.questions.length;
+      const pct = Math.round((quiz.index / total) * 100);
+      $("#quiz-progress").style.width = `${pct}%`;
+      $("#quiz-hearts").textContent = `❤ ${quiz.hearts}`;
+    }
+
+    function renderQuestion() {
+      const q = quiz.questions[quiz.index];
+      quiz.selected = null;
+      quiz.matchState = null;
+      quiz.locked = false;
+      updateQuizChrome();
+
+      $("#q-label").textContent = q.label;
+      $("#q-prompt").textContent = q.prompt;
+      $("#q-feedback").className = "feedback";
+      $("#q-feedback").textContent = "";
+      $("#q-check").disabled = false;
+      $("#q-check").classList.remove("hidden");
+      $("#q-next").classList.add("hidden");
+
+      const speakRow = $("#speak-row");
+      if (q.speak) {
+        speakRow.classList.remove("hidden");
+        $("#speak-btn").onclick = () => speak(q.speak);
+      } else {
+        speakRow.classList.add("hidden");
+      }
+
+      const body = $("#q-body");
+      body.innerHTML = "";
+
+      if (q.type === "choice") {
+        const wrap = document.createElement("div");
+        wrap.className = "options";
+        q.options.forEach((opt) => {
+          const b = document.createElement("button");
+          b.className = "option";
+          b.type = "button";
+          b.textContent = opt;
+          b.addEventListener("click", () => {
+            if (quiz.locked) return;
+            wrap.querySelectorAll(".option").forEach((el) => el.classList.remove("selected"));
+            b.classList.add("selected");
+            quiz.selected = opt;
+          });
+          wrap.appendChild(b);
+        });
+        body.appendChild(wrap);
+      } else if (q.type === "type") {
+        const wrap = document.createElement("div");
+        wrap.className = "type-wrap";
+        wrap.innerHTML = `
+          <input class="type-input" id="type-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Ответ на латышском…" />
+          <p class="type-hint">Регистр и лишние пробелы не важны. Спецсимволы ā č ē ģ ī ķ ļ ņ š ū ž — важны.</p>
+        `;
+        body.appendChild(wrap);
+        setTimeout(() => $("#type-input")?.focus(), 50);
+      } else if (q.type === "match") {
+        const left = shuffle(q.pairs.map((p) => ({ side: "lv", text: p.lv, key: p.lv })));
+        const right = shuffle(q.pairs.map((p) => ({ side: "ru", text: p.ru, key: p.lv })));
+        quiz.matchState = { map: Object.fromEntries(q.pairs.map((p) => [p.lv, p.ru])), picked: null, matched: new Set(), remaining: q.pairs.length };
+        const grid = document.createElement("div");
+        grid.className = "match-grid";
+        left.forEach((lvItem, i) => {
+          [lvItem, right[i]].forEach((item) => {
+            const b = document.createElement("button");
+            b.className = `match-chip ${item.side}`;
+            b.type = "button";
+            b.dataset.key = item.key;
+            b.dataset.side = item.side;
+            b.textContent = item.text;
+            b.addEventListener("click", () => onMatchClick(b));
+            grid.appendChild(b);
+          });
+        });
+        body.appendChild(grid);
+        $("#q-check").classList.add("hidden");
+      }
+    }
+
+    function onMatchClick(btn) {
+      if (quiz.locked || btn.classList.contains("matched")) return;
+      const st = quiz.matchState;
+      if (!st.picked) {
+        document.querySelectorAll(".match-chip.picked").forEach((el) => el.classList.remove("picked"));
+        btn.classList.add("picked");
+        st.picked = btn;
+        return;
+      }
+      if (st.picked === btn) {
+        btn.classList.remove("picked");
+        st.picked = null;
+        return;
+      }
+      if (st.picked.dataset.side === btn.dataset.side) {
+        st.picked.classList.remove("picked");
+        btn.classList.add("picked");
+        st.picked = btn;
+        return;
+      }
+      const a = st.picked;
+      const b = btn;
+      const same = a.dataset.key === b.dataset.key;
+      if (same) {
+        a.classList.add("matched");
+        b.classList.add("matched");
+        a.classList.remove("picked");
+        st.matched.add(a.dataset.key);
+        st.picked = null;
+        st.remaining -= 1;
+        if (st.remaining === 0) {
+          quiz.locked = true;
+          quiz.correct += 1;
+          quiz.answered += 1;
+          showFeedback(true, "Все пары верны!");
+          $("#q-check").classList.add("hidden");
+          $("#q-next").classList.remove("hidden");
+        }
+      } else {
+        a.classList.add("bad");
+        b.classList.add("bad");
+        setTimeout(() => {
+          a.classList.remove("bad", "picked");
+          b.classList.remove("bad");
+          st.picked = null;
+        }, 350);
+        quiz.hearts = Math.max(0, quiz.hearts - 1);
+        updateQuizChrome();
+        if (quiz.hearts === 0) {
+          finishQuiz(false);
+        }
+      }
+    }
+
+    function showFeedback(ok, text) {
+      const fb = $("#q-feedback");
+      fb.className = `feedback show ${ok ? "ok" : "bad"}`;
+      fb.textContent = text;
+    }
+
+    function checkAnswer() {
+      if (quiz.locked) return;
+      const q = quiz.questions[quiz.index];
+      let ok = false;
+      let correctText = "";
+
+      if (q.type === "choice") {
+        if (quiz.selected == null) {
+          showFeedback(false, "Выберите вариант");
+          return;
+        }
+        ok = answersEqual(quiz.selected, q.answer);
+        correctText = q.answer;
+        document.querySelectorAll(".option").forEach((el) => {
+          el.disabled = true;
+          if (answersEqual(el.textContent, q.answer)) el.classList.add("correct");
+          else if (el.classList.contains("selected") && !ok) el.classList.add("wrong");
+        });
+      } else if (q.type === "type") {
+        const input = $("#type-input");
+        const val = input.value;
+        if (!val.trim()) {
+          showFeedback(false, "Введите ответ");
+          return;
+        }
+        ok = answersEqual(val, q.answer);
+        correctText = q.answer;
+        input.disabled = true;
+        input.style.borderColor = ok ? "var(--success)" : "var(--danger)";
+        input.style.background = ok ? "var(--success-bg)" : "var(--danger-bg)";
+      } else {
+        return;
+      }
+
+      quiz.locked = true;
+      quiz.answered += 1;
+      if (ok) {
+        quiz.correct += 1;
+        showFeedback(true, "Правильно!");
+      } else {
+        quiz.hearts = Math.max(0, quiz.hearts - 1);
+        updateQuizChrome();
+        showFeedback(false, `Неверно. Верный ответ: ${correctText}`);
+        if (quiz.hearts === 0) {
+          setTimeout(() => finishQuiz(false), 700);
+          return;
+        }
+      }
+      $("#q-check").classList.add("hidden");
+      $("#q-next").classList.remove("hidden");
+    }
+
+    function nextQuestion() {
+      quiz.index += 1;
+      if (quiz.index >= quiz.questions.length || quiz.hearts <= 0) {
+        finishQuiz(true);
+        return;
+      }
+      renderQuestion();
+    }
+
+    function todayStr() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function finishQuiz(natural) {
+      const total = quiz.questions.length;
+      const score = Math.round((quiz.correct / total) * 100);
+      const passed = score >= 60 && quiz.hearts > 0;
+      const dayId = quiz.dayId;
+
+      state.scores[dayId] = Math.max(state.scores[dayId] || 0, score);
+
+      if (passed) {
+        state.completed[dayId] = true;
+        const gained = 20 + Math.round(score / 5);
+        state.xp += gained;
+        if (dayId >= state.unlocked && dayId < 7) {
+          state.unlocked = dayId + 1;
+        }
+        if (dayId === 7) state.unlocked = 7;
+
+        const today = todayStr();
+        if (state.lastStudyDate !== today) {
+          const yesterday = new Date();
+          yesterday.setDate(yesterday.getDate() - 1);
+          const y = yesterday.toISOString().slice(0, 10);
+          state.streak = state.lastStudyDate === y ? state.streak + 1 : 1;
+          state.lastStudyDate = today;
+        }
+        saveState();
+
+        $("#result-title").textContent = dayId === 7 && Object.keys(state.completed).length === 7
+          ? "Nedēļa pabeigta!"
+          : "День пройден!";
+        $("#result-score").textContent = score + "%";
+        $("#result-text").textContent = `Верно ${quiz.correct} из ${total}. +${gained} XP`;
+      } else {
+        saveState();
+        $("#result-title").textContent = quiz.hearts === 0 ? "Жизни закончились" : "Почти!";
+        $("#result-score").textContent = score + "%";
+        $("#result-text").textContent = `Нужно минимум 60%. Верно ${quiz.correct} из ${total}. Повторите словарь и попробуйте снова.`;
+      }
+
+      showScreen("result");
+      renderPath();
+    }
+
+    // Events
+    $("#btn-continue").addEventListener("click", () => {
+      const target = Math.min(state.unlocked, 7);
+      openStudy(target);
+    });
+
+    $("#btn-reset").addEventListener("click", () => {
+      if (confirm("Сбросить весь прогресс?")) {
+        state = defaultState();
+        saveState();
+        renderPath();
+      }
+    });
+
+    $("#study-back").addEventListener("click", () => showScreen("home"));
+    $("#quiz-back").addEventListener("click", () => {
+      if (confirm("Выйти из теста? Прогресс этого теста не сохранится.")) {
+        showScreen("home");
+      }
+    });
+    $("#start-quiz").addEventListener("click", startQuiz);
+    $("#q-check").addEventListener("click", checkAnswer);
+    $("#q-next").addEventListener("click", nextQuestion);
+    $("#result-home").addEventListener("click", () => showScreen("home"));
+    $("#result-retry").addEventListener("click", () => openStudy(currentDay));
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && $("#screen-quiz").classList.contains("active")) {
+        if (!$("#q-next").classList.contains("hidden")) nextQuestion();
+        else if (!$("#q-check").classList.contains("hidden")) checkAnswer();
+      }
+    });
+
+    if (window.speechSynthesis) {
+      window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+    }
+
+    renderPath();
+  </script>
+</body>
+</html>

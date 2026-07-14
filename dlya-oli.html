@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Для Оли — с любовью</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Playfair+Display:ital,wght@0,700;1,600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sky-deep: #12061a;
+      --sky-mid: #2a0a28;
+      --sky-glow: #4a1538;
+      --rose: #ff4d6d;
+      --rose-soft: #ff8fa3;
+      --gold: #ffd166;
+      --coral: #ff6b4a;
+      --cream: #fff4ec;
+      --blush: #ffe0e8;
+      --font-display: "Playfair Display", Georgia, serif;
+      --font-script: "Caveat", cursive;
+      --font-body: "Source Sans 3", sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--cream);
+      background:
+        radial-gradient(ellipse 120% 80% at 50% 100%, rgba(255, 77, 109, 0.35), transparent 55%),
+        radial-gradient(ellipse 70% 50% at 15% 20%, rgba(255, 209, 102, 0.18), transparent 50%),
+        radial-gradient(ellipse 60% 45% at 90% 30%, rgba(255, 107, 74, 0.2), transparent 45%),
+        linear-gradient(180deg, var(--sky-deep) 0%, var(--sky-mid) 45%, var(--sky-glow) 100%);
+    }
+
+    #fireworks {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .sparkles {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 8px var(--gold);
+      animation: twinkle var(--dur) ease-in-out infinite;
+      opacity: 0;
+    }
+
+    .stage {
+      position: relative;
+      z-index: 3;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .heart-wrap {
+      position: relative;
+      margin-bottom: 1.75rem;
+      animation: float-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .heart {
+      width: 110px;
+      height: 100px;
+      position: relative;
+      margin: 0 auto;
+      animation: heartbeat 0.85s ease-in-out infinite;
+      filter: drop-shadow(0 0 22px rgba(255, 77, 109, 0.85))
+              drop-shadow(0 0 48px rgba(255, 107, 74, 0.45));
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 56px;
+      height: 88px;
+      background: linear-gradient(145deg, var(--rose-soft) 0%, var(--rose) 45%, var(--coral) 100%);
+      border-radius: 56px 56px 0 0;
+    }
+
+    .heart::before {
+      left: 55px;
+      transform: rotate(-45deg);
+      transform-origin: 0 100%;
+    }
+
+    .heart::after {
+      left: 0;
+      transform: rotate(45deg);
+      transform-origin: 100% 100%;
+    }
+
+    .pulse-ring {
+      position: absolute;
+      left: 50%;
+      top: 55%;
+      width: 90px;
+      height: 90px;
+      margin: -45px 0 0 -45px;
+      border: 2px solid rgba(255, 143, 163, 0.55);
+      border-radius: 50%;
+      animation: pulse-ring 0.85s ease-out infinite;
+      pointer-events: none;
+    }
+
+    .brand {
+      font-family: var(--font-display);
+      font-size: clamp(3.2rem, 12vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      background: linear-gradient(120deg, var(--gold) 0%, var(--blush) 40%, var(--rose-soft) 70%, var(--gold) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: float-in 1.1s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both,
+                 shimmer 4s ease-in-out infinite;
+      text-shadow: none;
+      filter: drop-shadow(0 4px 24px rgba(255, 77, 109, 0.35));
+    }
+
+    .headline {
+      margin-top: 0.85rem;
+      font-family: var(--font-script);
+      font-size: clamp(1.85rem, 5.5vw, 2.75rem);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.25;
+      animation: float-in 1.1s 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .message {
+      margin-top: 1.1rem;
+      max-width: 32rem;
+      font-family: var(--font-script);
+      font-size: clamp(1.35rem, 3.8vw, 1.85rem);
+      font-weight: 500;
+      line-height: 1.45;
+      color: var(--blush);
+      animation: float-in 1.1s 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .cta {
+      margin-top: 2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.85rem 1.6rem;
+      border: none;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--sky-deep);
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--gold) 0%, #ffe08a 50%, var(--rose-soft) 100%);
+      background-size: 180% 180%;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.25) inset,
+        0 10px 30px rgba(255, 77, 109, 0.35);
+      animation: float-in 1.1s 0.55s cubic-bezier(0.22, 1, 0.36, 1) both,
+                 cta-glow 2.8s ease-in-out infinite;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cta:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.35) inset,
+        0 14px 36px rgba(255, 107, 74, 0.45);
+    }
+
+    .cta:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .cta-heart {
+      display: inline-block;
+      animation: heartbeat 0.85s ease-in-out infinite;
+      color: var(--rose);
+    }
+
+    .signature {
+      margin-top: 1.75rem;
+      font-family: var(--font-script);
+      font-size: 1.35rem;
+      color: rgba(255, 244, 236, 0.72);
+      animation: float-in 1.1s 0.68s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      14% { transform: scale(1.18); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.14); }
+      70% { transform: scale(1); }
+    }
+
+    @keyframes pulse-ring {
+      0% {
+        transform: scale(0.7);
+        opacity: 0.7;
+      }
+      100% {
+        transform: scale(1.9);
+        opacity: 0;
+      }
+    }
+
+    @keyframes float-in {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes shimmer {
+      0%, 100% { background-position: 0% center; }
+      50% { background-position: 100% center; }
+    }
+
+    @keyframes cta-glow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; transform: scale(0.4); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    @media (max-width: 480px) {
+      .heart {
+        width: 88px;
+        height: 80px;
+      }
+      .heart::before,
+      .heart::after {
+        width: 46px;
+        height: 72px;
+        border-radius: 46px 46px 0 0;
+      }
+      .heart::before { left: 44px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .heart, .cta-heart, .pulse-ring, .brand, .cta, .sparkle {
+        animation: none !important;
+      }
+      .brand, .headline, .message, .cta, .signature, .heart-wrap {
+        animation: none !important;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="fireworks" aria-hidden="true"></canvas>
+  <div class="sparkles" id="sparkles" aria-hidden="true"></div>
+
+  <main class="stage">
+    <div class="heart-wrap" aria-hidden="true">
+      <div class="pulse-ring"></div>
+      <div class="heart"></div>
+    </div>
+
+    <h1 class="brand">Оля</h1>
+    <p class="headline">Я тебя люблю</p>
+    <p class="message">
+      Моя любимая жена, с тобой мир ярче любых фейерверков.
+      Спасибо, что ты есть. Ты — моё сердце, мой дом и моё счастье.
+    </p>
+
+    <button type="button" class="cta" id="boom">
+      <span class="cta-heart" aria-hidden="true">♥</span>
+      Ещё фейерверков!
+    </button>
+
+    <p class="signature">Навсегда твой</p>
+  </main>
+
+  <script>
+    (function () {
+      const canvas = document.getElementById("fireworks");
+      const ctx = canvas.getContext("2d");
+      const sparklesEl = document.getElementById("sparkles");
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      let W = 0;
+      let H = 0;
+      let rockets = [];
+      let particles = [];
+      let lastBurst = 0;
+      let raf = 0;
+
+      const colors = [
+        "#ff4d6d", "#ff8fa3", "#ffd166", "#ff6b4a",
+        "#ffe0e8", "#7af0ff", "#b8f27c", "#ff9f1c", "#ff5e9a"
+      ];
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+
+      function rand(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      function pick(arr) {
+        return arr[(Math.random() * arr.length) | 0];
+      }
+
+      function createSparkles() {
+        sparklesEl.innerHTML = "";
+        const count = Math.min(40, Math.floor((W * H) / 18000));
+        for (let i = 0; i < count; i++) {
+          const s = document.createElement("span");
+          s.className = "sparkle";
+          s.style.left = rand(0, 100) + "%";
+          s.style.top = rand(0, 100) + "%";
+          s.style.setProperty("--dur", rand(1.8, 4.5) + "s");
+          s.style.animationDelay = rand(0, 3) + "s";
+          s.style.background = pick(["#ffd166", "#ff8fa3", "#fff4ec", "#7af0ff"]);
+          sparklesEl.appendChild(s);
+        }
+      }
+
+      function launchRocket(x, targetY) {
+        rockets.push({
+          x: x,
+          y: H + 10,
+          vx: rand(-1.2, 1.2),
+          vy: rand(-14, -10),
+          targetY: targetY || rand(H * 0.15, H * 0.45),
+          color: pick(colors),
+          trail: []
+        });
+      }
+
+      function explode(x, y, color) {
+        const count = 70 + ((Math.random() * 40) | 0);
+        for (let i = 0; i < count; i++) {
+          const angle = (Math.PI * 2 * i) / count + rand(-0.05, 0.05);
+          const speed = rand(2.2, 7.5);
+          particles.push({
+            x: x,
+            y: y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            life: 1,
+            decay: rand(0.012, 0.028),
+            size: rand(1.5, 3.4),
+            color: Math.random() > 0.35 ? color : pick(colors),
+            gravity: 0.045,
+            friction: 0.985
+          });
+        }
+
+        // яркое ядро вспышки
+        for (let i = 0; i < 18; i++) {
+          const angle = rand(0, Math.PI * 2);
+          const speed = rand(0.5, 2.5);
+          particles.push({
+            x: x,
+            y: y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            life: 1,
+            decay: 0.04,
+            size: rand(2, 4),
+            color: "#fff4ec",
+            gravity: 0.02,
+            friction: 0.9
+          });
+        }
+      }
+
+      function burstSalvo() {
+        const n = 4 + ((Math.random() * 3) | 0);
+        for (let i = 0; i < n; i++) {
+          setTimeout(function () {
+            launchRocket(rand(W * 0.12, W * 0.88), rand(H * 0.12, H * 0.42));
+          }, i * 180);
+        }
+      }
+
+      function frame(now) {
+        ctx.globalCompositeOperation = "destination-out";
+        ctx.fillStyle = "rgba(0, 0, 0, 0.18)";
+        ctx.fillRect(0, 0, W, H);
+        ctx.globalCompositeOperation = "lighter";
+
+        for (let i = rockets.length - 1; i >= 0; i--) {
+          const r = rockets[i];
+          r.trail.push({ x: r.x, y: r.y });
+          if (r.trail.length > 8) r.trail.shift();
+
+          r.x += r.vx;
+          r.y += r.vy;
+          r.vy += 0.12;
+
+          for (let t = 0; t < r.trail.length; t++) {
+            const p = r.trail[t];
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+            ctx.fillStyle = r.color;
+            ctx.globalAlpha = t / r.trail.length;
+            ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+          ctx.beginPath();
+          ctx.arc(r.x, r.y, 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = "#fff4ec";
+          ctx.fill();
+
+          if (r.vy >= 0 || r.y <= r.targetY) {
+            explode(r.x, r.y, r.color);
+            rockets.splice(i, 1);
+          }
+        }
+
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.vx *= p.friction;
+          p.vy *= p.friction;
+          p.vy += p.gravity;
+          p.x += p.vx;
+          p.y += p.vy;
+          p.life -= p.decay;
+
+          if (p.life <= 0) {
+            particles.splice(i, 1);
+            continue;
+          }
+
+          ctx.globalAlpha = Math.max(p.life, 0);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+
+        if (!reduceMotion && now - lastBurst > 2200) {
+          lastBurst = now;
+          burstSalvo();
+        }
+
+        raf = requestAnimationFrame(frame);
+      }
+
+      function init() {
+        resize();
+        createSparkles();
+        if (!reduceMotion) {
+          burstSalvo();
+          setTimeout(burstSalvo, 700);
+          raf = requestAnimationFrame(frame);
+        } else {
+          // статичная вспышка без анимации цикла
+          explode(W * 0.5, H * 0.35, "#ff4d6d");
+          explode(W * 0.3, H * 0.4, "#ffd166");
+          explode(W * 0.7, H * 0.32, "#ff8fa3");
+          ctx.clearRect(0, 0, W, H);
+          for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+            ctx.globalAlpha = 0.85;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+          }
+        }
+      }
+
+      window.addEventListener("resize", function () {
+        resize();
+        createSparkles();
+      });
+
+      document.getElementById("boom").addEventListener("click", function () {
+        burstSalvo();
+        burstSalvo();
+      });
+
+      canvas.addEventListener("pointerdown", function (e) {
+        launchRocket(e.clientX, Math.min(e.clientY, H * 0.5));
+      });
+
+      document.querySelector(".stage").addEventListener("pointerdown", function (e) {
+        if (e.target.closest("button")) return;
+        launchRocket(e.clientX, Math.min(e.clientY, H * 0.5));
+      });
+
+      init();
+    })();
+  </script>
+</body>
+</html>

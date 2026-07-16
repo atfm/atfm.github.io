@@ -11,6 +11,7 @@ atfm.github.io/
 ├── dnevnoy-cheklist.html   ← дневной чек-лист продуктивности
 ├── dlya-oli.html           ← признание в любви Оле
 ├── prikin.html             ← ПРИКИНЬ!!!!!! Козловский из Викингов
+├── zarplata.html           ← счётчик зарплаты до миллисекунд
 ├── assets/                 ← картинки для страниц
 └── README.md               ← этот файл
 ```
@@ -24,5 +25,6 @@ atfm.github.io/
 | [dnevnoy-cheklist.html](https://atfm.github.io/dnevnoy-cheklist.html) | Дневной чек-лист продуктивности |
 | [dlya-oli.html](https://atfm.github.io/dlya-oli.html) | Признание в любви Оле (фейерверки, сердце) |
 | [prikin.html](https://atfm.github.io/prikin.html) | Мем: Козловский-викинг и бегающие буквы ПРИКИНЬ!!!!!! |
+| [zarplata.html](https://atfm.github.io/zarplata.html) | Счётчик зарплаты: сегодня / неделя / месяц / год |
 
 Открывайте HTML в браузере (Chrome / Edge).

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ты заработала</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #12201c;
+      --ink-soft: #3a5249;
+      --mist: #d7e6df;
+      --fog: #eef5f1;
+      --line: rgba(18, 32, 28, 0.12);
+      --earn: #0f7a4f;
+      --earn-bright: #14a066;
+      --font-display: "Instrument Serif", Georgia, serif;
+      --font-body: "Manrope", sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { min-height: 100%; }
+
+    body {
+      color: var(--ink);
+      font-family: var(--font-body);
+      background:
+        radial-gradient(900px 520px at 12% -8%, rgba(20, 160, 102, 0.18), transparent 55%),
+        radial-gradient(700px 420px at 95% 8%, rgba(196, 92, 38, 0.12), transparent 50%),
+        linear-gradient(165deg, #f7fbf8 0%, var(--fog) 42%, var(--mist) 100%);
+      background-attachment: fixed;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.4;
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 27px,
+          rgba(18, 32, 28, 0.035) 27px,
+          rgba(18, 32, 28, 0.035) 28px
+        );
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(1.5rem, 5vh, 3rem) 1.25rem 2rem;
+    }
+
+    .hero {
+      width: min(100%, 40rem);
+      text-align: center;
+      animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .title {
+      margin: 0;
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(2.6rem, 10vw, 4.4rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .title em {
+      font-style: italic;
+      color: var(--earn);
+    }
+
+    .rows {
+      width: min(100%, 40rem);
+      margin-top: clamp(1.75rem, 5vh, 2.75rem);
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 0.75rem 1.25rem;
+      align-items: baseline;
+      padding: 1rem 0.15rem;
+      border-bottom: 1px solid var(--line);
+      opacity: 0;
+      transform: translateY(14px);
+      animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .row:nth-child(1) { animation-delay: 0.18s; }
+    .row:nth-child(2) { animation-delay: 0.28s; }
+    .row:nth-child(3) { animation-delay: 0.38s; }
+    .row:nth-child(4) { animation-delay: 0.48s; }
+
+    .row:last-child { border-bottom: none; }
+
+    .label {
+      font-size: clamp(1rem, 3.2vw, 1.15rem);
+      font-weight: 600;
+      color: var(--ink-soft);
+      text-align: left;
+    }
+
+    .amount {
+      font-family: var(--font-mono);
+      font-size: clamp(1.05rem, 3.6vw, 1.35rem);
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+      color: var(--earn);
+      text-align: right;
+      white-space: nowrap;
+      transition: color 0.25s ease;
+    }
+
+    .row.is-live .amount {
+      color: var(--earn-bright);
+      text-shadow: 0 0 24px rgba(20, 160, 102, 0.22);
+      animation: tick-glow 1.8s ease-in-out infinite alternate;
+    }
+
+    .meta {
+      width: min(100%, 40rem);
+      margin-top: 1.75rem;
+      text-align: center;
+      font-size: 0.78rem;
+      line-height: 1.55;
+      color: var(--ink-soft);
+      animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.58s both;
+    }
+
+    .meta code {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.55);
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes tick-glow {
+      from { filter: brightness(1); }
+      to { filter: brightness(1.12); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero, .row, .meta, .row.is-live .amount {
+        animation: none !important;
+        opacity: 1;
+        transform: none;
+        filter: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    ============================================================
+    НАСТРОЙКИ — меняй значения в скрипте ниже
+    ============================================================
+  -->
+  <script>
+    // ========== НАСТРОЙКИ ==========
+    const SALARY_MONTHLY = 112000;        // зарплата в месяц, рубли
+    const WORK_START_DATE = "2026-07-15"; // дата старта работы: ГГГГ-ММ-ДД
+
+    // График работы: 9:00–18:00, без обеда
+    const WORK_DAYS = [1, 2, 3, 4, 5]; // пн–пт (0 = вс, 1 = пн, …, 6 = сб)
+    const DAY_START = [9, 0];          // начало дня: 09:00
+    const LUNCH_START = [12, 0];       // обеда нет — одинаковое время
+    const LUNCH_END = [12, 0];
+    const DAY_END = [18, 0];           // конец дня: 18:00
+    const AVG_WORKING_DAYS_PER_MONTH = 21;
+    // ===============================
+  </script>
+
+  <main class="page">
+    <header class="hero">
+      <h1 class="title">Ты <em>заработала:</em></h1>
+    </header>
+
+    <section class="rows" aria-live="polite">
+      <div class="row" data-period="today">
+        <span class="label">Сегодня:</span>
+        <span class="amount" id="today">0,00 ₽</span>
+      </div>
+      <div class="row" data-period="week">
+        <span class="label">На этой неделе:</span>
+        <span class="amount" id="week">0,00 ₽</span>
+      </div>
+      <div class="row" data-period="month">
+        <span class="label">В этом месяце:</span>
+        <span class="amount" id="month">0,00 ₽</span>
+      </div>
+      <div class="row" data-period="year">
+        <span class="label">В этом году:</span>
+        <span class="amount" id="year">0,00 ₽</span>
+      </div>
+    </section>
+
+    <p class="meta" id="meta"></p>
+  </main>
+
+  <script>
+    (function () {
+      const MS_HOUR = 3600 * 1000;
+
+      function toMinutes(hm) {
+        return hm[0] * 60 + hm[1];
+      }
+
+      const daySpanMin = toMinutes(DAY_END) - toMinutes(DAY_START);
+      const lunchSpanMin = Math.max(
+        0,
+        toMinutes(LUNCH_END) - toMinutes(LUNCH_START)
+      );
+      const HOURS_PER_DAY = (daySpanMin - lunchSpanMin) / 60;
+      const RATE_PER_MS =
+        SALARY_MONTHLY / (AVG_WORKING_DAYS_PER_MONTH * HOURS_PER_DAY * MS_HOUR);
+
+      const elToday = document.getElementById("today");
+      const elWeek = document.getElementById("week");
+      const elMonth = document.getElementById("month");
+      const elYear = document.getElementById("year");
+      const elMeta = document.getElementById("meta");
+      const rowToday = document.querySelector('[data-period="today"]');
+
+      const workStartMs = parseLocalDate(WORK_START_DATE).getTime();
+
+      function parseLocalDate(iso) {
+        const parts = String(iso).split("-").map(Number);
+        if (parts.length !== 3 || parts.some((n) => Number.isNaN(n))) {
+          throw new Error("WORK_START_DATE должен быть в формате ГГГГ-ММ-ДД");
+        }
+        const [y, m, d] = parts;
+        return new Date(y, m - 1, d, 0, 0, 0, 0);
+      }
+
+      function atTime(base, h, min) {
+        return new Date(
+          base.getFullYear(),
+          base.getMonth(),
+          base.getDate(),
+          h,
+          min,
+          0,
+          0
+        ).getTime();
+      }
+
+      function startOfDay(date) {
+        return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      }
+
+      function startOfWeekMonday(date) {
+        const d = startOfDay(date);
+        const day = d.getDay();
+        const diff = day === 0 ? 6 : day - 1;
+        d.setDate(d.getDate() - diff);
+        return d;
+      }
+
+      function startOfMonth(date) {
+        return new Date(date.getFullYear(), date.getMonth(), 1);
+      }
+
+      function startOfYear(date) {
+        return new Date(date.getFullYear(), 0, 1);
+      }
+
+      function isWorkDay(date) {
+        return WORK_DAYS.includes(date.getDay());
+      }
+
+      function workIntervalsMs(dayDate) {
+        const dayStart = atTime(dayDate, DAY_START[0], DAY_START[1]);
+        const lunchStart = atTime(dayDate, LUNCH_START[0], LUNCH_START[1]);
+        const lunchEnd = atTime(dayDate, LUNCH_END[0], LUNCH_END[1]);
+        const dayEnd = atTime(dayDate, DAY_END[0], DAY_END[1]);
+
+        if (lunchEnd <= lunchStart) {
+          return [[dayStart, dayEnd]];
+        }
+
+        return [
+          [dayStart, lunchStart],
+          [lunchEnd, dayEnd],
+        ];
+      }
+
+      function workingMs(fromMs, toMs) {
+        if (!(toMs > fromMs)) return 0;
+
+        let total = 0;
+        const cursor = startOfDay(new Date(fromMs));
+        const lastDay = startOfDay(new Date(toMs));
+
+        while (cursor.getTime() <= lastDay.getTime()) {
+          if (isWorkDay(cursor)) {
+            const intervals = workIntervalsMs(cursor);
+            for (let i = 0; i < intervals.length; i++) {
+              const a = intervals[i][0];
+              const b = intervals[i][1];
+              const lo = Math.max(a, fromMs);
+              const hi = Math.min(b, toMs);
+              if (hi > lo) total += hi - lo;
+            }
+          }
+          cursor.setDate(cursor.getDate() + 1);
+        }
+
+        return total;
+      }
+
+      function periodStartMs(now, kind) {
+        let start;
+        if (kind === "today") start = startOfDay(now);
+        else if (kind === "week") start = startOfWeekMonday(now);
+        else if (kind === "month") start = startOfMonth(now);
+        else start = startOfYear(now);
+        return Math.max(start.getTime(), workStartMs);
+      }
+
+      function earned(now, kind) {
+        const from = periodStartMs(now, kind);
+        const ms = workingMs(from, now.getTime());
+        return ms * RATE_PER_MS;
+      }
+
+      function formatMoney(value) {
+        const abs = Math.abs(value);
+        const fixed = abs.toFixed(8);
+        const [intPart, fracPart] = fixed.split(".");
+        const withSpaces = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, "\u00a0");
+        const sign = value < 0 ? "−" : "";
+        return sign + withSpaces + "," + fracPart + "\u00a0₽";
+      }
+
+      function isWorkingNow(now) {
+        if (!isWorkDay(now)) return false;
+        const t = now.getTime();
+        const intervals = workIntervalsMs(now);
+        return intervals.some(function (pair) {
+          return t >= pair[0] && t < pair[1];
+        });
+      }
+
+      elMeta.innerHTML =
+        "Зарплата: <code>" +
+        SALARY_MONTHLY.toLocaleString("ru-RU") +
+        " ₽/мес</code><br />Ставка ≈ <code>" +
+        (RATE_PER_MS * 1000).toFixed(6) +
+        " ₽/с</code>";
+
+      function tick() {
+        const now = new Date();
+        elToday.textContent = formatMoney(earned(now, "today"));
+        elWeek.textContent = formatMoney(earned(now, "week"));
+        elMonth.textContent = formatMoney(earned(now, "month"));
+        elYear.textContent = formatMoney(earned(now, "year"));
+        rowToday.classList.toggle("is-live", isWorkingNow(now));
+        requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    })();
+  </script>
+</body>
+</html>

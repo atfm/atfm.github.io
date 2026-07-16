@@ -12,7 +12,7 @@ atfm.github.io/
 ├── dlya-oli.html           ← признание в любви Оле
 ├── prikin.html             ← ПРИКИНЬ!!!!!! Козловский из Викингов
 ├── zarplata.html           ← счётчик зарплаты до миллисекунд
-├── zarplata-druga.html     ← счётчик для подруги (9:00–18:00)
+├── zarplata-2.html         ← счётчик зарплаты №2 (9:00–18:00)
 ├── assets/                 ← картинки для страниц
 └── README.md               ← этот файл
 ```
@@ -27,6 +27,6 @@ atfm.github.io/
 | [dlya-oli.html](https://atfm.github.io/dlya-oli.html) | Признание в любви Оле (фейерверки, сердце) |
 | [prikin.html](https://atfm.github.io/prikin.html) | Мем: Козловский-викинг и бегающие буквы ПРИКИНЬ!!!!!! |
 | [zarplata.html](https://atfm.github.io/zarplata.html) | Счётчик зарплаты: сегодня / неделя / месяц / год |
-| [zarplata-druga.html](https://atfm.github.io/zarplata-druga.html) | Счётчик для подруги: «заработала», 9:00–18:00 без обеда |
+| [zarplata-2.html](https://atfm.github.io/zarplata-2.html) | Счётчик «заработала»: 9:00–18:00 без обеда |
 
 Открывайте HTML в браузере (Chrome / Edge).

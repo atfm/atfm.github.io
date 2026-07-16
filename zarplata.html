@@ -195,9 +195,14 @@
 <body>
   <!--
     ============================================================
-    НАСТРОЙКИ — меняй только эти два значения в скрипте ниже:
-      SALARY_MONTHLY   — зарплата за месяц (рубли)
-      WORK_START_DATE  — дата выхода на работу (ГГГГ-ММ-ДД)
+    НАСТРОЙКИ — меняй значения в скрипте ниже:
+      SALARY_MONTHLY              — зарплата за месяц (рубли)
+      WORK_START_DATE             — дата выхода на работу (ГГГГ-ММ-ДД)
+      WORK_DAYS                   — рабочие дни (0=вс … 6=сб)
+      DAY_START / DAY_END         — начало и конец рабочего дня [час, мин]
+      LUNCH_START / LUNCH_END     — обед [час, мин]; если обеда нет —
+                                    поставь одинаковое время, напр. [12,0] и [12,0]
+      AVG_WORKING_DAYS_PER_MONTH  — среднее число раб. дней в месяце (для ставки)
     Скопируй файл и поменяй значения — получится страница для друга.
     ============================================================
   -->
@@ -205,22 +210,21 @@
     // ========== НАСТРОЙКИ ==========
     const SALARY_MONTHLY = 112000;        // зарплата в месяц, рубли
     const WORK_START_DATE = "2020-01-09"; // дата старта работы: ГГГГ-ММ-ДД
-    // ===============================
 
-    // График (можно не трогать)
-    const WORK_DAYS = [1, 2, 3, 4, 5]; // пн–пт (0 = вс)
-    const MORNING_START = [8, 30];     // 08:30
-    const LUNCH_START = [12, 0];       // 12:00
-    const LUNCH_END = [12, 30];        // 12:30
-    const DAY_END = [17, 0];           // 17:00
-    const HOURS_PER_DAY = 8;
-    const AVG_WORKING_DAYS_PER_MONTH = 21; // для ставки ₽/мс
+    // График работы
+    const WORK_DAYS = [1, 2, 3, 4, 5]; // пн–пт (0 = вс, 1 = пн, …, 6 = сб)
+    const DAY_START = [8, 30];         // начало дня: 08:30
+    const LUNCH_START = [12, 0];       // начало обеда: 12:00
+    const LUNCH_END = [12, 30];        // конец обеда: 12:30
+    const DAY_END = [17, 0];           // конец дня: 17:00
+    const AVG_WORKING_DAYS_PER_MONTH = 21; // среднее число раб. дней в месяце
+    // ===============================
   </script>
 
   <main class="page">
     <header class="hero">
       <h1 class="title">Ты <em>заработал:</em></h1>
-      <p class="subtitle">Счётчик идёт только в рабочие часы: пн–пт, 8:30–17:00, обед 12:00–12:30.</p>
+      <p class="subtitle" id="subtitle"></p>
     </header>
 
     <section class="rows" aria-live="polite">
@@ -248,6 +252,25 @@
   <script>
     (function () {
       const MS_HOUR = 3600 * 1000;
+      const DAY_NAMES = ["вс", "пн", "вт", "ср", "чт", "пт", "сб"];
+
+      function toMinutes(hm) {
+        return hm[0] * 60 + hm[1];
+      }
+
+      function formatHm(hm) {
+        return (
+          String(hm[0]).padStart(2, "0") + ":" + String(hm[1]).padStart(2, "0")
+        );
+      }
+
+      // Чистые рабочие часы в дне = день минус обед (считается из настроек)
+      const daySpanMin = toMinutes(DAY_END) - toMinutes(DAY_START);
+      const lunchSpanMin = Math.max(
+        0,
+        toMinutes(LUNCH_END) - toMinutes(LUNCH_START)
+      );
+      const HOURS_PER_DAY = (daySpanMin - lunchSpanMin) / 60;
       const RATE_PER_MS =
         SALARY_MONTHLY / (AVG_WORKING_DAYS_PER_MONTH * HOURS_PER_DAY * MS_HOUR);
 
@@ -256,6 +279,7 @@
       const elMonth = document.getElementById("month");
       const elYear = document.getElementById("year");
       const elMeta = document.getElementById("meta");
+      const elSubtitle = document.getElementById("subtitle");
       const rowToday = document.querySelector('[data-period="today"]');
 
       const workStartMs = parseLocalDate(WORK_START_DATE).getTime();
@@ -306,9 +330,19 @@
       }
 
       function workIntervalsMs(dayDate) {
+        const dayStart = atTime(dayDate, DAY_START[0], DAY_START[1]);
+        const lunchStart = atTime(dayDate, LUNCH_START[0], LUNCH_START[1]);
+        const lunchEnd = atTime(dayDate, LUNCH_END[0], LUNCH_END[1]);
+        const dayEnd = atTime(dayDate, DAY_END[0], DAY_END[1]);
+
+        if (lunchEnd <= lunchStart) {
+          // Обеда нет — один интервал на весь день
+          return [[dayStart, dayEnd]];
+        }
+
         return [
-          [atTime(dayDate, ...MORNING_START), atTime(dayDate, ...LUNCH_START)],
-          [atTime(dayDate, ...LUNCH_END), atTime(dayDate, ...DAY_END)],
+          [dayStart, lunchStart],
+          [lunchEnd, dayEnd],
         ];
       }
 
@@ -354,7 +388,6 @@
 
       function formatMoney(value) {
         const abs = Math.abs(value);
-        // До миллисекундной точности ставки: много знаков после запятой
         const fixed = abs.toFixed(8);
         const [intPart, fracPart] = fixed.split(".");
         const withSpaces = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, "\u00a0");
@@ -366,7 +399,9 @@
         if (!isWorkDay(now)) return false;
         const t = now.getTime();
         const intervals = workIntervalsMs(now);
-        return intervals.some(([a, b]) => t >= a && t < b);
+        return intervals.some(function (pair) {
+          return t >= pair[0] && t < pair[1];
+        });
       }
 
       function formatDateRu(iso) {
@@ -378,6 +413,43 @@
         });
       }
 
+      function formatWorkDays() {
+        const sorted = WORK_DAYS.slice().sort(function (a, b) {
+          return a - b;
+        });
+        if (
+          sorted.length === 5 &&
+          sorted.join(",") === "1,2,3,4,5"
+        ) {
+          return "пн–пт";
+        }
+        return sorted
+          .map(function (d) {
+            return DAY_NAMES[d];
+          })
+          .join(", ");
+      }
+
+      const hoursLabel =
+        Number.isInteger(HOURS_PER_DAY)
+          ? String(HOURS_PER_DAY)
+          : HOURS_PER_DAY.toFixed(2).replace(/\.?0+$/, "");
+
+      const lunchText =
+        lunchSpanMin > 0
+          ? ", обед " + formatHm(LUNCH_START) + "–" + formatHm(LUNCH_END)
+          : "";
+
+      elSubtitle.textContent =
+        "Счётчик идёт только в рабочие часы: " +
+        formatWorkDays() +
+        ", " +
+        formatHm(DAY_START) +
+        "–" +
+        formatHm(DAY_END) +
+        lunchText +
+        ".";
+
       elMeta.innerHTML =
         "Зарплата: <code>" +
         SALARY_MONTHLY.toLocaleString("ru-RU") +
@@ -387,7 +459,9 @@
         (RATE_PER_MS * 1000).toFixed(6) +
         " ₽/с</code> (из " +
         AVG_WORKING_DAYS_PER_MONTH +
-        " раб. дней × 8 ч). Меняй значения в начале HTML.";
+        " раб. дней × " +
+        hoursLabel +
+        " ч). Меняй значения в начале HTML.";
 
       function tick() {
         const now = new Date();

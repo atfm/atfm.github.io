@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Куда сегодня — 19 июля 2026, Санкт-Петербург</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1c2430;
+      --ink-soft: #4a5568;
+      --mist: #d8e0ea;
+      --rain: #6b8499;
+      --amber: #c4782b;
+      --amber-soft: rgba(196, 120, 43, 0.14);
+      --paper: #eef2f6;
+      --line: rgba(28, 36, 48, 0.12);
+      --ok: #2f6b4f;
+      --warn: #8a5a2b;
+      --font-display: "Literata", Georgia, serif;
+      --font-body: "Manrope", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: var(--font-body);
+      line-height: 1.55;
+      background:
+        radial-gradient(900px 520px at 12% -8%, rgba(107, 132, 153, 0.28), transparent 55%),
+        radial-gradient(700px 420px at 100% 0%, rgba(196, 120, 43, 0.12), transparent 50%),
+        linear-gradient(168deg, #f5f7fa 0%, var(--paper) 45%, var(--mist) 100%);
+      background-attachment: fixed;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.4;
+      background-image:
+        repeating-linear-gradient(
+          105deg,
+          transparent,
+          transparent 14px,
+          rgba(28, 36, 48, 0.025) 14px,
+          rgba(28, 36, 48, 0.025) 15px
+        );
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 1.25rem 4rem;
+    }
+
+    .hero {
+      min-height: min(68vh, 520px);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 3.25rem 0 2rem;
+      border-bottom: 1px solid var(--line);
+      animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .brand {
+      margin: 0;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(2.6rem, 10vw, 4.8rem);
+      line-height: 0.96;
+      letter-spacing: -0.03em;
+    }
+
+    .brand span { color: var(--rain); }
+
+    .lede {
+      margin: 1rem 0 0;
+      max-width: 34rem;
+      font-size: 1.05rem;
+      color: var(--ink-soft);
+      animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem 1.25rem;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--ink);
+      animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
+    }
+
+    .meta strong {
+      font-weight: 600;
+      border-bottom: 2px solid var(--amber);
+      padding-bottom: 0.1rem;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1.75rem 0 0.25rem;
+      animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
+    }
+
+    .filters button {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.55);
+      color: var(--ink);
+      font: inherit;
+      font-size: 0.86rem;
+      font-weight: 600;
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .filters button[aria-pressed="true"] {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #fff;
+    }
+
+    .filters button:hover { border-color: var(--rain); }
+
+    section { padding: 2.25rem 0 0.25rem; }
+
+    .section-title {
+      margin: 0 0 0.35rem;
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+
+    .section-note {
+      margin: 0 0 1.35rem;
+      color: var(--ink-soft);
+      font-size: 0.95rem;
+    }
+
+    .event-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .event {
+      border-bottom: 1px solid var(--line);
+      padding: 1.35rem 0.1rem 1.45rem;
+      animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .event[hidden] { display: none; }
+
+    .event:nth-child(1) { animation-delay: 0.05s; }
+    .event:nth-child(2) { animation-delay: 0.1s; }
+    .event:nth-child(3) { animation-delay: 0.15s; }
+    .event:nth-child(4) { animation-delay: 0.2s; }
+    .event:nth-child(5) { animation-delay: 0.25s; }
+    .event:nth-child(6) { animation-delay: 0.3s; }
+    .event:nth-child(7) { animation-delay: 0.35s; }
+    .event:nth-child(8) { animation-delay: 0.4s; }
+    .event:nth-child(9) { animation-delay: 0.45s; }
+    .event:nth-child(10) { animation-delay: 0.5s; }
+
+    .event-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.5rem 1rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .event h3 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ok);
+      background: rgba(47, 107, 79, 0.1);
+      padding: 0.28rem 0.55rem;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .badge.warn {
+      color: var(--warn);
+      background: var(--amber-soft);
+    }
+
+    .event p {
+      margin: 0.55rem 0 0;
+      color: var(--ink-soft);
+      font-size: 0.98rem;
+    }
+
+    .facts {
+      display: grid;
+      gap: 0.55rem;
+      margin-top: 1rem;
+      font-size: 0.92rem;
+    }
+
+    .facts dt {
+      margin: 0;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--rain);
+    }
+
+    .facts dd {
+      margin: 0.15rem 0 0;
+      color: var(--ink);
+    }
+
+    .facts a {
+      color: var(--ink);
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1.5px solid var(--amber);
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .facts a:hover {
+      color: var(--amber);
+      border-color: var(--amber);
+    }
+
+    @media (min-width: 640px) {
+      .facts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.85rem 1.5rem;
+      }
+    }
+
+    .skip-note {
+      margin: 0;
+      padding: 1rem 0 0;
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      border-top: 1px dashed var(--line);
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+    }
+
+    footer a {
+      color: var(--ink);
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid var(--amber);
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero, .lede, .meta, .filters, .event { animation: none; opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <h1 class="brand">Куда<span> сегодня</span></h1>
+      <p class="lede">Подборка для двоих на воскресенье: без кинотеатров, с упором на места под крышей — на улице пасмурно и возможен ливень.</p>
+      <div class="meta">
+        <span><strong>19 июля 2026</strong></span>
+        <span>Свободны с 14:00</span>
+        <span>Погода: пасмурно, ливень</span>
+      </div>
+      <div class="filters" role="group" aria-label="Фильтр анонсов">
+        <button type="button" data-filter="all" aria-pressed="true">Все</button>
+        <button type="button" data-filter="indoor" aria-pressed="false">Под крышей</button>
+        <button type="button" data-filter="free" aria-pressed="false">Бесплатно</button>
+        <button type="button" data-filter="evening" aria-pressed="false">Вечер</button>
+      </div>
+    </header>
+
+    <section aria-labelledby="picks-title">
+      <h2 id="picks-title" class="section-title">Анонсы на сегодня</h2>
+      <p class="section-note">Сначала — варианты, которые лучше всего ложатся на «с 14:00» и дождь. Цены по открытым афишам на утро 19.07; перед выходом сверьте на сайте организатора.</p>
+
+      <ul class="event-list">
+        <li>
+          <article class="event" data-weather="covered" data-price="free" data-slot="day">
+            <div class="event-top">
+              <h3>Фестиваль «Люблю» в Маяковке</h3>
+              <span class="badge">Лучший старт</span>
+            </div>
+            <p>День рождения Маяковского через кабаре и журналы Серебряного века: лекции, шахматы, танцы, вечером спектакль «Новый Сатирикон». Программа ровно с 14:00 — можно прийти сразу и провести полдня.</p>
+            <dl class="facts">
+              <div>
+                <dt>Время</dt>
+                <dd>с 14:00 — лекция о кабаре; 15:00 — шахматы и мастер-класс; 16:00 — Аверченко; 18:00 — спектакль и лекция о летнем досуге</dd>
+              </div>
+              <div>
+                <dt>Стоимость</dt>
+                <dd>Бесплатно (нужна регистрация)</dd>
+              </div>
+              <div>
+                <dt>Локация</dt>
+                <dd>
+                  <a href="https://yandex.ru/maps/?text=Санкт-Петербург,+набережная%20реки%20Фонтанки,+44" target="_blank" rel="noopener noreferrer">
+                    Библиотека им. Маяковского, наб. реки Фонтанки, 44
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>Источник</dt>
+                <dd><a href="https://spbvedomosti.ru/news/culture/kak-provesti-vykhodnye-v-severnoy-stolitse-s-18-po-19-iyulya/" target="_blank" rel="noopener noreferrer">СПб Ведомости</a></dd>
+              </div>
+            </dl>
+          </article>
+        </li>
+
+        <li>
+          <article class="event" data-weather="indoor" data-price="paid" data-slot="allday">
+            <div class="event-top">
+              <h3>«Регионы. Далекое близкое» в Эрарте</h3>
+              <span class="badge">Под крышей</span>
+            </div>
+            <p>Большая выставка современного искусства из разных городов России — живопись и декоративно-прикладное рядом с постоянной коллекцией музея. Идеально, если хочется тихого музейного дня без улицы.</p>
+            <dl class="facts">
+              <div>
+                <dt>Время</dt>
+                <dd>сегодня до 23:00 (музей без вторника, 11:00–23:00)</dd>
+              </div>
+              <div>
+                <dt>Стоимость</dt>
+                <dd>основной билет 1&nbsp;500&nbsp;₽</dd>
+              </div>
+              <div>
+                <dt>Локация</dt>
+                <dd>
+                  <a href="https://yandex.ru/maps/?text=Санкт-Петербург,+29-я%20линия%20Васильевского%20острова,+2" target="_blank" rel="noopener noreferrer">
+                    Эрарта, 29-я линия В.О., 2
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>Источник</dt>
+                <dd><a href="https://www.erarta.com/ru/calendar/exhibitions/detail/260526/" target="_blank" rel="noopener noreferrer">erarta.com</a></dd>
+              </div>
+            </dl>
+          </article>
+        </li>
+
+        <li>
+          <article class="event" data-weather="indoor" data-price="paid" data-slot="day">
+            <div class="event-top">
+              <h3>Фестиваль вельш-корги в «Этажах»</h3>
+              <span class="badge">Под крышей</span>
+            </div>
+            <p>Общение с корги, фото (без вспышки), лекторий о породе и лёгкая «антистресс»-программа в лофте на Лиговском. Хороший короткий выезд, если не тянет на серьёзный музей.</p>
+            <dl class="facts">
+              <div>
+                <dt>Время</dt>
+                <dd>сегодня до 19:00 (с 12:00)</dd>
+              </div>
+              <div>
+                <dt>Стоимость</dt>
+                <dd>400&nbsp;₽; дети до 3 лет бесплатно</dd>
+              </div>
+              <div>
+                <dt>Локация</dt>
+                <dd>
+                  <a href="https://yandex.ru/maps/?text=Санкт-Петербург,+Лиговский%20проспект,+74" target="_blank" rel="noopener noreferrer">
+                    Лофт Проект ЭТАЖИ, Лиговский пр., 74
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>Источник</dt>
+                <dd><a href="https://www.loftprojectetagi.ru/events/festival-velsh-korgi/" target="_blank" rel="noopener noreferrer">loftprojectetagi.ru</a></dd>
+              </div>
+            </dl>
+          </article>
+        </li>
+
+        <li>
+          <article class="event" data-weather="indoor" data-price="free" data-slot="allday">
+            <div class="event-top">
+              <h3>«Гаражная распродажа» в Севкабеле</h3>
+              <span class="badge">Под крышей</span>
+            </div>
+            <p>Винтаж, секонд-хенд и городской шопинг без плана: можно просто гулять по «Цеху», копаться в вещах и закончить день на набережной порта, если дождь стихнет.</p>
+            <dl class="facts">
+              <div>
+                <dt>Время</dt>
+                <dd>сегодня, ориентир 12:00–22:00</dd>
+              </div>
+              <div>
+                <dt>Стоимость</dt>
+                <dd>Бесплатно</dd>
+              </div>
+              <div>
+                <dt>Локация</dt>
+                <dd>
+                  <a href="https://yandex.ru/maps/?text=Санкт-Петербург,+Кожевенная%20линия,+40" target="_blank" rel="noopener noreferrer">
+                    Севкабель Порт, пространство «Цех», Кожевенная линия, 40
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>Источник</dt>
+                <dd><a href="https://kuda-spb.ru/event/top-10-interesnyx-sobytij-v-sankt-peterburge-v-vyxodnye-18-i-19-ijulja-2026/" target="_blank" rel="noopener noreferrer">KudaSPB / афиша выходных</a></dd>
+              </div>
+            </dl>
+          </article>
+        </li>
+
+        <li>
+          <article class="event" data-weather="indoor" data-price="paid" data-slot="day">
+            <div class="event-top">
+              <h3>«Город собак. Лето» в Экспофоруме</h3>
+              <span class="badge">Под крышей</span>
+            </div>
+            <p>Тысячи собак, шоу-программа, заводчики и породный фестиваль. Далеко от центра, но полностью в павильоне — ливень не помешает. Успеть лучше до 18:00.</p>
+            <dl class="facts">
+              <div>
+                <dt>Время</dt>
+                <dd>сегодня до 18:00 (с 10:00)</dd>
+              </div>
+              <div>
+                <dt>Стоимость</dt>
+                <dd>от ~500–600&nbsp;₽ онлайн; в кассе взрослый ~800&nbsp;₽</dd>
+              </div>
+              <div>
+                <dt>Локация</dt>
+                <dd>
+                  <a href="https://yandex.ru/maps/?text=Санкт-Петербург,+Петербургское%20шоссе,+64/1" target="_blank" rel="noopener noreferrer">
+                    КВЦ «Экспофорум», Петербургское шоссе, 64/1, павильон G
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>Источник</dt>
+                <dd><a href="https://gorod-sobaki.ru/" target="_blank" rel="noopener noreferrer">gorod-sobaki.ru</a></dd>
+              </div>
+            </dl>
+          </article>
+        </li>
+
+        <li>
+          <article class="event" data-weather="indoor" data-price="paid" data-slot="day">
+            <div class="event-top">
+              <h3>«Фотолетопись Санкт-Петербурга»</h3>
+              <span class="badge">Под крышей</span>
+            </div>
+            <p>Около сотни репортажных кадров 1980–2020-х: городские праздники, почётные граждане, памятные церемонии. Компактная выставка в Иоанновском равелине — удобно совместить с короткой прогулкой по крепости, если дождь не сильный.</p>
+            <dl class="facts">
+              <div>
+                <dt>Время</dt>
+                <dd>кассы Иоанновского равелина до ~18:00; территория крепости дольше</dd>
+              </div>
+              <div>
+                <dt>Стоимость</dt>
+                <dd>по билету музея / в выставочный зал (уточняйте в кассе spbmuseum.ru)</dd>
+              </div>
+              <div>
+                <dt>Локация</dt>
+                <dd>
+                  <a href="https://yandex.ru/maps/?text=Санкт-Петербург,+Петропавловская%20крепость,+Иоанновский%20равелин" target="_blank" rel="noopener noreferrer">
+                    Петропавловская крепость, Иоанновский равелин
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>Источник</dt>
+                <dd><a href="https://kuda-spb.ru/event/vystavka-fotoletopis-sankt-peterburga/" target="_blank" rel="noopener noreferrer">KudaSPB</a></dd>
+              </div>
+            </dl>
+          </article>
+        </li>
+
+        <li>
+          <article class="event" data-weather="covered" data-price="free" data-slot="day">
+            <div class="event-top">
+              <h3>«Деревня художников: наши дни»</h3>
+              <span class="badge warn">Частично улица</span>
+            </div>
+            <p>Экскурсии по мастерским Шувалово-Озерков, лекция Павла Котляра о памяти в музеях, мастер-класс по резьбе по гипсу и чаепитие. Нужна регистрация; часть программы на воздухе — берите зонт.</p>
+            <dl class="facts">
+              <div>
+                <dt>Время</dt>
+                <dd>с 12:00 (можно подключиться после 14:00 к дневному блоку)</dd>
+              </div>
+              <div>
+                <dt>Стоимость</dt>
+                <dd>Бесплатно по регистрации</dd>
+              </div>
+              <div>
+                <dt>Локация</dt>
+                <dd>
+                  <a href="https://yandex.ru/maps/?text=Санкт-Петербург,+улица%20Главная,+20" target="_blank" rel="noopener noreferrer">
+                    Деревня художников, ул. Главная, 20
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>Источник</dt>
+                <dd><a href="https://mr-7.ru/articles/2026/07/17/7-povodov-vyiti-iz-doma-18-19-iiulia" target="_blank" rel="noopener noreferrer">МР7</a></dd>
+              </div>
+            </dl>
+          </article>
+        </li>
+
+        <li>
+          <article class="event" data-weather="outdoor" data-price="free" data-slot="allday">
+            <div class="event-top">
+              <h3>Фестиваль «Мотостолица»</h3>
+              <span class="badge warn">На улице</span>
+            </div>
+            <p>Ретро- и кастом-мотоциклы, трюки, «Шар смелости», вечерний концерт Найка Борзова. Центрально и бесплатно, но площадка открытая — имеет смысл при ясном окне в погоде.</p>
+            <dl class="facts">
+              <div>
+                <dt>Время</dt>
+                <dd>сегодня 12:00–21:00</dd>
+              </div>
+              <div>
+                <dt>Стоимость</dt>
+                <dd>Бесплатно</dd>
+              </div>
+              <div>
+                <dt>Локация</dt>
+                <dd>
+                  <a href="https://yandex.ru/maps/?text=Санкт-Петербург,+Манежная%20площадь" target="_blank" rel="noopener noreferrer">
+                    Манежная площадь
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>Источник</dt>
+                <dd><a href="https://vecherka-spb.ru/2026/07/08/festival-motostolitsa-proidet-v-peterburge-18-i-19-iyulya" target="_blank" rel="noopener noreferrer">Вечёрка</a></dd>
+              </div>
+            </dl>
+          </article>
+        </li>
+
+        <li>
+          <article class="event" data-weather="outdoor" data-price="paid" data-slot="allday">
+            <div class="event-top">
+              <h3>«Императорский букет» в Павловске</h3>
+              <span class="badge warn">На улице</span>
+            </div>
+            <p>Цветочный праздник «Венчание с Павловском»: свадебные арки, карета, музыка от скрипки до духовых. Красиво, но парк — если ливень затянется, лучше оставить на другой день.</p>
+            <dl class="facts">
+              <div>
+                <dt>Время</dt>
+                <dd>вход в парк 09:00–21:00</dd>
+              </div>
+              <div>
+                <dt>Стоимость</dt>
+                <dd>билет в парк ~300&nbsp;₽ (взрослый); льготы ~200&nbsp;₽</dd>
+              </div>
+              <div>
+                <dt>Локация</dt>
+                <dd>
+                  <a href="https://yandex.ru/maps/?text=Санкт-Петербург,+Павловск,+улица%20Революции,+20" target="_blank" rel="noopener noreferrer">
+                    ГМЗ «Павловск», ул. Революции, 20
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>Источник</dt>
+                <dd><a href="https://pavlovskmuseum.ru/news/calendar/3870/" target="_blank" rel="noopener noreferrer">pavlovskmuseum.ru</a></dd>
+              </div>
+            </dl>
+          </article>
+        </li>
+
+        <li>
+          <article class="event" data-weather="indoor" data-price="paid" data-slot="evening">
+            <div class="event-top">
+              <h3>Оперетта «Летучая мышь»</h3>
+              <span class="badge">Вечер</span>
+            </div>
+            <p>Классика Штрауса на Новой сцене Мариинского: бал, путаница и праздничная музыка. Есть дневной показ в 13:00 (уже поздно стартовать) и вечерний в 19:00 — удобный финал дня.</p>
+            <dl class="facts">
+              <div>
+                <dt>Время</dt>
+                <dd>сегодня 19:00 (~3 ч 20 мин с антрактом); также был показ в 13:00</dd>
+              </div>
+              <div>
+                <dt>Стоимость</dt>
+                <dd>от ~1&nbsp;100–1&nbsp;650&nbsp;₽ в зависимости от площадки продажи</dd>
+              </div>
+              <div>
+                <dt>Локация</dt>
+                <dd>
+                  <a href="https://yandex.ru/maps/?text=Санкт-Петербург,+улица%20Декабристов,+34" target="_blank" rel="noopener noreferrer">
+                    Мариинский-2, ул. Декабристов, 34
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>Источник</dt>
+                <dd><a href="https://www.mariinsky.ru/playbill/playbill/2026/7/19/2_1900/" target="_blank" rel="noopener noreferrer">mariinsky.ru</a></dd>
+              </div>
+            </dl>
+          </article>
+        </li>
+
+        <li>
+          <article class="event" data-weather="indoor" data-price="paid" data-slot="evening">
+            <div class="event-top">
+              <h3>«КняZz. Фокусник»</h3>
+              <span class="badge">Вечер</span>
+            </div>
+            <p>Летний концерт Андрея Князева с программой в честь «Короля и Шута» и памяти Горшка: хиты, редкие треки и анимации. Если хочется громкого вечера в зале, а не оперы.</p>
+            <dl class="facts">
+              <div>
+                <dt>Время</dt>
+                <dd>сегодня 19:00</dd>
+              </div>
+              <div>
+                <dt>Стоимость</dt>
+                <dd>от ~2&nbsp;500&nbsp;₽</dd>
+              </div>
+              <div>
+                <dt>Локация</dt>
+                <dd>
+                  <a href="https://yandex.ru/maps/?text=Санкт-Петербург,+проспект%20Пятилеток,+1А" target="_blank" rel="noopener noreferrer">
+                    Ледовый дворец, пр. Пятилеток, 1А
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>Источник</dt>
+                <dd><a href="https://afisha.yandex.ru/saint-petersburg/concert/kniazz-fokusnik" target="_blank" rel="noopener noreferrer">Яндекс Афиша</a></dd>
+              </div>
+            </dl>
+          </article>
+        </li>
+      </ul>
+
+      <p class="skip-note">Уже смотрели и пропускаем: кинотеатры «Аврора», «Дом кино», «Мираж», «Ленфильм», «Родина».</p>
+    </section>
+
+    <footer>
+      Шаблон для новых подборок: <a href="template.html">afisha/template.html</a> ·
+      <a href="../index.html">на главную</a>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const buttons = document.querySelectorAll(".filters [data-filter]");
+      const events = document.querySelectorAll(".event");
+
+      function applyFilter(key) {
+        events.forEach((el) => {
+          const weather = el.dataset.weather;
+          const price = el.dataset.price;
+          const slot = el.dataset.slot;
+          let show = true;
+          if (key === "indoor") show = weather === "indoor" || weather === "covered";
+          if (key === "free") show = price === "free";
+          if (key === "evening") show = slot === "evening" || slot === "allday";
+          el.hidden = !show;
+        });
+      }
+
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          buttons.forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+          applyFilter(btn.dataset.filter);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

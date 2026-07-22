@@ -192,12 +192,11 @@
     const SALARY_MONTHLY = 162429;        // зарплата в месяц, рубли
     const WORK_START_DATE = "2026-07-15"; // дата старта работы: ГГГГ-ММ-ДД
 
-    // График: пн–чт 9:00–18:00, пт 9:00–17:00; обед 48 мин каждый день
-    // Чистые часы: 4×8,2 + 7,2 = 40 ч/нед
+    // График: пн–чт 9:00–18:00, пт 9:00–17:00
+    // Обед ~48 мин/день в разное время — окно не вырезаем.
+    // По часам: 4×9 + 8 = 44 ч/нед; чистыми 40 ч → ставка снижена на 40/44.
     const WORK_DAYS = [1, 2, 3, 4, 5]; // пн–пт (0 = вс, 1 = пн, …, 6 = сб)
     const DAY_START = [9, 0];          // начало дня: 09:00
-    const LUNCH_START = [12, 0];       // начало обеда: 12:00
-    const LUNCH_END = [12, 48];        // конец обеда: 12:48 (48 минут)
     const DAY_END_BY_WEEKDAY = {
       1: [18, 0], // пн
       2: [18, 0], // вт
@@ -205,7 +204,8 @@
       4: [18, 0], // чт
       5: [17, 0], // пт
     };
-    const HOURS_PER_WEEK = 40;         // чистые рабочие часы за неделю
+    const LUNCH_MINUTES_PER_DAY = 48;  // учтён только в ставке, не как пауза
+    const NET_HOURS_PER_WEEK = 40;     // чистые рабочие часы за неделю
     const AVG_WORKING_DAYS_PER_MONTH = 21;
     // ===============================
   </script>
@@ -241,8 +241,12 @@
     (function () {
       const MS_HOUR = 3600 * 1000;
 
-      // Средние часы в раб. день из 40-часовой недели (5 раб. дней)
-      const HOURS_PER_DAY = HOURS_PER_WEEK / WORK_DAYS.length;
+      function toMinutes(hm) {
+        return hm[0] * 60 + hm[1];
+      }
+
+      // Ставка от чистых 40 ч/нед; обед 48 мин размазан по дню (время неизвестно)
+      const HOURS_PER_DAY = NET_HOURS_PER_WEEK / WORK_DAYS.length;
       const RATE_PER_MS =
         SALARY_MONTHLY / (AVG_WORKING_DAYS_PER_MONTH * HOURS_PER_DAY * MS_HOUR);
 
@@ -305,21 +309,20 @@
         return end || DAY_END_BY_WEEKDAY[1];
       }
 
+      // Доля оплачиваемого времени: (часы дня − обед) / часы дня
+      function dayPayScale(dayDate) {
+        const clockMin = toMinutes(dayEndHm(dayDate)) - toMinutes(DAY_START);
+        if (clockMin <= 0) return 0;
+        const netMin = Math.max(0, clockMin - LUNCH_MINUTES_PER_DAY);
+        return netMin / clockMin;
+      }
+
       function workIntervalsMs(dayDate) {
+        // Один интервал на весь день: обед не вырезаем (время неизвестно).
         const endHm = dayEndHm(dayDate);
         const dayStart = atTime(dayDate, DAY_START[0], DAY_START[1]);
-        const lunchStart = atTime(dayDate, LUNCH_START[0], LUNCH_START[1]);
-        const lunchEnd = atTime(dayDate, LUNCH_END[0], LUNCH_END[1]);
         const dayEnd = atTime(dayDate, endHm[0], endHm[1]);
-
-        if (lunchEnd <= lunchStart) {
-          return [[dayStart, dayEnd]];
-        }
-
-        return [
-          [dayStart, lunchStart],
-          [lunchEnd, dayEnd],
-        ];
+        return [[dayStart, dayEnd]];
       }
 
       function workingMs(fromMs, toMs) {
@@ -331,13 +334,14 @@
 
         while (cursor.getTime() <= lastDay.getTime()) {
           if (isWorkDay(cursor)) {
+            const scale = dayPayScale(cursor);
             const intervals = workIntervalsMs(cursor);
             for (let i = 0; i < intervals.length; i++) {
               const a = intervals[i][0];
               const b = intervals[i][1];
               const lo = Math.max(a, fromMs);
               const hi = Math.min(b, toMs);
-              if (hi > lo) total += hi - lo;
+              if (hi > lo) total += (hi - lo) * scale;
             }
           }
           cursor.setDate(cursor.getDate() + 1);
@@ -382,11 +386,13 @@
       elMeta.innerHTML =
         "Зарплата: <code>" +
         SALARY_MONTHLY.toLocaleString("ru-RU") +
-        " ₽/мес</code><br />График: <code>пн–чт 9:00–18:00</code>, <code>пт 9:00–17:00</code>, обед <code>48&nbsp;мин</code> · <code>" +
-        HOURS_PER_WEEK +
-        "&nbsp;ч/нед</code><br />Ставка ≈ <code>" +
+        " ₽/мес</code><br />График: <code>пн–чт 9:00–18:00</code>, <code>пт 9:00–17:00</code> · <code>" +
+        NET_HOURS_PER_WEEK +
+        "&nbsp;ч/нед</code><br />Обед <code>" +
+        LUNCH_MINUTES_PER_DAY +
+        "&nbsp;мин</code> размазан по дню (без паузы) · ≈ <code>" +
         (RATE_PER_MS * 1000).toFixed(6) +
-        " ₽/с</code>";
+        " ₽/с</code> чистыми";
 
       function tick() {
         const now = new Date();

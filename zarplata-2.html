@@ -192,12 +192,20 @@
     const SALARY_MONTHLY = 162429;        // зарплата в месяц, рубли
     const WORK_START_DATE = "2026-07-15"; // дата старта работы: ГГГГ-ММ-ДД
 
-    // График работы: 9:00–18:00, без обеда
+    // График: пн–чт 9:00–18:00, пт 9:00–17:00; обед 48 мин каждый день
+    // Чистые часы: 4×8,2 + 7,2 = 40 ч/нед
     const WORK_DAYS = [1, 2, 3, 4, 5]; // пн–пт (0 = вс, 1 = пн, …, 6 = сб)
     const DAY_START = [9, 0];          // начало дня: 09:00
-    const LUNCH_START = [12, 0];       // обеда нет — одинаковое время
-    const LUNCH_END = [12, 0];
-    const DAY_END = [18, 0];           // конец дня: 18:00
+    const LUNCH_START = [12, 0];       // начало обеда: 12:00
+    const LUNCH_END = [12, 48];        // конец обеда: 12:48 (48 минут)
+    const DAY_END_BY_WEEKDAY = {
+      1: [18, 0], // пн
+      2: [18, 0], // вт
+      3: [18, 0], // ср
+      4: [18, 0], // чт
+      5: [17, 0], // пт
+    };
+    const HOURS_PER_WEEK = 40;         // чистые рабочие часы за неделю
     const AVG_WORKING_DAYS_PER_MONTH = 21;
     // ===============================
   </script>
@@ -233,16 +241,8 @@
     (function () {
       const MS_HOUR = 3600 * 1000;
 
-      function toMinutes(hm) {
-        return hm[0] * 60 + hm[1];
-      }
-
-      const daySpanMin = toMinutes(DAY_END) - toMinutes(DAY_START);
-      const lunchSpanMin = Math.max(
-        0,
-        toMinutes(LUNCH_END) - toMinutes(LUNCH_START)
-      );
-      const HOURS_PER_DAY = (daySpanMin - lunchSpanMin) / 60;
+      // Средние часы в раб. день из 40-часовой недели (5 раб. дней)
+      const HOURS_PER_DAY = HOURS_PER_WEEK / WORK_DAYS.length;
       const RATE_PER_MS =
         SALARY_MONTHLY / (AVG_WORKING_DAYS_PER_MONTH * HOURS_PER_DAY * MS_HOUR);
 
@@ -300,11 +300,17 @@
         return WORK_DAYS.includes(date.getDay());
       }
 
+      function dayEndHm(dayDate) {
+        const end = DAY_END_BY_WEEKDAY[dayDate.getDay()];
+        return end || DAY_END_BY_WEEKDAY[1];
+      }
+
       function workIntervalsMs(dayDate) {
+        const endHm = dayEndHm(dayDate);
         const dayStart = atTime(dayDate, DAY_START[0], DAY_START[1]);
         const lunchStart = atTime(dayDate, LUNCH_START[0], LUNCH_START[1]);
         const lunchEnd = atTime(dayDate, LUNCH_END[0], LUNCH_END[1]);
-        const dayEnd = atTime(dayDate, DAY_END[0], DAY_END[1]);
+        const dayEnd = atTime(dayDate, endHm[0], endHm[1]);
 
         if (lunchEnd <= lunchStart) {
           return [[dayStart, dayEnd]];
@@ -376,7 +382,9 @@
       elMeta.innerHTML =
         "Зарплата: <code>" +
         SALARY_MONTHLY.toLocaleString("ru-RU") +
-        " ₽/мес</code><br />Ставка ≈ <code>" +
+        " ₽/мес</code><br />График: <code>пн–чт 9:00–18:00</code>, <code>пт 9:00–17:00</code>, обед <code>48&nbsp;мин</code> · <code>" +
+        HOURS_PER_WEEK +
+        "&nbsp;ч/нед</code><br />Ставка ≈ <code>" +
         (RATE_PER_MS * 1000).toFixed(6) +
         " ₽/с</code>";
 

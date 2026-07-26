@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Меню на неделю — Марис и Оля</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1c2a22;
+      --ink-soft: #4a5c52;
+      --paper: #eef4ef;
+      --mist: #d8e6dc;
+      --leaf: #2a6b4a;
+      --leaf-deep: #1e4d36;
+      --tomato: #c4472c;
+      --butter: #e8c56a;
+      --line: rgba(28, 42, 34, 0.12);
+      --font-display: "Literata", Georgia, serif;
+      --font-body: "Manrope", sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: var(--font-body);
+      line-height: 1.55;
+      background:
+        radial-gradient(800px 420px at 0% 0%, rgba(42, 107, 74, 0.16), transparent 55%),
+        radial-gradient(640px 380px at 100% 8%, rgba(196, 71, 44, 0.1), transparent 50%),
+        radial-gradient(500px 300px at 70% 100%, rgba(232, 197, 106, 0.18), transparent 55%),
+        linear-gradient(168deg, var(--paper) 0%, var(--mist) 100%);
+      background-attachment: fixed;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.4;
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(28, 42, 34, 0.06) 1px, transparent 0);
+      background-size: 22px 22px;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 1.2rem 4rem;
+    }
+
+    .hero {
+      min-height: min(68vh, 520px);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 3.25rem 0 2rem;
+      border-bottom: 1px solid var(--line);
+      animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .brand {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(2.6rem, 9vw, 4.2rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--leaf-deep);
+      margin-bottom: 0.85rem;
+    }
+
+    .brand span {
+      display: block;
+      color: var(--tomato);
+      font-style: italic;
+      font-weight: 500;
+      font-size: 0.42em;
+      letter-spacing: 0.02em;
+      margin-top: 0.35rem;
+    }
+
+    .lede {
+      max-width: 36ch;
+      font-size: 1.05rem;
+      color: var(--ink-soft);
+      margin-bottom: 1.4rem;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem 1rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--leaf-deep);
+    }
+
+    .meta em {
+      font-style: normal;
+      color: var(--tomato);
+    }
+
+    .day-nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      gap: 0.4rem;
+      overflow-x: auto;
+      padding: 0.9rem 0;
+      margin: 0 -0.2rem;
+      background: linear-gradient(180deg, rgba(238, 244, 239, 0.96) 60%, rgba(238, 244, 239, 0));
+      backdrop-filter: blur(8px);
+      scrollbar-width: none;
+      animation: rise 0.9s 0.12s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .day-nav::-webkit-scrollbar { display: none; }
+
+    .day-nav a {
+      flex: 0 0 auto;
+      text-decoration: none;
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.45rem 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.55);
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .day-nav a:hover,
+    .day-nav a:focus-visible {
+      color: var(--leaf-deep);
+      border-color: var(--leaf);
+      background: #fff;
+      outline: none;
+    }
+
+    .day {
+      padding: 2.4rem 0 1.2rem;
+      border-bottom: 1px solid var(--line);
+      animation: rise 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .day:nth-child(1) { animation-delay: 0.05s; }
+    .day:nth-child(2) { animation-delay: 0.1s; }
+    .day:nth-child(3) { animation-delay: 0.15s; }
+
+    .day-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.35rem;
+      flex-wrap: wrap;
+    }
+
+    .day-head h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.55rem, 4.5vw, 2rem);
+      font-weight: 700;
+      color: var(--leaf-deep);
+    }
+
+    .kcal-total {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--tomato);
+      white-space: nowrap;
+    }
+
+    .meals {
+      display: grid;
+      gap: 1.35rem;
+    }
+
+    .meal h3 {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--leaf);
+      margin-bottom: 0.35rem;
+    }
+
+    .meal-title {
+      font-family: var(--font-display);
+      font-size: 1.22rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .meal p {
+      color: var(--ink-soft);
+      font-size: 0.95rem;
+    }
+
+    .meal-kcal {
+      display: inline-block;
+      margin-top: 0.45rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .shop {
+      padding: 2.6rem 0 1rem;
+      animation: rise 0.85s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .shop h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.55rem, 4.5vw, 2rem);
+      color: var(--leaf-deep);
+      margin-bottom: 0.5rem;
+    }
+
+    .shop > p {
+      color: var(--ink-soft);
+      margin-bottom: 1.4rem;
+      max-width: 42ch;
+    }
+
+    .shop-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 560px) {
+      .shop-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .shop-block h3 {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--tomato);
+      margin-bottom: 0.55rem;
+    }
+
+    .shop-block ul {
+      list-style: none;
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .shop-block li {
+      position: relative;
+      padding-left: 1.1rem;
+      color: var(--ink-soft);
+      font-size: 0.95rem;
+    }
+
+    .shop-block li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 50%;
+      background: var(--butter);
+      box-shadow: inset 0 0 0 1px rgba(28, 42, 34, 0.25);
+    }
+
+    .note {
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+    }
+
+    .note strong { color: var(--ink); font-weight: 700; }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <h1 class="brand">Меню на неделю<span>для Мариса и Оли</span></h1>
+      <p class="lede">Завтрак, обед и ужин на 7 дней. До 2000 ккал в день на человека. Всё из обычной пятёрочки.</p>
+      <div class="meta">
+        <span>~1850–1980 ккал / день</span>
+        <span>·</span>
+        <span>продукты из <em>Пятёрочки</em></span>
+      </div>
+    </header>
+
+    <nav class="day-nav" aria-label="Дни недели">
+      <a href="#pon">Пн</a>
+      <a href="#vtr">Вт</a>
+      <a href="#sre">Ср</a>
+      <a href="#cht">Чт</a>
+      <a href="#pya">Пт</a>
+      <a href="#sub">Сб</a>
+      <a href="#vos">Вс</a>
+      <a href="#spisok">Список</a>
+    </nav>
+
+    <section class="day" id="pon">
+      <div class="day-head">
+        <h2>Понедельник</h2>
+        <span class="kcal-total">≈ 1890 ккал</span>
+      </div>
+      <div class="meals">
+        <article class="meal">
+          <h3>Завтрак</h3>
+          <p class="meal-title">Овсянка на молоке с бананом</p>
+          <p>Овсянка 60 г, молоко 2,5% 200 мл, банан, чайная ложка мёда.</p>
+          <span class="meal-kcal">≈ 420 ккал</span>
+        </article>
+        <article class="meal">
+          <h3>Обед</h3>
+          <p class="meal-title">Куриный суп и гречка с котлетой</p>
+          <p>Суп на курином филе с картофелем и морковью (тарелка), гречка 70 г сухого, куриная котлета ~120 г, огурец.</p>
+          <span class="meal-kcal">≈ 780 ккал</span>
+        </article>
+        <article class="meal">
+          <h3>Ужин</h3>
+          <p class="meal-title">Омлет с овощами и хлеб</p>
+          <p>2 яйца, помидор, зелень, сыр 30 г, хлеб тостовый 2 ломтика, чай.</p>
+          <span class="meal-kcal">≈ 690 ккал</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="day" id="vtr">
+      <div class="day-head">
+        <h2>Вторник</h2>
+        <span class="kcal-total">≈ 1920 ккал</span>
+      </div>
+      <div class="meals">
+        <article class="meal">
+          <h3>Завтрак</h3>
+          <p class="meal-title">Творог с ягодами и хлебцами</p>
+          <p>Творог 5% 200 г, замороженные ягоды 80 г, мёд, 2 рисовых хлебца.</p>
+          <span class="meal-kcal">≈ 450 ккал</span>
+        </article>
+        <article class="meal">
+          <h3>Обед</h3>
+          <p class="meal-title">Макароны с фаршем и салат</p>
+          <p>Макароны 90 г сухого, фарш говяжий 150 г, лук, томатная паста, салат из капусты и моркови.</p>
+          <span class="meal-kcal">≈ 820 ккал</span>
+        </article>
+        <article class="meal">
+          <h3>Ужин</h3>
+          <p class="meal-title">Рыба с рисом и овощами</p>
+          <p>Филе минтая или трески 180 г, рис 60 г сухого, замороженная овощная смесь, масло 1 ч. л.</p>
+          <span class="meal-kcal">≈ 650 ккал</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="day" id="sre">
+      <div class="day-head">
+        <h2>Среда</h2>
+        <span class="kcal-total">≈ 1860 ккал</span>
+      </div>
+      <div class="meals">
+        <article class="meal">
+          <h3>Завтрак</h3>
+          <p class="meal-title">Яичница и бутерброд с сыром</p>
+          <p>2 яйца, хлеб 2 ломтика, сыр 40 г, помидор, чай с сахаром.</p>
+          <span class="meal-kcal">≈ 510 ккал</span>
+        </article>
+        <article class="meal">
+          <h3>Обед</h3>
+          <p class="meal-title">Картофельное пюре с курицей</p>
+          <p>Картофель 250 г, куриное филе 180 г, сметана 1 ст. л., огурцы свежие, зелень.</p>
+          <span class="meal-kcal">≈ 740 ккал</span>
+        </article>
+        <article class="meal">
+          <h3>Ужин</h3>
+          <p class="meal-title">Салат с тунцом и хлеб</p>
+          <p>Консервы тунец в собственном соку, яйцо, огурец, лист салата/капуста, хлеб 2 ломтика.</p>
+          <span class="meal-kcal">≈ 610 ккал</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="day" id="cht">
+      <div class="day-head">
+        <h2>Четверг</h2>
+        <span class="kcal-total">≈ 1950 ккал</span>
+      </div>
+      <div class="meals">
+        <article class="meal">
+          <h3>Завтрак</h3>
+          <p class="meal-title">Сырники со сметаной</p>
+          <p>Сырники из творога ~250 г готовых (или домашние), сметана 2 ст. л., яблоко.</p>
+          <span class="meal-kcal">≈ 540 ккал</span>
+        </article>
+        <article class="meal">
+          <h3>Обед</h3>
+          <p class="meal-title">Борщ и гречка с яйцом</p>
+          <p>Тарелка борща (свёкла, капуста, картофель, немного мяса), гречка 70 г, варёное яйцо, хлеб.</p>
+          <span class="meal-kcal">≈ 780 ккал</span>
+        </article>
+        <article class="meal">
+          <h3>Ужин</h3>
+          <p class="meal-title">Куриные тефтели с овощами</p>
+          <p>Тефтели из куриного фарша 180 г, кабачки или замороженные овощи, рис 40 г сухого.</p>
+          <span class="meal-kcal">≈ 630 ккал</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="day" id="pya">
+      <div class="day-head">
+        <h2>Пятница</h2>
+        <span class="kcal-total">≈ 1910 ккал</span>
+      </div>
+      <div class="meals">
+        <article class="meal">
+          <h3>Завтрак</h3>
+          <p class="meal-title">Бутерброды с маслом и колбасой + кефир</p>
+          <p>Хлеб 2 ломтика, масло, варёная колбаса 40 г, огурец, кефир 1% 250 мл.</p>
+          <span class="meal-kcal">≈ 480 ккал</span>
+        </article>
+        <article class="meal">
+          <h3>Обед</h3>
+          <p class="meal-title">Плов с курицей</p>
+          <p>Рис 80 г сухого, куриное филе 160 г, морковь, лук, специи. Салат из свежих овощей.</p>
+          <span class="meal-kcal">≈ 820 ккал</span>
+        </article>
+        <article class="meal">
+          <h3>Ужин</h3>
+          <p class="meal-title">Творожная запеканка и йогурт</p>
+          <p>Запеканка из творога ~200 г порция, натуральный йогурт 125 г, горсть изюма или ягоды.</p>
+          <span class="meal-kcal">≈ 610 ккал</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="day" id="sub">
+      <div class="day-head">
+        <h2>Суббота</h2>
+        <span class="kcal-total">≈ 1980 ккал</span>
+      </div>
+      <div class="meals">
+        <article class="meal">
+          <h3>Завтрак</h3>
+          <p class="meal-title">Блины с творогом</p>
+          <p>3–4 тонких блина (мука, молоко, яйцо), творог 100 г, сметана 1 ст. л., чай.</p>
+          <span class="meal-kcal">≈ 560 ккал</span>
+        </article>
+        <article class="meal">
+          <h3>Обед</h3>
+          <p class="meal-title">Жареная картошка с котлетой</p>
+          <p>Картофель 220 г, котлета из фарша ~120 г, квашеная капуста или огурец, хлеб.</p>
+          <span class="meal-kcal">≈ 850 ккал</span>
+        </article>
+        <article class="meal">
+          <h3>Ужин</h3>
+          <p class="meal-title">Овощной салат с курицей</p>
+          <p>Куриное филе 150 г (отварить/запечь), помидор, огурец, лист салата, масло 1 ч. л., хлебец.</p>
+          <span class="meal-kcal">≈ 570 ккал</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="day" id="vos">
+      <div class="day-head">
+        <h2>Воскресенье</h2>
+        <span class="kcal-total">≈ 1870 ккал</span>
+      </div>
+      <div class="meals">
+        <article class="meal">
+          <h3>Завтрак</h3>
+          <p class="meal-title">Каша пшённая с маслом и яблоком</p>
+          <p>Пшено 60 г, молоко 200 мл, масло сливочное 10 г, яблоко.</p>
+          <span class="meal-kcal">≈ 470 ккал</span>
+        </article>
+        <article class="meal">
+          <h3>Обед</h3>
+          <p class="meal-title">Пельмени со сметаной и салат</p>
+          <p>Пельмени ~250 г готовых, сметана 2 ст. л., салат из капусты с морковью и маслом.</p>
+          <span class="meal-kcal">≈ 790 ккал</span>
+        </article>
+        <article class="meal">
+          <h3>Ужин</h3>
+          <p class="meal-title">Рыбные котлеты с гречкой</p>
+          <p>Котлеты из минтая 2 шт (~160 г), гречка 60 г сухого, тушёная морковь или горошек.</p>
+          <span class="meal-kcal">≈ 610 ккал</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="shop" id="spisok">
+      <h2>Список в Пятёрочку</h2>
+      <p>На двоих на неделю — берите привычные позиции с полки, без экзотики.</p>
+      <div class="shop-grid">
+        <div class="shop-block">
+          <h3>Мясо и рыба</h3>
+          <ul>
+            <li>Куриное филе</li>
+            <li>Фарш куриный / говяжий</li>
+            <li>Варёная колбаса</li>
+            <li>Филе минтая или трески</li>
+            <li>Тунец в собственном соку</li>
+            <li>Пельмени</li>
+          </ul>
+        </div>
+        <div class="shop-block">
+          <h3>Молочка и яйца</h3>
+          <ul>
+            <li>Молоко 2,5%</li>
+            <li>Кефир 1%</li>
+            <li>Творог 5%</li>
+            <li>Сметана 15–20%</li>
+            <li>Йогурт натуральный</li>
+            <li>Сыр, яйца, масло сливочное</li>
+          </ul>
+        </div>
+        <div class="shop-block">
+          <h3>Крупы и хлеб</h3>
+          <ul>
+            <li>Овсянка, гречка, рис, пшено</li>
+            <li>Макароны</li>
+            <li>Мука (на блины)</li>
+            <li>Хлеб / тостовый хлеб</li>
+            <li>Рисовые хлебцы</li>
+          </ul>
+        </div>
+        <div class="shop-block">
+          <h3>Овощи и прочее</h3>
+          <ul>
+            <li>Картофель, морковь, лук, капуста</li>
+            <li>Помидоры, огурцы, свёкла</li>
+            <li>Замороженные овощи и ягоды</li>
+            <li>Бананы, яблоки</li>
+            <li>Томатная паста, мёд, чай, масло</li>
+          </ul>
+        </div>
+      </div>
+      <p class="note">
+        <strong>Как считать:</strong> калории — ориентир на порцию на одного человека.
+        Готовьте на двоих, просто удвойте продукты. Если день выходит плотнее 2000 —
+        уберите хлеб или уменьшите крупу на ужин.
+      </p>
+    </section>
+  </main>
+</body>
+</html>

@@ -32,7 +32,7 @@ atfm.github.io/
 | [prikin.html](https://atfm.github.io/prikin.html) | Мем: Козловский-викинг и бегающие буквы ПРИКИНЬ!!!!!! |
 | [zarplata.html](https://atfm.github.io/zarplata.html) | Счётчик зарплаты: сегодня / неделя / месяц / год |
 | [zarplata-2.html](https://atfm.github.io/zarplata-2.html) | Счётчик «заработала»: 9:00–18:00 без обеда |
-| [menu-nedeli.html](https://atfm.github.io/menu-nedeli.html) | Меню на неделю: завтрак, обед, ужин ≤2000 ккал, Пятёрочка |
+| [menu-nedeli.html](https://atfm.github.io/menu-nedeli.html) | Меню на неделю: 1 готовка в день, обеды из запаса, ≤2000 ккал |
 | [afisha/2026-07-19.html](https://atfm.github.io/afisha/2026-07-19.html) | Куда сегодня: анонсы СПб на 19.07.2026 |
 | [afisha/template.html](https://atfm.github.io/afisha/template.html) | Шаблон для следующих подборок афиши |
 

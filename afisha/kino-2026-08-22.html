@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Кино сегодня — 22 августа 2026, суббота</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #232736;
+      --text: #e8eaef;
+      --muted: #8b92a8;
+      --accent: #e8c547;
+      --accent-dim: rgba(232, 197, 71, 0.15);
+      --line: rgba(255,255,255,0.08);
+      --red: #e85d5d;
+      --font-display: "Cormorant Garamond", Georgia, serif;
+      --font-body: "DM Sans", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.55;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(232,197,71,0.08), transparent),
+        radial-gradient(ellipse 60% 40% at 100% 100%, rgba(100,120,200,0.06), transparent);
+    }
+    .wrap {
+      position: relative;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+    header {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--line);
+    }
+    h1 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 7vw, 3.4rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+    h1 span { color: var(--accent); }
+    .lede {
+      margin: 0.75rem 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 36rem;
+    }
+    .stats {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .stats strong { color: var(--accent); }
+    .filters {
+      display: grid;
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+      padding: 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+    .filter-group h3 {
+      margin: 0 0 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+    }
+    .chk {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.88rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .chk input { accent-color: var(--accent); }
+    .time-filter {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .time-filter label { font-size: 0.88rem; color: var(--muted); }
+    .time-filter input[type=range] {
+      flex: 1;
+      min-width: 140px;
+      max-width: 280px;
+      accent-color: var(--accent);
+    }
+    .time-value {
+      font-weight: 600;
+      color: var(--accent);
+      min-width: 3rem;
+    }
+    .exclude-ru {
+      padding: 0.5rem 0.85rem;
+      background: var(--accent-dim);
+      border: 1px solid rgba(232,197,71,0.3);
+      border-radius: 8px;
+      font-size: 0.88rem;
+    }
+    .exclude-ru input { margin-right: 0.4rem; accent-color: var(--accent); }
+    .film-list { display: grid; gap: 1rem; }
+    .film-card {
+      padding: 1.25rem 1.35rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      transition: border-color 0.2s, opacity 0.25s;
+    }
+    .film-card[hidden] { display: none; }
+    .film-card:hover { border-color: rgba(232,197,71,0.25); }
+    .film-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+    .film-title {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 1.65rem;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+    .btn-trailer {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: var(--surface2);
+      color: var(--text);
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+    .btn-trailer:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .film-meta {
+      margin: 0.4rem 0 0;
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .film-desc {
+      margin: 0.75rem 0 1rem;
+      color: #b8bfce;
+      font-size: 0.95rem;
+    }
+    .showtimes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+    .showtime {
+      display: inline-block;
+      padding: 0.35rem 0.7rem;
+      background: var(--surface2);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.84rem;
+      font-weight: 500;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .showtime:hover {
+      background: var(--accent-dim);
+      border-color: rgba(232,197,71,0.4);
+      color: var(--accent);
+    }
+    .empty {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted);
+      display: none;
+    }
+    .empty.visible { display: block; }
+    .sources {
+      margin-top: 2.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .sources a { color: var(--accent); text-decoration: none; }
+    .sources a:hover { text-decoration: underline; }
+    .note {
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      position: relative;
+      width: min(900px, 100%);
+      background: var(--surface);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .modal-header h3 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+    }
+    .modal-close {
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 1.5rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0.25rem;
+    }
+    .modal-close:hover { color: var(--text); }
+    .modal-video {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      background: #000;
+    }
+    .modal-video iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Кино <span>сегодня</span></h1>
+      <p class="lede">Расписание на 22 августа 2026, суббота — сеансы с 14:00 в ваших любимых кинотеатрах Петербурга.</p>
+      <p class="stats">Показано: <strong id="visible-count">37</strong> из <strong>37</strong> фильмов</p>
+    </header>
+
+    <section class="filters" aria-label="Фильтры">
+      <div class="filter-group">
+        <h3>Кинотеатр</h3>
+        <div class="filter-row"><label class="chk"><input type="checkbox" class="cinema-chk" value="mirage-bolshoy" checked> Мираж на Большом</label><label class="chk"><input type="checkbox" class="cinema-chk" value="mirage-pik" checked> Мираж ПИК</label><label class="chk"><input type="checkbox" class="cinema-chk" value="avrora" checked> Аврора</label><label class="chk"><input type="checkbox" class="cinema-chk" value="rodina" checked> Родина</label><label class="chk"><input type="checkbox" class="cinema-chk" value="domkino" checked> Дом Кино</label></div>
+      </div>
+      <div class="filter-group">
+        <h3>Не раньше</h3>
+        <div class="time-filter">
+          <label for="time-range">Время сеанса</label>
+          <input type="range" id="time-range" min="840" max="1410" step="5" value="840" />
+          <span class="time-value" id="time-label">14:00</span>
+        </div>
+      </div>
+      <div class="filter-group">
+        <h3>Страна</h3>
+        <label class="exclude-ru">
+          <input type="checkbox" id="exclude-ru" /> Скрыть российское кино
+        </label>
+        <div class="filter-row" style="margin-top:0.6rem"><label class="chk"><input type="checkbox" class="country-chk" value="Австралия" checked> Австралия</label><label class="chk"><input type="checkbox" class="country-chk" value="Бельгия" checked> Бельгия</label><label class="chk"><input type="checkbox" class="country-chk" value="Великобритания" checked> Великобритания</label><label class="chk"><input type="checkbox" class="country-chk" value="Индия" checked> Индия</label><label class="chk"><input type="checkbox" class="country-chk" value="Италия" checked> Италия</label><label class="chk"><input type="checkbox" class="country-chk" value="Канада" checked> Канада</label><label class="chk"><input type="checkbox" class="country-chk" value="Китай" checked> Китай</label><label class="chk"><input type="checkbox" class="country-chk" value="Не указано" checked> Не указано</label><label class="chk"><input type="checkbox" class="country-chk" value="Россия" checked> Россия</label><label class="chk"><input type="checkbox" class="country-chk" value="США" checked> США</label><label class="chk"><input type="checkbox" class="country-chk" value="Франция" checked> Франция</label><label class="chk"><input type="checkbox" class="country-chk" value="ЮАР" checked> ЮАР</label><label class="chk"><input type="checkbox" class="country-chk" value="Япония" checked> Япония</label></div>
+      </div>
+    </section>
+
+    <div class="film-list" id="film-list">
+
+        <article class="film-card" data-countries="не указано" data-russian="false"
+          data-cinemas="rodina" data-min-time="19:00" data-times="19:00">
+          <div class="film-top">
+            <h2 class="film-title">2046. АртПоказ</h2>
+            
+          </div>
+          <p class="film-meta">Не указано</p>
+          <p class="film-desc">Арт-house и коммерческий прокат.</p>
+          <div class="showtimes"><a class="showtime" href="https://rodinakino.ru/?date=2026/08/22&amp;facility=rodina#2026/08/22%2019:00" target="_blank" rel="noopener" data-cinema="rodina">Родина · 19:00</a></div>
+        </article>
+        <article class="film-card" data-countries="сша" data-russian="false"
+          data-cinemas="avrora,domkino" data-min-time="19:35" data-times="19:35,21:05">
+          <div class="film-top">
+            <h2 class="film-title">40 свиданий, 40 ночей</h2>
+            
+          </div>
+          <p class="film-meta">США · мелодрама, комедия</p>
+          <p class="film-desc">Романтическая комедия о девушке, которая решает провести сорок свиданий за сорок ночей.</p>
+          <div class="showtimes"><a class="showtime" href="https://avrora.spb.ru/release/25487?date=2026-08-22" target="_blank" rel="noopener" data-cinema="avrora">Аврора · 19:35</a><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 21:05</a></div>
+        </article>
+        <article class="film-card" data-countries="сша" data-russian="false"
+          data-cinemas="domkino" data-min-time="20:35" data-times="20:35">
+          <div class="film-top">
+            <h2 class="film-title">Апокалипсис сегодня</h2>
+            <button type="button" class="btn-trailer" data-trailer="9lVdBUm6YlY" data-title="Апокалипсис сегодня">▶ Трейлер</button>
+          </div>
+          <p class="film-meta">США · военный, драма, исторический, боевик</p>
+          <p class="film-desc">Культовая антивоенная драма Копполы о миссии в джунглях Вьетнама.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 20:35</a></div>
+        </article>
+        <article class="film-card" data-countries="не указано" data-russian="false"
+          data-cinemas="rodina" data-min-time="17:20" data-times="17:20">
+          <div class="film-top">
+            <h2 class="film-title">Большая арка</h2>
+            
+          </div>
+          <p class="film-meta">Не указано</p>
+          <p class="film-desc">Драма о судьбе человека на фоне исторических событий.</p>
+          <div class="showtimes"><a class="showtime" href="https://rodinakino.ru/?date=2026/08/22&amp;facility=rodina#2026/08/22%2017:20" target="_blank" rel="noopener" data-cinema="rodina">Родина · 17:20</a></div>
+        </article>
+        <article class="film-card" data-countries="италия, франция" data-russian="false"
+          data-cinemas="domkino" data-min-time="17:55" data-times="17:55">
+          <div class="film-top">
+            <h2 class="film-title">Великая красота</h2>
+            <button type="button" class="btn-trailer" data-trailer="8hZ5U4h6m10" data-title="Великая красота">▶ Трейлер</button>
+          </div>
+          <p class="film-meta">Италия, Франция · драма, комедия</p>
+          <p class="film-desc">Рим, роскошные вечеринки и размышления о жизни — фильм Пaolo Sorrentino.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 17:55</a></div>
+        </article>
+        <article class="film-card" data-countries="не указано" data-russian="false"
+          data-cinemas="rodina" data-min-time="17:10" data-times="17:10">
+          <div class="film-top">
+            <h2 class="film-title">Влюбись в меня, если осмелишься</h2>
+            
+          </div>
+          <p class="film-meta">Не указано</p>
+          <p class="film-desc">Арт-house и коммерческий прокат.</p>
+          <div class="showtimes"><a class="showtime" href="https://rodinakino.ru/?date=2026/08/22&amp;facility=rodina#2026/08/22%2017:10" target="_blank" rel="noopener" data-cinema="rodina">Родина · 17:10</a></div>
+        </article>
+        <article class="film-card" data-countries="не указано" data-russian="false"
+          data-cinemas="rodina" data-min-time="17:15" data-times="17:15">
+          <div class="film-top">
+            <h2 class="film-title">Время сиять</h2>
+            
+          </div>
+          <p class="film-meta">Не указано</p>
+          <p class="film-desc">Драма о поиске себя и своего места в жизни.</p>
+          <div class="showtimes"><a class="showtime" href="https://rodinakino.ru/?date=2026/08/22&amp;facility=rodina#2026/08/22%2017:15" target="_blank" rel="noopener" data-cinema="rodina">Родина · 17:15</a></div>
+        </article>
+        <article class="film-card" data-countries="великобритания, сша, италия" data-russian="false"
+          data-cinemas="domkino" data-min-time="15:20" data-times="15:20">
+          <div class="film-top">
+            <h2 class="film-title">Госфорд Парк</h2>
+            <button type="button" class="btn-trailer" data-trailer="P6Xcz76gLkE" data-title="Госфорд Парк">▶ Трейлер</button>
+          </div>
+          <p class="film-meta">Великобритания, США, Италия · драма, комедия</p>
+          <p class="film-desc">Классический детектив Роберта Олтмена на английской усадьбе.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 15:20</a></div>
+        </article>
+        <article class="film-card" data-countries="япония" data-russian="false"
+          data-cinemas="domkino" data-min-time="19:05" data-times="19:05">
+          <div class="film-top">
+            <h2 class="film-title">Демонолог</h2>
+            
+          </div>
+          <p class="film-meta">Япония · хоррор</p>
+          <p class="film-desc">Японский хоррор о расследовании сверхъестественных явлений.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 19:05</a></div>
+        </article>
+        <article class="film-card" data-countries="австралия" data-russian="false"
+          data-cinemas="domkino" data-min-time="16:30" data-times="16:30">
+          <div class="film-top">
+            <h2 class="film-title">Ешь. Молись. Худей</h2>
+            
+          </div>
+          <p class="film-meta">Австралия · ужасы, фантастика, драма</p>
+          <p class="film-desc">Фантастическая драма об одержимости идеальным телом.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 16:30</a></div>
+        </article>
+        <article class="film-card" data-countries="китай" data-russian="false"
+          data-cinemas="avrora,mirage-bolshoy,mirage-pik,rodina" data-min-time="17:00" data-times="17:00,17:35,19:20,20:50,21:05">
+          <div class="film-top">
+            <h2 class="film-title">Жертва обстоятельств</h2>
+            
+          </div>
+          <p class="film-meta">Китай · комедия, боевик, приключения</p>
+          <p class="film-desc">Остросюжетная сатира о том, как одно необдуманное действие запускает цепочку неожиданных последствий.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.mirage.ru/ticket_new/9dca5de3-757e-41a5-b618-7d0391ee325c/" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 17:00</a><a class="showtime" href="https://avrora.spb.ru/release/25835?date=2026-08-22" target="_blank" rel="noopener" data-cinema="avrora">Аврора · 17:35</a><a class="showtime" href="https://rodinakino.ru/?date=2026/08/22&amp;facility=rodina#2026/08/22%2019:20" target="_blank" rel="noopener" data-cinema="rodina">Родина · 19:20</a><a class="showtime" href="https://www.mirage.ru/ticket_new/1d98edfd-003b-cd59-e957-739802965f19/" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 20:50</a><a class="showtime" href="https://www.mirage.ru/ticket_new/687a3c04-9ad1-4fb9-ab6b-f9fe55d48041/" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 21:05</a></div>
+        </article>
+        <article class="film-card" data-countries="китай" data-russian="false"
+          data-cinemas="rodina" data-min-time="15:20" data-times="15:20">
+          <div class="film-top">
+            <h2 class="film-title">Жертва обстоятельств (версия с субтитрами)</h2>
+            
+          </div>
+          <p class="film-meta">Китай</p>
+          <p class="film-desc">Остросюжетная сатира — версия с субтитрами.</p>
+          <div class="showtimes"><a class="showtime" href="https://rodinakino.ru/?date=2026/08/22&amp;facility=rodina#2026/08/22%2015:20" target="_blank" rel="noopener" data-cinema="rodina">Родина · 15:20</a></div>
+        </article>
+        <article class="film-card" data-countries="не указано" data-russian="false"
+          data-cinemas="rodina" data-min-time="15:00" data-times="15:00">
+          <div class="film-top">
+            <h2 class="film-title">Закулисье реальности</h2>
+            
+          </div>
+          <p class="film-meta">Не указано</p>
+          <p class="film-desc">Фильм о границе между реальностью и вымыслом.</p>
+          <div class="showtimes"><a class="showtime" href="https://rodinakino.ru/?date=2026/08/22&amp;facility=rodina#2026/08/22%2015:00" target="_blank" rel="noopener" data-cinema="rodina">Родина · 15:00</a></div>
+        </article>
+        <article class="film-card" data-countries="сша, юар, индия" data-russian="false"
+          data-cinemas="avrora,domkino" data-min-time="14:15" data-times="14:15,21:35">
+          <div class="film-top">
+            <h2 class="film-title">Запределье</h2>
+            <button type="button" class="btn-trailer" data-trailer="L9i4kscV9fA" data-title="Запределье">▶ Трейлер</button>
+          </div>
+          <p class="film-meta">США, ЮАР, Индия · приключения</p>
+          <p class="film-desc">Визуально завораживающая сказка Тarsem Singh о больном мальчике и циркачке.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 14:15</a><a class="showtime" href="https://avrora.spb.ru/release/21935?date=2026-08-22" target="_blank" rel="noopener" data-cinema="avrora">Аврора · 21:35</a></div>
+        </article>
+        <article class="film-card" data-countries="сша, япония, италия" data-russian="false"
+          data-cinemas="domkino" data-min-time="16:45" data-times="16:45">
+          <div class="film-top">
+            <h2 class="film-title">Кофе и сигареты (субтитры)</h2>
+            <button type="button" class="btn-trailer" data-trailer="OAa7C0fQKmU" data-title="Кофе и сигареты (субтитры)">▶ Трейлер</button>
+          </div>
+          <p class="film-meta">США, Япония, Италия · драма, комедия, музыка</p>
+          <p class="film-desc">Антология коротких историй Джима Джarmush о разговорах за чашкой кофe.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 16:45</a></div>
+        </article>
+        <article class="film-card" data-countries="сша" data-russian="false"
+          data-cinemas="mirage-bolshoy" data-min-time="23:00" data-times="23:00">
+          <div class="film-top">
+            <h2 class="film-title">Майкл</h2>
+            
+          </div>
+          <p class="film-meta">США · драма, биография, музыка</p>
+          <p class="film-desc">Биографическая драма о жизни и творчестве легендарного музыканта.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.mirage.ru/ticket_new/988dce18-98df-da74-5273-51927d9575b2/" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 23:00</a></div>
+        </article>
+        <article class="film-card" data-countries="франция" data-russian="false"
+          data-cinemas="domkino" data-min-time="15:10" data-times="15:10">
+          <div class="film-top">
+            <h2 class="film-title">Мегрэ и убийство в высшем обществе</h2>
+            
+          </div>
+          <p class="film-meta">Франция · детектив</p>
+          <p class="film-desc">Детектив о комиссаре Мегрэ и загадочном убийстве в аristократических кругах.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 15:10</a></div>
+        </article>
+        <article class="film-card" data-countries="сша" data-russian="false"
+          data-cinemas="mirage-pik" data-min-time="14:05" data-times="14:05">
+          <div class="film-top">
+            <h2 class="film-title">Миньоны и монстры</h2>
+            <button type="button" class="btn-trailer" data-trailer="qSqVVswa420" data-title="Миньоны и монстры">▶ Трейлер</button>
+          </div>
+          <p class="film-meta">США · комедия, фантастика, мультфильм, криминал</p>
+          <p class="film-desc">Комедийное приключение жёлтых помощников, столкнувшихся с монстрами из другого измерения.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.mirage.ru/ticket_new/dd6ebb70-e158-480d-aec3-bbaf79a2c02a/" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 14:05</a></div>
+        </article>
+        <article class="film-card" data-countries="сша" data-russian="false"
+          data-cinemas="mirage-bolshoy,mirage-pik" data-min-time="18:40" data-times="18:40,22:30,23:10">
+          <div class="film-top">
+            <h2 class="film-title">Мотор Сити</h2>
+            <button type="button" class="btn-trailer" data-trailer="dQw4w9WgXcQ" data-title="Мотор Сити">▶ Трейлер</button>
+          </div>
+          <p class="film-meta">США · боевик, детектив, триллер</p>
+          <p class="film-desc">Детективный триллер о расследовании преступлений в мегаполисе будущего.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.mirage.ru/ticket_new/fa3dade3-a493-05f2-7f64-203452ac954c/" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 18:40</a><a class="showtime" href="https://www.mirage.ru/ticket_new/5a025524-cf1c-49cb-89ca-9f6f3d282bc5/" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 22:30</a><a class="showtime" href="https://www.mirage.ru/ticket_new/988c0684-0c16-4361-b383-f7e05b2c8073/" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 23:10</a></div>
+        </article>
+        <article class="film-card" data-countries="не указано" data-russian="false"
+          data-cinemas="rodina" data-min-time="21:05" data-times="21:05">
+          <div class="film-top">
+            <h2 class="film-title">Мошенники</h2>
+            
+          </div>
+          <p class="film-meta">Не указано</p>
+          <p class="film-desc">Комедия о аферистах и их неожиданных планах.</p>
+          <div class="showtimes"><a class="showtime" href="https://rodinakino.ru/?date=2026/08/22&amp;facility=rodina#2026/08/22%2021:05" target="_blank" rel="noopener" data-cinema="rodina">Родина · 21:05</a></div>
+        </article>
+        <article class="film-card" data-countries="франция" data-russian="false"
+          data-cinemas="domkino" data-min-time="17:10" data-times="17:10">
+          <div class="film-top">
+            <h2 class="film-title">Мужчина и женщина (субтитры)</h2>
+            
+          </div>
+          <p class="film-meta">Франция · драма</p>
+          <p class="film-desc">Классика французского кино о встрече двух людей.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 17:10</a></div>
+        </article>
+        <article class="film-card" data-countries="не указано" data-russian="false"
+          data-cinemas="rodina" data-min-time="21:15" data-times="21:15">
+          <div class="film-top">
+            <h2 class="film-title">На последнем дыхании</h2>
+            <button type="button" class="btn-trailer" data-trailer="J2s3nJ4qZ3Q" data-title="На последнем дыхании">▶ Трейлер</button>
+          </div>
+          <p class="film-meta">Не указано</p>
+          <p class="film-desc">Классика французской новой волны Godard.</p>
+          <div class="showtimes"><a class="showtime" href="https://rodinakino.ru/?date=2026/08/22&amp;facility=rodina#2026/08/22%2021:15" target="_blank" rel="noopener" data-cinema="rodina">Родина · 21:15</a></div>
+        </article>
+        <article class="film-card" data-countries="франция, италия" data-russian="false"
+          data-cinemas="domkino" data-min-time="21:00" data-times="21:00">
+          <div class="film-top">
+            <h2 class="film-title">На ярком солнце</h2>
+            
+          </div>
+          <p class="film-meta">Франция, Италия · драма, триллер</p>
+          <p class="film-desc">Классический триллер с Alain Delon по роману Пatrícia Highsmith.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 21:00</a></div>
+        </article>
+        <article class="film-card" data-countries="россия" data-russian="true"
+          data-cinemas="avrora,domkino" data-min-time="19:15" data-times="19:15,22:00">
+          <div class="film-top">
+            <h2 class="film-title">Непокой</h2>
+            
+          </div>
+          <p class="film-meta">Россия · триллер, анимация</p>
+          <p class="film-desc">Анимационный триллер о таинственных событиях в маленьком городке.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 19:15</a><a class="showtime" href="https://avrora.spb.ru/release/25683?date=2026-08-22" target="_blank" rel="noopener" data-cinema="avrora">Аврора · 22:00</a></div>
+        </article>
+        <article class="film-card" data-countries="сша" data-russian="false"
+          data-cinemas="mirage-bolshoy,mirage-pik" data-min-time="15:10" data-times="15:10,16:00,17:50,18:30,19:10,19:15,21:50,22:30">
+          <div class="film-top">
+            <h2 class="film-title">Одиссея</h2>
+            <button type="button" class="btn-trailer" data-trailer="L5V6AiJV0yU" data-title="Одиссея">▶ Трейлер</button>
+          </div>
+          <p class="film-meta">США · боевик, приключения, фэнтези</p>
+          <p class="film-desc">Эпическая история о герое Троянской войны, который долгие годы борется за возвращение домой.</p>
+          <div class="showtimes"><a class="showtime" href="" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 15:10</a><a class="showtime" href="https://www.mirage.ru/ticket_new/03be3f7e-37e2-4f9f-b63b-d73c87867a27/" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 16:00</a><a class="showtime" href="" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 17:50</a><a class="showtime" href="https://www.mirage.ru/ticket_new/3cc87994-b165-4cf5-a540-6fd526d6749c/" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 18:30</a><a class="showtime" href="" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 19:10</a><a class="showtime" href="https://www.mirage.ru/ticket_new/550a50bc-0490-4994-abf5-6465f46271e7/" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 19:15</a><a class="showtime" href="https://www.mirage.ru/ticket_new/67b54e83-1dcb-45f7-8bd1-0d8dbd78d447/" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 21:50</a><a class="showtime" href="https://www.mirage.ru/ticket_new/471ec472-1897-4560-a22d-820ebff51511/" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 22:30</a></div>
+        </article>
+        <article class="film-card" data-countries="сша" data-russian="false"
+          data-cinemas="domkino,rodina" data-min-time="19:05" data-times="19:05,21:20">
+          <div class="film-top">
+            <h2 class="film-title">Он меня (не) любит</h2>
+            
+          </div>
+          <p class="film-meta">США · комедия</p>
+          <p class="film-desc">Романтическая комедия об отношениях и недопонимании.</p>
+          <div class="showtimes"><a class="showtime" href="https://rodinakino.ru/?date=2026/08/22&amp;facility=rodina#2026/08/22%2019:05" target="_blank" rel="noopener" data-cinema="rodina">Родина · 19:05</a><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 21:20</a></div>
+        </article>
+        <article class="film-card" data-countries="франция, италия, бельгия" data-russian="false"
+          data-cinemas="avrora" data-min-time="14:55" data-times="14:55">
+          <div class="film-top">
+            <h2 class="film-title">Параллельные истории</h2>
+            
+          </div>
+          <p class="film-meta">Франция, Италия, Бельгия · триллер</p>
+          <p class="film-desc">Триллер Асгара Фархади: судьбы людей переплетаются в неожиданных обстоятельствах.</p>
+          <div class="showtimes"><a class="showtime" href="https://avrora.spb.ru/release/25596?date=2026-08-22" target="_blank" rel="noopener" data-cinema="avrora">Аврора · 14:55</a></div>
+        </article>
+        <article class="film-card" data-countries="франция, италия, бельгия" data-russian="false"
+          data-cinemas="domkino" data-min-time="20:45" data-times="20:45">
+          <div class="film-top">
+            <h2 class="film-title">Параллельные истории (субтитры)</h2>
+            
+          </div>
+          <p class="film-meta">Франция, Италия, Бельгия · триллер</p>
+          <p class="film-desc">Триллер Асгара Фархади с субтитрами.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 20:45</a></div>
+        </article>
+        <article class="film-card" data-countries="россия" data-russian="true"
+          data-cinemas="domkino" data-min-time="15:25" data-times="15:25">
+          <div class="film-top">
+            <h2 class="film-title">Питер ФМ</h2>
+            
+          </div>
+          <p class="film-meta">Россия · мелодрама, комедия</p>
+          <p class="film-desc">Романтическая комедия о любви и радио в Петербурге.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 15:25</a></div>
+        </article>
+        <article class="film-card" data-countries="сша, канада" data-russian="false"
+          data-cinemas="domkino" data-min-time="19:30" data-times="19:30">
+          <div class="film-top">
+            <h2 class="film-title">Полутон (субтитры)</h2>
+            
+          </div>
+          <p class="film-meta">США, Канада · ужасы, триллер, фантастика</p>
+          <p class="film-desc">Мистический триллер о семейных тайнах.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 19:30</a></div>
+        </article>
+        <article class="film-card" data-countries="россия" data-russian="true"
+          data-cinemas="mirage-pik" data-min-time="15:30" data-times="15:30">
+          <div class="film-top">
+            <h2 class="film-title">Последний богатырь. Колобок</h2>
+            
+          </div>
+          <p class="film-meta">Россия · комедия, приключения, семейный</p>
+          <p class="film-desc">Семейная комедия о новых приключениях героев русских сказок.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.mirage.ru/ticket_new/ac2c35f5-22a8-4ecb-bd1d-9d5edd9c07c8/" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 15:30</a></div>
+        </article>
+        <article class="film-card" data-countries="не указано" data-russian="false"
+          data-cinemas="rodina" data-min-time="21:00" data-times="21:00">
+          <div class="film-top">
+            <h2 class="film-title">Последний рубеж</h2>
+            
+          </div>
+          <p class="film-meta">Не указано</p>
+          <p class="film-desc">Боевик о противостоянии на границе возможного.</p>
+          <div class="showtimes"><a class="showtime" href="https://rodinakino.ru/?date=2026/08/22&amp;facility=rodina#2026/08/22%2021:00" target="_blank" rel="noopener" data-cinema="rodina">Родина · 21:00</a></div>
+        </article>
+        <article class="film-card" data-countries="франция" data-russian="false"
+          data-cinemas="domkino" data-min-time="16:45" data-times="16:45">
+          <div class="film-top">
+            <h2 class="film-title">Посторонний (субтитры)</h2>
+            
+          </div>
+          <p class="film-meta">Франция · драма</p>
+          <p class="film-desc">Экранизация романа Камю — история человека, отстранённого от мира.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 16:45</a></div>
+        </article>
+        <article class="film-card" data-countries="сша" data-russian="false"
+          data-cinemas="domkino" data-min-time="18:40" data-times="18:40">
+          <div class="film-top">
+            <h2 class="film-title">Придурки</h2>
+            
+          </div>
+          <p class="film-meta">США · комедия</p>
+          <p class="film-desc">Комедия о группе друзей, попавших в absurdную ситуацию.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 18:40</a></div>
+        </article>
+        <article class="film-card" data-countries="франция" data-russian="false"
+          data-cinemas="domkino" data-min-time="14:55" data-times="14:55">
+          <div class="film-top">
+            <h2 class="film-title">Случай с фортепиано</h2>
+            
+          </div>
+          <p class="film-meta">Франция · комедия, детектив</p>
+          <p class="film-desc">Французская комедия-детектив Кantén Dupieux.</p>
+          <div class="showtimes"><a class="showtime" href="https://www.domkino.spb.ru/" target="_blank" rel="noopener" data-cinema="domkino">Дом Кино · 14:55</a></div>
+        </article>
+        <article class="film-card" data-countries="сша" data-russian="false"
+          data-cinemas="mirage-bolshoy,mirage-pik" data-min-time="14:20" data-times="14:20,14:25,15:05,15:10,15:50,16:10,16:20,16:50,17:10,17:20,18:00,19:00,19:15,19:45,20:00,20:15,20:50,20:55,21:50,22:10,22:40,22:50,23:10,23:40,23:50">
+          <div class="film-top">
+            <h2 class="film-title">Человек-паук: Новый день</h2>
+            <button type="button" class="btn-trailer" data-trailer="s_2LTKPCQ1E" data-title="Человек-паук: Новый день">▶ Трейлер</button>
+          </div>
+          <p class="film-meta">США · боевик, фантастика, приключения, фэнтези</p>
+          <p class="film-desc">Питер Паркер сталкивается с новым злодеем и пытается совместить жизнь супергероя с личным счастьем.</p>
+          <div class="showtimes"><a class="showtime" href="" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 14:20</a><a class="showtime" href="https://www.mirage.ru/ticket_new/655420d6-0872-4d71-8ef7-72fe173bbb5a/" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 14:25</a><a class="showtime" href="https://www.mirage.ru/ticket_new/1849ce96-dc96-426f-a04d-933551433ddf/" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 15:05</a><a class="showtime" href="https://www.mirage.ru/ticket_new/1c7672a5-5b0f-499f-b752-6c68a55be92b/" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 15:10</a><a class="showtime" href="https://www.mirage.ru/ticket_new/843a4d7f-b5b1-641b-0bb8-e3c2b2e75231/" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 15:50</a><a class="showtime" href="https://www.mirage.ru/ticket_new/9128743b-cb8b-4c76-bd3c-9efcd09ffbd9/" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 16:10</a><a class="showtime" href="https://www.mirage.ru/ticket_new/428bfe03-51a5-49e3-a97d-4769ee17cd9a/" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 16:20</a><a class="showtime" href="https://www.mirage.ru/ticket_new/a7d804e3-d9d6-4f0f-9139-3e026ff4f8e7/" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 16:50</a><a class="showtime" href="https://www.mirage.ru/ticket_new/ca2fbd42-21fa-4b16-8c24-f163ae3370a8/" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 17:10</a><a class="showtime" href="https://www.mirage.ru/ticket_new/14a06112-6084-4c4c-b491-68c67a117b34/" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 17:20</a><a class="showtime" href="" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 18:00</a><a class="showtime" href="" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 18:00</a><a class="showtime" href="" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 19:00</a><a class="showtime" href="" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 19:15</a><a class="showtime" href="" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 19:45</a><a class="showtime" href="" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 20:00</a><a class="showtime" href="" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 20:15</a><a class="showtime" href="" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 20:50</a><a class="showtime" href="https://www.mirage.ru/ticket_new/4da8e79e-cf5b-4bae-b7b9-f76440f1325d/" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 20:55</a><a class="showtime" href="https://www.mirage.ru/ticket_new/291b8a36-c817-419d-9948-972d2ecfcfd3/" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 21:50</a><a class="showtime" href="" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 22:10</a><a class="showtime" href="https://www.mirage.ru/ticket_new/27f41adc-de45-46ee-8df3-d6d1f0285659/" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 22:40</a><a class="showtime" href="https://www.mirage.ru/ticket_new/4a37975f-180a-42e5-a690-f8a6e5b42798/" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 22:50</a><a class="showtime" href="https://www.mirage.ru/ticket_new/ac7f3df7-226e-4c10-a131-8c056b95878d/" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 23:10</a><a class="showtime" href="https://www.mirage.ru/ticket_new/15239792-0de1-413b-9223-521f10dcfaaa/" target="_blank" rel="noopener" data-cinema="mirage-pik">Мираж ПИК · 23:40</a><a class="showtime" href="https://www.mirage.ru/ticket_new/645d6fed-fe5b-40c1-a2af-f5c53ea31cd4/" target="_blank" rel="noopener" data-cinema="mirage-bolshoy">Мираж на Большом · 23:50</a></div>
+        </article>
+        <article class="film-card" data-countries="не указано" data-russian="false"
+          data-cinemas="rodina" data-min-time="15:05" data-times="15:05">
+          <div class="film-top">
+            <h2 class="film-title">Шёпот сердца</h2>
+            <button type="button" class="btn-trailer" data-trailer="4PvL8w1G4CU" data-title="Шёпот сердца">▶ Трейлер</button>
+          </div>
+          <p class="film-meta">Не указано</p>
+          <p class="film-desc">Трогательная история любви из студии Ghibli.</p>
+          <div class="showtimes"><a class="showtime" href="https://rodinakino.ru/?date=2026/08/22&amp;facility=rodina#2026/08/22%2015:05" target="_blank" rel="noopener" data-cinema="rodina">Родина · 15:05</a></div>
+        </article>
+    </div>
+
+    <p class="empty" id="empty-msg">Нет фильмов по выбранным фильтрам. Попробуйте изменить настройки.</p>
+
+    <footer class="sources">
+      <p>Источники расписания:
+        <a href="https://www.mirage.ru/spb/schedule/22.08.2026/" target="_blank" rel="noopener">Мираж</a> ·
+        <a href="https://avrora.spb.ru/" target="_blank" rel="noopener">Аврора</a> ·
+        <a href="https://rodinakino.ru/?date=2026/08/22" target="_blank" rel="noopener">Родина</a> ·
+        <a href="https://www.domkino.spb.ru/" target="_blank" rel="noopener">Дом Кино</a> ·
+        <a href="https://www.lenfilm.ru/service/Kinoteatr-Lenfilm/" target="_blank" rel="noopener">Ленфильм</a>
+      </p>
+      <p class="note">Кинотеатр «Ленфильм» 22 августа проводит только спецпоказы в другие даты — в общем расписании нет сеансов на сегодня.</p>
+      <p class="note">Данные собраны автоматически. Перед походом уточните сеанс на сайте кинотеатра.</p>
+    </footer>
+  </div>
+
+  <div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-title">Трейлер</h3>
+        <button type="button" class="modal-close" id="modal-close" aria-label="Закрыть">×</button>
+      </div>
+      <div class="modal-video">
+        <iframe id="modal-iframe" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const cards = document.querySelectorAll(".film-card");
+      const cinemaChks = document.querySelectorAll(".cinema-chk");
+      const countryChks = document.querySelectorAll(".country-chk");
+      const excludeRu = document.getElementById("exclude-ru");
+      const timeRange = document.getElementById("time-range");
+      const timeLabel = document.getElementById("time-label");
+      const visibleCount = document.getElementById("visible-count");
+      const emptyMsg = document.getElementById("empty-msg");
+      const modal = document.getElementById("modal");
+      const modalIframe = document.getElementById("modal-iframe");
+      const modalTitle = document.getElementById("modal-title");
+      const modalClose = document.getElementById("modal-close");
+
+      function minsToTime(m) {
+        const h = Math.floor(m / 60);
+        const min = m % 60;
+        return String(h).padStart(2, "0") + ":" + String(min).padStart(2, "0");
+      }
+
+      function timeToMins(t) {
+        const [h, m] = t.split(":").map(Number);
+        return h * 60 + m;
+      }
+
+      function applyFilters() {
+        const activeCinemas = new Set([...cinemaChks].filter(c => c.checked).map(c => c.value));
+        const activeCountries = new Set([...countryChks].filter(c => c.checked).map(c => c.value.toLowerCase()));
+        const minMins = Number(timeRange.value);
+        timeLabel.textContent = minsToTime(minMins);
+        const hideRu = excludeRu.checked;
+        let visible = 0;
+
+        cards.forEach(card => {
+          const cardCinemas = card.dataset.cinemas.split(",");
+          const cardTimes = card.dataset.times.split(",");
+          const isRu = card.dataset.russian === "true";
+          const countryStr = card.dataset.countries || "";
+
+          const cinemaOk = cardCinemas.some(c => activeCinemas.has(c));
+          const timeOk = cardTimes.some(t => timeToMins(t) >= minMins);
+          const ruOk = !hideRu || !isRu;
+
+          let countryOk = true;
+          if (activeCountries.size < countryChks.length) {
+            if (countryStr.includes("не указано") || !countryStr) {
+              countryOk = activeCountries.has("не указано");
+            } else {
+              countryOk = [...activeCountries].some(c => countryStr.includes(c));
+            }
+          }
+
+          const show = cinemaOk && timeOk && ruOk && countryOk;
+          card.hidden = !show;
+          if (show) visible++;
+
+          card.querySelectorAll(".showtime").forEach(link => {
+            const t = link.textContent.split("·").pop().trim();
+            link.hidden = timeToMins(t) < minMins || !activeCinemas.has(link.dataset.cinema);
+          });
+        });
+
+        visibleCount.textContent = visible;
+        emptyMsg.classList.toggle("visible", visible === 0);
+      }
+
+      [...cinemaChks, ...countryChks, excludeRu].forEach(el => el.addEventListener("change", applyFilters));
+      timeRange.addEventListener("input", applyFilters);
+
+      document.querySelectorAll(".btn-trailer").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = btn.dataset.trailer;
+          const title = btn.dataset.title;
+          modalTitle.textContent = title;
+          modalIframe.src = "https://www.youtube.com/embed/" + id + "?autoplay=1&rel=0";
+          modal.classList.add("open");
+        });
+      });
+
+      function closeModal() {
+        modal.classList.remove("open");
+        modalIframe.src = "";
+      }
+
+      modalClose.addEventListener("click", closeModal);
+      modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+      document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+      applyFilters();
+    })();
+  </script>
+</body>
+</html>

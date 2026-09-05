@@ -10,6 +10,7 @@ atfm.github.io/
 ├── latviesu.html           ← Latviešu: латышский за 7 дней
 ├── dnevnoy-cheklist.html   ← дневной чек-лист продуктивности
 ├── dlya-oli.html           ← признание в любви Оле
+├── nikita.html             ← таймер до вольной Никиты (21.08.2027)
 ├── prikin.html             ← ПРИКИНЬ!!!!!! Козловский из Викингов
 ├── zarplata.html           ← счётчик зарплаты до миллисекунд
 ├── zarplata-2.html         ← счётчик зарплаты №2 (9:00–18:00)
@@ -29,6 +30,7 @@ atfm.github.io/
 | [latviesu.html](https://atfm.github.io/latviesu.html) | Курс латышского на 7 дней (уроки, XP, localStorage) |
 | [dnevnoy-cheklist.html](https://atfm.github.io/dnevnoy-cheklist.html) | Дневной чек-лист продуктивности |
 | [dlya-oli.html](https://atfm.github.io/dlya-oli.html) | Признание в любви Оле (фейерверки, сердце) |
+| [nikita.html](https://atfm.github.io/nikita.html) | Таймер до вольной Никиты: 21 августа 2027, конец призыва |
 | [prikin.html](https://atfm.github.io/prikin.html) | Мем: Козловский-викинг и бегающие буквы ПРИКИНЬ!!!!!! |
 | [zarplata.html](https://atfm.github.io/zarplata.html) | Счётчик зарплаты: сегодня / неделя / месяц / год |
 | [zarplata-2.html](https://atfm.github.io/zarplata-2.html) | Счётчик «заработала»: 9:00–18:00 без обеда |

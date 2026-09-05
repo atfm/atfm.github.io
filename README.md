@@ -2,11 +2,15 @@
 
 Статический сайт на [GitHub Pages](https://atfm.github.io/): HTML-приложения без сборки.
 
+В корне (`/`) только «привет». Каталог страниц — по адресу [`/starthold`](https://atfm.github.io/starthold/).
+
 ## Структура
 
 ```
 atfm.github.io/
-├── index.html              ← главная: структура проекта
+├── index.html              ← корень: просто «привет»
+├── starthold/              ← скрытый каталог опубликованных страниц
+│   └── index.html
 ├── latviesu.html           ← Latviešu: латышский за 7 дней
 ├── dnevnoy-cheklist.html   ← дневной чек-лист продуктивности
 ├── dlya-oli.html           ← признание в любви Оле
@@ -16,24 +20,10 @@ atfm.github.io/
 ├── menu-nedeli.html        ← меню на неделю: завтрак, обед, ужин
 ├── afisha/                 ← подборки «куда сегодня»
 │   ├── 2026-07-19.html     ← воскресенье 19.07.2026
+│   ├── kino-2026-08-22.html← кино 22.08.2026
 │   └── template.html       ← шаблон будущих подборок
 ├── assets/                 ← картинки для страниц
 └── README.md               ← этот файл
 ```
-
-## Страницы
-
-| Файл | Описание |
-|------|----------|
-| [index.html](https://atfm.github.io/) | Обзор и структура репозитория |
-| [latviesu.html](https://atfm.github.io/latviesu.html) | Курс латышского на 7 дней (уроки, XP, localStorage) |
-| [dnevnoy-cheklist.html](https://atfm.github.io/dnevnoy-cheklist.html) | Дневной чек-лист продуктивности |
-| [dlya-oli.html](https://atfm.github.io/dlya-oli.html) | Признание в любви Оле (фейерверки, сердце) |
-| [prikin.html](https://atfm.github.io/prikin.html) | Мем: Козловский-викинг и бегающие буквы ПРИКИНЬ!!!!!! |
-| [zarplata.html](https://atfm.github.io/zarplata.html) | Счётчик зарплаты: сегодня / неделя / месяц / год |
-| [zarplata-2.html](https://atfm.github.io/zarplata-2.html) | Счётчик «заработала»: 9:00–18:00 без обеда |
-| [menu-nedeli.html](https://atfm.github.io/menu-nedeli.html) | Меню на неделю: 1 готовка в день, обеды из запаса, ≤2000 ккал |
-| [afisha/2026-07-19.html](https://atfm.github.io/afisha/2026-07-19.html) | Куда сегодня: анонсы СПб на 19.07.2026 |
-| [afisha/template.html](https://atfm.github.io/afisha/template.html) | Шаблон для следующих подборок афиши |
 
 Открывайте HTML в браузере (Chrome / Edge).

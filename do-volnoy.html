@@ -539,11 +539,11 @@
 
     @media (max-width: 720px) {
       .clock {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
         grid-template-areas:
-          "days days"
-          "hours minutes"
-          "seconds ms";
+          "days days days"
+          "hours minutes seconds"
+          "ms ms ms";
       }
 
       .unit.days {
@@ -554,25 +554,31 @@
         font-size: clamp(3rem, 18vw, 4.6rem);
       }
 
-      .unit.hours .value {
-        font-size: clamp(1.7rem, 8vw, 2.3rem);
+      .unit.hours,
+      .unit.minutes,
+      .unit.seconds {
+        min-height: 5.6rem;
+        padding: 1rem 0.25rem 0.7rem;
       }
 
-      .unit.minutes .value {
+      .unit.hours .value {
         font-size: clamp(1.45rem, 7vw, 2rem);
       }
 
-      .unit.seconds,
-      .unit.ms {
-        min-height: 5.2rem;
+      .unit.minutes .value {
+        font-size: clamp(1.25rem, 6vw, 1.7rem);
       }
 
       .unit.seconds .value {
-        font-size: clamp(1.15rem, 5.5vw, 1.55rem);
+        font-size: clamp(1.05rem, 5vw, 1.4rem);
+      }
+
+      .unit.ms {
+        min-height: 3.6rem;
       }
 
       .unit.ms .value {
-        font-size: clamp(0.95rem, 4.4vw, 1.2rem);
+        font-size: clamp(0.88rem, 3.8vw, 1.1rem);
       }
     }
 

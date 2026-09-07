@@ -449,12 +449,23 @@
     .progress-head {
       display: flex;
       justify-content: space-between;
-      gap: 1rem;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.35rem 1rem;
       font-size: 0.68rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--khaki);
       margin-bottom: 0.45rem;
+    }
+
+    #progress-label {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.04em;
+      text-transform: none;
+      color: var(--brass-hot);
+      white-space: nowrap;
     }
 
     .bar {
@@ -692,6 +703,8 @@
         progress: document.getElementById("progress-label")
       };
 
+      const PCT_DIGITS = 7;
+
       const LINES = [
         "Радар: чисто. Повесток в эфире: ноль.",
         "Держать строй. До гражданской жизни осталось немного.",
@@ -699,13 +712,45 @@
         "Статус: ожидание дембеля по возрасту.",
         "Секретность: друзьям можно. Военкомату — уже поздно.",
         "Боевая задача: дожить до тридцати и задуть свечи.",
-        "Связь устойчива. Календарь работает на нас."
+        "Связь устойчива. Календарь работает на нас.",
+        "Сводка: {days} сут. {hh} ч. до снятия с учёта.",
+        "Почтовый ящик: пусто. Так держать, боец календаря.",
+        "Медкомиссия отменяется. Причина: скоро будет торт.",
+        "КПП на гражданку готовит шлагбаум к открытию.",
+        "Интендант: вместо КМБ заказать салфетки к свечам.",
+        "Норматив дня: дожить. Остальное делает дата рождения.",
+        "Разведка: военкомат стареет вместе с нами. Победа.",
+        "Приказ: шаг вольный. Строевой — только до холодильника.",
+        "Журнал: повесток нет, настроение устойчивое.",
+        "Позывной «Вольная» зарезервирован на 21.08.2027.",
+        "Запасной план не требуется. Тридцать лет — основной.",
+        "Боекомплект праздника: свечи 30, спички 1, гражданский костюм.",
+        "Штаб подтверждает: возраст — лучшая броня.",
+        "Тревога учебная. Настоящая будет, только если торт без крема.",
+        "Координаты цели: кухня, торт, тридцать свечей.",
+        "Учётчик: 1997 год рождения. Математика закрывает призыв.",
+        "Календарь: ещё {days} дней, потом только торт.",
+        "Часы штаба: {hh}:{mm}. Курс на вольную без изменений.",
+        "Часовой у календаря: не спать до полуночи 21-го.",
+        "Дисциплина: галстук не надет. И не потребуется."
       ];
 
       const DONE_LINES = [
         "Призыв на срочную службу закончен.",
         "Вольная. Можно не бежать за почтальоном.",
-        "Штамп поставлен: с учёта по возрасту."
+        "Штамп поставлен: с учёта по возрасту.",
+        "Дембель по возрасту состоялся. Можно выдохнуть.",
+        "Календарь выполнил боевую задачу.",
+        "Гражданская жизнь: разрешение получено.",
+        "Полевой кухне: торт подать немедленно."
+      ];
+
+      const LED_LINES = [
+        "Канал открыт",
+        "Эфир чист",
+        "На контроле",
+        "Радар в норме",
+        "Связь есть"
       ];
 
       let lineIndex = 0;
@@ -715,6 +760,20 @@
 
       function pad(n, size) {
         return String(Math.max(0, n)).padStart(size, "0");
+      }
+
+      function formatPct(value) {
+        return value.toLocaleString("ru-RU", {
+          minimumFractionDigits: PCT_DIGITS,
+          maximumFractionDigits: PCT_DIGITS
+        }) + "%";
+      }
+
+      function renderLine(template, ctx) {
+        return template
+          .replaceAll("{days}", String(ctx.days))
+          .replaceAll("{hh}", pad(ctx.hours, 2))
+          .replaceAll("{mm}", pad(ctx.minutes, 2));
       }
 
       function setComms(text) {
@@ -732,7 +791,7 @@
         els.seconds.textContent = "00";
         els.ms.textContent = "000";
         els.fill.style.width = "100%";
-        els.progress.textContent = "100%";
+        els.progress.textContent = formatPct(100);
         els.bar.setAttribute("aria-valuenow", "100");
         setComms(DONE_LINES[0]);
       }
@@ -760,16 +819,18 @@
         const span = TARGET.getTime() - DRAFT_START.getTime();
         const passed = Math.min(span, Math.max(0, now - DRAFT_START.getTime()));
         const pct = (passed / span) * 100;
-        els.fill.style.width = pct.toFixed(4) + "%";
-        els.progress.textContent = pct.toFixed(3) + "%";
-        els.bar.setAttribute("aria-valuenow", pct.toFixed(1));
+        els.fill.style.width = pct + "%";
+        els.progress.textContent = formatPct(pct);
+        els.bar.setAttribute("aria-valuenow", pct.toFixed(4));
 
         if (seconds !== lastSecond) {
+          const rotate = lastSecond !== -1 && seconds % 6 === 0;
           lastSecond = seconds;
-          if (seconds % 7 === 0) {
+          if (rotate) {
             lineIndex = (lineIndex + 1) % LINES.length;
-            setComms(LINES[lineIndex]);
+            els.led.textContent = LED_LINES[lineIndex % LED_LINES.length];
           }
+          setComms(renderLine(LINES[lineIndex], { days: days, hours: hours, minutes: minutes }));
         }
       }
 

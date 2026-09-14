@@ -16,21 +16,29 @@
       --accent: #5b9fd4;
       --accent2: #6bc9a8;
       --warn: #e8b86d;
+      --danger: #e88a8a;
       --border: #2d3a4f;
       --radius: 14px;
       --font: "Segoe UI", system-ui, -apple-system, sans-serif;
-      --header-h: 4.5rem;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
       min-height: 100vh;
+      min-height: 100dvh;
       font-family: var(--font);
       background: var(--bg);
       color: var(--text);
       line-height: 1.45;
-      padding: 0 0 5rem;
+      padding: 0 0 3rem;
+    }
+    body.flash {
+      animation: flash 0.55s ease;
+    }
+    @keyframes flash {
+      0% { background: #2a3d28; }
+      100% { background: var(--bg); }
     }
     .sticky {
       position: sticky;
@@ -69,19 +77,54 @@
       color: var(--muted);
       font-size: 0.78rem;
     }
-    .progress-box {
+    .header-tools {
       flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.35rem;
+    }
+    .stopwatch {
+      font-size: 1.35rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.03em;
+      color: var(--accent2);
+      min-width: 4.5rem;
       text-align: right;
     }
+    .stopwatch.paused { color: var(--warn); }
+    .tool-row {
+      display: flex;
+      gap: 0.35rem;
+    }
+    .icon-btn {
+      font: inherit;
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.35rem 0.55rem;
+      min-height: 36px;
+      cursor: pointer;
+    }
+    .icon-btn:active { transform: scale(0.97); }
+    .icon-btn[aria-pressed="true"] {
+      border-color: var(--warn);
+      color: var(--warn);
+    }
+    .progress-box { text-align: right; }
     .progress-num {
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       font-weight: 700;
       color: var(--accent2);
       font-variant-numeric: tabular-nums;
     }
     .progress-label {
       display: block;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.04em;
@@ -108,42 +151,121 @@
       margin: 0 auto;
       padding: 1rem 0.9rem 0;
     }
-    .toolbar {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 0.75rem;
-    }
-    .ghost {
-      font: inherit;
-      background: transparent;
+    .section-title {
+      margin: 0 0 0.65rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       color: var(--muted);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.45rem 0.75rem;
-      min-height: 44px;
-      cursor: pointer;
     }
-    .ghost:active { transform: scale(0.98); }
-    .card {
+    .equip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+      gap: 0.55rem;
+      margin: 0 0 1.25rem;
+    }
+    .equip-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 1rem 0.95rem 0.95rem;
-      margin-bottom: 1rem;
-      transition: opacity 0.2s ease, border-color 0.2s ease;
+      padding: 0.75rem 0.7rem 0.7rem;
     }
-    .card.done {
-      opacity: 0.55;
+    .equip-card .eq-name {
+      margin: 0 0 0.45rem;
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+    .chip {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.28rem 0.7rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+    .chip.rest { color: var(--warn); }
+    .chip.equip-chip { color: var(--accent); }
+    .chip.load { color: var(--accent); }
+    .day-picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin: 0 0 1.15rem;
+    }
+    .day-tab {
+      font: inherit;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.5rem 0.85rem;
+      min-height: 44px;
+    }
+    .day-tab[aria-pressed="true"] {
+      background: var(--accent2);
+      color: #0a1018;
       border-color: var(--accent2);
     }
-    .card-head {
+    .weight-row {
       display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-      margin-bottom: 0.55rem;
+      align-items: center;
+      gap: 0.4rem;
     }
-    .ex-index {
+    .weight-row .w-lab {
+      font-size: 0.78rem;
+      color: var(--muted);
+      min-width: 4.2rem;
+    }
+    .weight-btn {
+      font: inherit;
+      font-size: 1.15rem;
+      font-weight: 700;
+      width: 2.5rem;
+      min-height: 44px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      cursor: pointer;
       flex-shrink: 0;
+    }
+    .weight-btn:active { transform: scale(0.96); }
+    .weight-val {
+      flex: 1;
+      text-align: center;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      font-size: 1.05rem;
+    }
+    .loads-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      margin: 0 0 0.85rem;
+    }
+    .ex-list {
+      list-style: none;
+      margin: 0 0 1.25rem;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .ex-row {
+      display: grid;
+      grid-template-columns: 2rem 1fr auto;
+      gap: 0.65rem;
+      align-items: start;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.8rem 0.85rem;
+    }
+    .ex-row .n {
       width: 1.85rem;
       height: 1.85rem;
       border-radius: 8px;
@@ -153,11 +275,90 @@
       font-weight: 700;
       display: grid;
       place-items: center;
-      margin-top: 0.15rem;
     }
-    .card.done .ex-index {
+    .ex-row h2 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+    .ex-row .sub {
+      margin: 0.2rem 0 0;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    .ex-row .rx {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent2);
+      white-space: nowrap;
+      text-align: right;
+    }
+    .ex-row .rx small {
+      display: block;
+      margin-top: 0.2rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--accent);
+      white-space: normal;
+    }
+    .primary, .done-btn, .ghost, .danger {
+      font: inherit;
+      cursor: pointer;
+      border-radius: 12px;
+      min-height: 52px;
+      padding: 0.85rem 1rem;
+    }
+    .primary {
+      width: 100%;
+      border: none;
       background: var(--accent2);
       color: #0a1018;
+      font-size: 1.08rem;
+      font-weight: 700;
+    }
+    .primary:active { transform: scale(0.985); }
+    .primary:disabled {
+      opacity: 0.55;
+      cursor: default;
+      transform: none;
+    }
+    .done-btn {
+      width: 100%;
+      border: none;
+      background: var(--accent);
+      color: #0a1018;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+    .done-btn:active { transform: scale(0.985); }
+    .ghost {
+      width: 100%;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      font-weight: 600;
+    }
+    .ghost:active { transform: scale(0.985); }
+    .btn-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 0.95rem 0.95rem;
+    }
+    .phase-label {
+      margin: 0 0 0.45rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
     }
     .ex-name {
       margin: 0;
@@ -172,15 +373,6 @@
       gap: 0.4rem;
       margin: 0.55rem 0 0.75rem;
     }
-    .chip {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 0.28rem 0.7rem;
-      font-size: 0.88rem;
-      font-weight: 600;
-    }
-    .chip.rest { color: var(--warn); }
     .media {
       background: #0a0e13;
       border-radius: 10px;
@@ -194,7 +386,7 @@
     .media video {
       width: 100%;
       height: auto;
-      max-height: 70vh;
+      max-height: 55vh;
       object-fit: contain;
       display: block;
       background: #0a0e13;
@@ -204,44 +396,164 @@
       color: var(--muted);
       font-size: 0.92rem;
     }
-    .done-btn {
-      width: 100%;
-      min-height: 52px;
-      font: inherit;
+    .set-now {
+      margin: 0 0 0.75rem;
       font-size: 1.05rem;
       font-weight: 700;
-      cursor: pointer;
-      border: none;
-      border-radius: 12px;
-      background: var(--surface2);
-      color: var(--text);
-      padding: 0.85rem 1rem;
+      color: var(--accent2);
     }
-    .done-btn:active { transform: scale(0.985); }
-    .card.done .done-btn {
+    .rest-card {
+      text-align: center;
+      padding: 1.4rem 1rem 1.2rem;
+    }
+    .rest-card .phase-label { color: var(--warn); }
+    .ring-wrap {
+      position: relative;
+      width: 210px;
+      height: 210px;
+      margin: 0.4rem auto 0.9rem;
+    }
+    .ring-wrap svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+    .ring-track { fill: none; stroke: var(--surface2); stroke-width: 10; }
+    .ring-fill {
+      fill: none;
+      stroke: var(--warn);
+      stroke-width: 10;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.2s linear;
+    }
+    .rest-card.urgent .ring-fill { stroke: var(--danger); }
+    .rest-time {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 3.1rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .rest-card.urgent .rest-time {
+      color: var(--danger);
+      animation: pulse 0.9s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      50% { transform: scale(1.06); }
+    }
+    .rest-next {
+      margin: 0 0 1rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .summary-hero {
+      text-align: center;
+      padding: 0.5rem 0 1rem;
+    }
+    .summary-hero h2 {
+      margin: 0 0 0.35rem;
+      font-size: 1.5rem;
+    }
+    .big-time {
+      font-size: 2.4rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.04em;
+      color: var(--accent2);
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.55rem;
+      margin: 0 0 1rem;
+    }
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.85rem;
+    }
+    .stat span {
+      display: block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+    .stat strong {
+      font-size: 1.2rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .sum-list {
+      list-style: none;
+      margin: 0 0 1rem;
+      padding: 0;
+    }
+    .sum-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+    .sum-list .t {
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      color: var(--accent2);
+      white-space: nowrap;
+    }
+    .sum-list .skipped { color: var(--muted); }
+    .copy-preview {
+      white-space: pre-wrap;
+      background: #0a0e13;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin: 0 0 0.85rem;
+      max-height: 12rem;
+      overflow: auto;
+    }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(1.2rem + env(safe-area-inset-bottom, 0px));
+      transform: translateX(-50%) translateY(120%);
       background: var(--accent2);
       color: #0a1018;
+      font-weight: 700;
+      padding: 0.7rem 1.1rem;
+      border-radius: 999px;
+      z-index: 40;
+      transition: transform 0.25s ease;
+      pointer-events: none;
     }
-    .done-all {
-      text-align: center;
-      padding: 1.5rem 1rem;
-      color: var(--accent2);
-      font-weight: 600;
-      display: none;
-    }
-    .done-all.show { display: block; }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .hidden { display: none !important; }
     .noscript {
       margin: 1rem;
       padding: 1rem;
       background: var(--surface);
       border-radius: var(--radius);
     }
+    @media (prefers-reduced-motion: reduce) {
+      .bar-fill, .ring-fill, .toast, body.flash, .rest-card.urgent .rest-time {
+        transition: none;
+        animation: none;
+      }
+    }
   </style>
 </head>
 <body>
   <!--
-    EDIT ONLY the workout data array; keep layout/CSS.
-    Завтрашняя тренировка = правка объекта WORKOUT ниже. Вёрстку не трогать.
+    АГЕНТ: перечень тренировок, упражнения и веса — только trenirovka-data.js.
+    Вёрстку и скрипт страницы не трогать.
   -->
   <header class="sticky">
     <div class="sticky-row">
@@ -250,92 +562,79 @@
         <span class="day-badge" id="dayLabel"></span>
         <p class="meta" id="dateLabel"></p>
       </div>
-      <div class="progress-box">
-        <span class="progress-label">готово</span>
-        <span class="progress-num" id="progressNum">0/0</span>
+      <div class="header-tools" id="headerTools">
+        <div class="progress-box" id="progressBox">
+          <span class="progress-label" id="progressLabel">упражнения</span>
+          <span class="progress-num" id="progressNum">0/0</span>
+        </div>
+        <div class="stopwatch hidden" id="stopwatch" aria-live="off">00:00</div>
+        <div class="tool-row hidden" id="sessionTools">
+          <button type="button" class="icon-btn" id="pauseBtn" aria-pressed="false">Пауза</button>
+          <button type="button" class="icon-btn" id="muteBtn" aria-pressed="false">Звук</button>
+        </div>
       </div>
     </div>
     <div class="bar-wrap"><div class="bar-fill" id="barFill"></div></div>
   </header>
 
-  <main class="wrap">
-    <div class="toolbar">
-      <button type="button" class="ghost" id="resetBtn">Сбросить отметки</button>
-    </div>
-    <div id="list"></div>
-    <p class="done-all" id="doneAll">Все упражнения отмечены. Можно в душ.</p>
-  </main>
+  <main class="wrap" id="app"></main>
+  <div class="toast" id="toast" role="status"></div>
 
   <noscript>
     <p class="noscript">Нужен JavaScript, чтобы собрать карточки из списка упражнений.</p>
   </noscript>
 
+  <script src="trenirovka-data.js"></script>
   <script>
-    // EDIT ONLY the workout data array; keep layout/CSS.
-    // Меняйте только WORKOUT. Поля упражнения: name, sets, reps, restSec, gifUrl, notes?
-    // gifUrl: прямая ссылка на GIF/WebP/JPG (тег img) или MP4 (тег video, autoplay/loop/mute).
-    const WORKOUT = {
-      title: "Тренировка",
-      dateLabel: "дома · гантели + коврик",
-      dayLabel: "Day C — всё тело",
-      exercises: [
-        {
-          name: "Присед с гантелями / Goblet squat",
-          sets: 3,
-          reps: "10",
-          restSec: 75,
-          gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-dumbbell-goblet-squat-front.mp4",
-          notes: "лёгкий день; глубина комфортная, пятки в пол."
-        },
-        {
-          name: "Отжимания (от пола или от дивана/стола) / Push-up",
-          sets: 3,
-          reps: "6–12",
-          restSec: 60,
-          gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Bodyweight-push-up-front.mp4",
-          notes: "до комфортного отказа в диапазоне 6–12; при необходимости руки на возвышении."
-        },
-        {
-          name: "Ягодичный мост / Glute bridge",
-          sets: 3,
-          reps: "12–15",
-          restSec: 60,
-          gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Bodyweight-glute-bridge-front.mp4",
-          notes: "на коврике, пауза сверху, не прогибаться в пояснице."
-        },
-        {
-          name: "Тяга в наклоне двумя руками / Dumbbell bent-over row",
-          sets: 3,
-          reps: "10",
-          restSec: 75,
-          gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Bent-Over-Dumbbell-Row.gif",
-          notes: "спина прямая, тянем к поясу, локти вдоль корпуса."
-        },
-        {
-          name: "Прогулка фермера / Farmer carry",
-          sets: 3,
-          reps: "30–40 с",
-          restSec: 60,
-          gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2022/02/Farmers-walk_Cardio.gif",
-          notes: "гантели в руках, ровная осанка, ходите по квартире."
-        }
-      ]
+
+    const catalog = Array.isArray(window.WORKOUTS) ? window.WORKOUTS : [];
+    let WORKOUT = catalog[0] || { title: "Тренировка", dayLabel: "", dateLabel: "", equipment: [], exercises: [] };
+
+    const state = {
+      workoutId: "",
+      phase: "overview",
+      exIndex: 0,
+      setIndex: 0,
+      startedAt: 0,
+      finishedAt: 0,
+      pauseMs: 0,
+      pausedAt: 0,
+      workMs: [],
+      restMs: [],
+      skipped: [],
+      equipKg: { dumbbell: null, band: null },
+      loads: [],
+      custom: [],
+      workStartedAt: 0,
+      restRemainingMs: 0,
+      restSegmentStartedAt: 0,
+      lastTickSec: null,
+      restAlarmPlayed: false,
+      soundOn: true,
+      endedAt: 0
     };
 
-    const STORAGE_KEY = "trenirovka-done:" + WORKOUT.dayLabel;
+    let audioCtx = null;
+    let wakeLock = null;
+    let tickTimer = null;
+    let toastTimer = null;
 
-    function loadDone() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        const arr = raw ? JSON.parse(raw) : [];
-        return new Set(Array.isArray(arr) ? arr : []);
-      } catch (e) {
-        return new Set();
-      }
+    function pad(n) {
+      return String(n).padStart(2, "0");
     }
 
-    function saveDone(done) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([...done]));
+    function fmtTime(ms) {
+      const total = Math.max(0, Math.floor(ms / 1000));
+      const h = Math.floor(total / 3600);
+      const m = Math.floor((total % 3600) / 60);
+      const s = total % 60;
+      if (h) return h + ":" + pad(m) + ":" + pad(s);
+      return pad(m) + ":" + pad(s);
+    }
+
+    function todayLabel() {
+      const d = new Date();
+      return pad(d.getDate()) + "." + pad(d.getMonth() + 1) + "." + d.getFullYear();
     }
 
     function isVideo(url) {
@@ -355,6 +654,254 @@
       return "отдых " + sec + " с";
     }
 
+    function setsOf(ex) {
+      const n = Number(ex.sets);
+      return n > 0 ? n : 1;
+    }
+
+    function kindFromName(name) {
+      const n = String(name || "").toLowerCase();
+      if (/гантел|гир|dumbbell/.test(n)) return "dumbbell";
+      if (/резин|эспандер|band/.test(n)) return "band";
+      return "other";
+    }
+
+    function normalizeEquip(item) {
+      if (typeof item === "string") {
+        const kind = kindFromName(item);
+        return {
+          kind: kind,
+          name: item,
+          weightKg: kind === "other" ? null : 0
+        };
+      }
+      const kind = item.kind || kindFromName(item.name);
+      const raw = item.weightKg;
+      return {
+        kind: kind,
+        name: item.name || "",
+        weightKg: kind === "other" ? null : (raw == null || raw === "" ? 0 : Number(raw))
+      };
+    }
+
+    function equipList() {
+      return (WORKOUT.equipment || []).map(normalizeEquip);
+    }
+
+    function clampKg(n) {
+      const v = Math.round(Number(n) || 0);
+      if (v < 0) return 0;
+      if (v > 80) return 80;
+      return v;
+    }
+
+    function resolveKg(value, kind) {
+      if (value === true) {
+        const eq = state.equipKg[kind];
+        return eq == null ? 0 : clampKg(eq);
+      }
+      if (typeof value === "number" && !isNaN(value)) return clampKg(value);
+      return null;
+    }
+
+    function plannedLoad(ex) {
+      return {
+        dumbbellKg: resolveKg(ex.dumbbellKg, "dumbbell"),
+        bandKg: resolveKg(ex.bandKg, "band")
+      };
+    }
+
+    function loadOf(i) {
+      return state.loads[i] || { dumbbellKg: null, bandKg: null };
+    }
+
+    function loadParts(load) {
+      const parts = [];
+      if (load.dumbbellKg != null) parts.push("гантели " + load.dumbbellKg + " кг");
+      if (load.bandKg != null) parts.push("резинка " + load.bandKg + " кг");
+      return parts;
+    }
+
+    function loadText(load) {
+      return loadParts(load).join(" · ");
+    }
+
+    function findWorkout(id) {
+      return catalog.find(function (w) { return w.id === id; }) || catalog[0] || WORKOUT;
+    }
+
+    function initLoadsFromWorkout() {
+      const equip = equipList();
+      state.equipKg = { dumbbell: null, band: null };
+      equip.forEach(function (item) {
+        if (item.kind === "dumbbell" || item.kind === "band") {
+          state.equipKg[item.kind] = clampKg(item.weightKg);
+        }
+      });
+      state.loads = (WORKOUT.exercises || []).map(plannedLoad);
+      state.custom = (WORKOUT.exercises || []).map(function () {
+        return { dumbbell: false, band: false };
+      });
+    }
+
+    function selectWorkout(id, keepPhase) {
+      WORKOUT = findWorkout(id);
+      state.workoutId = WORKOUT.id || "";
+      initLoadsFromWorkout();
+      if (!keepPhase) {
+        state.phase = "overview";
+        state.exIndex = 0;
+        state.setIndex = 0;
+        state.startedAt = 0;
+        state.endedAt = 0;
+        state.pauseMs = 0;
+        state.pausedAt = 0;
+        state.workStartedAt = 0;
+      }
+    }
+
+    function weightStepperHtml(scope, kind, kg, label) {
+      if (kg == null) return "";
+      return (
+        '<div class="weight-row" data-kind="' + kind + '">' +
+          (label ? '<span class="w-lab">' + escapeHtml(label) + "</span>" : "") +
+          '<button type="button" class="weight-btn" data-action="weight" data-scope="' + scope +
+            '" data-kind="' + kind + '" data-delta="-1" aria-label="меньше">−</button>' +
+          '<span class="weight-val" data-weight-val="' + scope + '-' + kind + '">' + kg + " кг</span>" +
+          '<button type="button" class="weight-btn" data-action="weight" data-scope="' + scope +
+            '" data-kind="' + kind + '" data-delta="1" aria-label="больше">+</button>' +
+        "</div>"
+      );
+    }
+
+    function exerciseLoadSteppers(i) {
+      const load = loadOf(i);
+      const bits = [];
+      if (load.dumbbellKg != null) bits.push(weightStepperHtml("ex", "dumbbell", load.dumbbellKg, "гантели"));
+      if (load.bandKg != null) bits.push(weightStepperHtml("ex", "band", load.bandKg, "резинка"));
+      if (!bits.length) return "";
+      return '<div class="loads-box">' + bits.join("") + "</div>";
+    }
+
+    function chipsHtml(ex, i) {
+      const load = loadText(loadOf(i));
+      return (
+        '<div class="prescription">' +
+          '<span class="chip">' + escapeHtml(ex.sets) + "×" + escapeHtml(ex.reps) + "</span>" +
+          (ex.restSec ? '<span class="chip rest">' + restLabel(ex.restSec) + "</span>" : "") +
+          (load ? '<span class="chip load">' + escapeHtml(load) + "</span>" : "") +
+        "</div>"
+      );
+    }
+
+    function nowTs() {
+      return Date.now();
+    }
+
+    function isPaused() {
+      return !!state.pausedAt;
+    }
+
+    function sessionElapsed() {
+      if (!state.startedAt) return 0;
+      const end = state.endedAt || nowTs();
+      const extra = state.pausedAt ? end - state.pausedAt : 0;
+      return Math.max(0, end - state.startedAt - state.pauseMs - extra);
+    }
+
+    function restLeft() {
+      if (state.phase !== "rest") return 0;
+      if (state.pausedAt) return state.restRemainingMs;
+      return Math.max(0, state.restRemainingMs - (nowTs() - state.restSegmentStartedAt));
+    }
+
+    function flushWork() {
+      if (!state.workStartedAt) return;
+      let extra = 0;
+      if (state.pausedAt) extra = nowTs() - state.pausedAt;
+      state.workMs[state.exIndex] += Math.max(0, nowTs() - state.workStartedAt - extra);
+      state.workStartedAt = 0;
+    }
+
+    function flushRest() {
+      if (state.phase !== "rest") return;
+      const left = restLeft();
+      const elapsed = Math.max(0, state.restRemainingMs - left);
+      state.restMs[state.exIndex] += elapsed;
+      state.restRemainingMs = left;
+      state.restSegmentStartedAt = state.pausedAt ? 0 : nowTs();
+    }
+
+    function unlockAudio() {
+      try {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return;
+        if (!audioCtx) audioCtx = new Ctx();
+        if (audioCtx.state === "suspended") audioCtx.resume();
+      } catch (e) {}
+    }
+
+    function tone(freq, duration, when, gainVal) {
+      if (!audioCtx || !state.soundOn) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      const t = when;
+      const g = gainVal || 0.22;
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(g, t + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(t);
+      osc.stop(t + duration + 0.03);
+    }
+
+    function playTicks() {
+      if (!audioCtx || !state.soundOn) return;
+      const t = audioCtx.currentTime;
+      tone(740, 0.12, t, 0.18);
+    }
+
+    function playRestEnd() {
+      if (!audioCtx || !state.soundOn) return;
+      const t = audioCtx.currentTime;
+      tone(880, 0.14, t, 0.24);
+      tone(880, 0.14, t + 0.18, 0.24);
+      tone(1320, 0.42, t + 0.38, 0.28);
+    }
+
+    function buzz(pattern) {
+      try {
+        if (navigator.vibrate) navigator.vibrate(pattern);
+      } catch (e) {}
+    }
+
+    async function requestWake() {
+      try {
+        if (!navigator.wakeLock) return;
+        wakeLock = await navigator.wakeLock.request("screen");
+      } catch (e) {}
+    }
+
+    async function releaseWake() {
+      try {
+        if (wakeLock) await wakeLock.release();
+      } catch (e) {}
+      wakeLock = null;
+    }
+
+    function showToast(text) {
+      const el = document.getElementById("toast");
+      el.textContent = text;
+      el.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () {
+        el.classList.remove("show");
+      }, 1800);
+    }
+
     function mediaHtml(ex) {
       const url = ex.gifUrl;
       if (!url) return "";
@@ -372,77 +919,552 @@
       );
     }
 
+    function renderOverview() {
+      const picker = catalog.length > 1
+        ? '<p class="section-title">Дни</p><div class="day-picker">' +
+            catalog.map(function (w) {
+              const on = w.id === state.workoutId;
+              return (
+                '<button type="button" class="day-tab" data-action="pick-day" data-id="' +
+                  escapeHtml(w.id) + '" aria-pressed="' + (on ? "true" : "false") + '">' +
+                  escapeHtml(w.dayLabel || w.id) +
+                "</button>"
+              );
+            }).join("") +
+          "</div>"
+        : "";
+      const equipCards = equipList().map(function (item) {
+        const canWeigh = item.kind === "dumbbell" || item.kind === "band";
+        const kg = canWeigh ? state.equipKg[item.kind] : null;
+        return (
+          '<div class="equip-card">' +
+            '<p class="eq-name">' + escapeHtml(item.name) + "</p>" +
+            (canWeigh ? weightStepperHtml("equip", item.kind, kg == null ? 0 : kg, "") : "") +
+          "</div>"
+        );
+      }).join("");
+      const rows = WORKOUT.exercises.map(function (ex, i) {
+        const load = loadText(loadOf(i));
+        return (
+          '<li class="ex-row">' +
+            '<span class="n">' + (i + 1) + "</span>" +
+            "<div>" +
+              "<h2>" + escapeHtml(ex.name) + "</h2>" +
+              (ex.notes ? '<p class="sub">' + escapeHtml(ex.notes) + "</p>" : "") +
+              (ex.restSec ? '<p class="sub">' + restLabel(ex.restSec) + " между подходами</p>" : "") +
+            "</div>" +
+            '<span class="rx">' + escapeHtml(ex.sets) + "×" + escapeHtml(ex.reps) +
+              (load ? "<small>" + escapeHtml(load) + "</small>" : "") +
+            "</span>" +
+          "</li>"
+        );
+      }).join("");
+      return (
+        picker +
+        (equipCards ? '<p class="section-title">Инвентарь</p><div class="equip">' + equipCards + "</div>" : "") +
+        '<p class="section-title">Упражнения</p>' +
+        '<ol class="ex-list">' + rows + "</ol>" +
+        '<button type="button" class="primary" id="startBtn"' +
+          (WORKOUT.exercises.length ? "" : " disabled") +
+        ">Начать тренировку</button>"
+      );
+    }
+
+    function renderPrep() {
+      const ex = WORKOUT.exercises[state.exIndex];
+      const n = WORKOUT.exercises.length;
+      return (
+        '<article class="card">' +
+          '<p class="phase-label">Подготовка · ' + (state.exIndex + 1) + " из " + n + "</p>" +
+          '<h2 class="ex-name">' + escapeHtml(ex.name) + "</h2>" +
+          chipsHtml(ex, state.exIndex) +
+          mediaHtml(ex) +
+          exerciseLoadSteppers(state.exIndex) +
+          (ex.notes ? '<p class="notes">' + escapeHtml(ex.notes) + "</p>" : "") +
+          '<div class="btn-col">' +
+            '<button type="button" class="primary" id="beginExBtn">Старт</button>' +
+            '<button type="button" class="ghost" id="skipExBtn">Пропустить упражнение</button>' +
+          "</div>" +
+        "</article>"
+      );
+    }
+
+    function renderWork() {
+      const ex = WORKOUT.exercises[state.exIndex];
+      const sets = setsOf(ex);
+      const last = state.setIndex + 1 >= sets;
+      return (
+        '<article class="card">' +
+          '<p class="phase-label">Упражнение · ' + (state.exIndex + 1) + " из " + WORKOUT.exercises.length + "</p>" +
+          '<h2 class="ex-name">' + escapeHtml(ex.name) + "</h2>" +
+          chipsHtml(ex, state.exIndex) +
+          '<p class="set-now">Подход ' + (state.setIndex + 1) + " из " + sets + "</p>" +
+          mediaHtml(ex) +
+          exerciseLoadSteppers(state.exIndex) +
+          (ex.notes ? '<p class="notes">' + escapeHtml(ex.notes) + "</p>" : "") +
+          '<div class="btn-col">' +
+            '<button type="button" class="done-btn" id="setDoneBtn">' +
+              (last ? "Завершить упражнение" : "Подход готов") +
+            "</button>" +
+            '<button type="button" class="ghost" id="skipExBtn">Пропустить упражнение</button>' +
+          "</div>" +
+        "</article>"
+      );
+    }
+
+    function renderRest() {
+      const ex = WORKOUT.exercises[state.exIndex];
+      const sets = setsOf(ex);
+      const left = restLeft();
+      const total = Math.max(1, (ex.restSec || 0) * 1000);
+      const circ = 2 * Math.PI * 54;
+      const pct = Math.min(1, left / total);
+      const offset = circ * (1 - pct);
+      const urgent = left <= 3000 ? " urgent" : "";
+      return (
+        '<article class="card rest-card' + urgent + '" id="restCard">' +
+          '<p class="phase-label">Пауза</p>' +
+          '<div class="ring-wrap">' +
+            '<svg viewBox="0 0 120 120" aria-hidden="true">' +
+              '<circle class="ring-track" cx="60" cy="60" r="54"></circle>' +
+              '<circle class="ring-fill" id="ringFill" cx="60" cy="60" r="54" ' +
+                'stroke-dasharray="' + circ.toFixed(2) + '" stroke-dashoffset="' + offset.toFixed(2) + '"></circle>' +
+            "</svg>" +
+            '<div class="rest-time" id="restTime">' + fmtTime(left) + "</div>" +
+          "</div>" +
+          '<p class="rest-next" id="restNext">Дальше: подход ' + (state.setIndex + 2) + " из " + sets +
+            "<br>" + escapeHtml(ex.name) + "</p>" +
+          '<div class="btn-col">' +
+            '<button type="button" class="primary" id="skipRestBtn">Пропустить отдых</button>' +
+          "</div>" +
+        "</article>"
+      );
+    }
+
+    function summaryText() {
+      const lines = [];
+      lines.push("Тренировка: " + WORKOUT.dayLabel);
+      if (WORKOUT.dateLabel) lines.push(WORKOUT.dateLabel);
+      lines.push("Дата: " + todayLabel());
+      const equipBits = equipList().map(function (item) {
+        if (item.kind === "dumbbell" || item.kind === "band") {
+          const kg = state.equipKg[item.kind];
+          return item.name + (kg == null ? "" : " " + kg + " кг");
+        }
+        return item.name;
+      });
+      if (equipBits.length) lines.push("Инвентарь: " + equipBits.join(", "));
+      lines.push("");
+      lines.push("Общее время: " + fmtTime(sessionElapsed()));
+      const workTotal = state.workMs.reduce(function (a, b) { return a + b; }, 0);
+      const restTotal = state.restMs.reduce(function (a, b) { return a + b; }, 0);
+      lines.push("Работа (без пауз): " + fmtTime(workTotal));
+      lines.push("Паузы: " + fmtTime(restTotal));
+      lines.push("");
+      lines.push("Время на каждое упражнение (без пауз):");
+      WORKOUT.exercises.forEach(function (ex, i) {
+        const mark = state.skipped[i] ? " — пропущено" : "";
+        const load = loadText(loadOf(i));
+        lines.push(
+          (i + 1) + ". " + ex.name + " — " + fmtTime(state.workMs[i] || 0) +
+          (load ? " — " + load : "") + mark
+        );
+      });
+      return lines.join("\n");
+    }
+
+    function renderDone() {
+      const workTotal = state.workMs.reduce(function (a, b) { return a + b; }, 0);
+      const restTotal = state.restMs.reduce(function (a, b) { return a + b; }, 0);
+      const items = WORKOUT.exercises.map(function (ex, i) {
+        const skip = state.skipped[i];
+        const load = loadText(loadOf(i));
+        return (
+          "<li" + (skip ? ' class="skipped"' : "") + ">" +
+            "<span>" + (i + 1) + ". " + escapeHtml(ex.name) +
+              (load ? " · " + escapeHtml(load) : "") +
+              (skip ? " (пропущено)" : "") + "</span>" +
+            '<span class="t">' + fmtTime(state.workMs[i] || 0) + "</span>" +
+          "</li>"
+        );
+      }).join("");
+      return (
+        '<div class="summary-hero">' +
+          "<h2>Готово. Можно в душ.</h2>" +
+          '<div class="big-time" id="finalTime">' + fmtTime(sessionElapsed()) + "</div>" +
+        "</div>" +
+        '<div class="stats">' +
+          "<div class=\"stat\"><span>Работа</span><strong>" + fmtTime(workTotal) + "</strong></div>" +
+          "<div class=\"stat\"><span>Паузы</span><strong>" + fmtTime(restTotal) + "</strong></div>" +
+        "</div>" +
+        '<p class="section-title">По упражнениям (без пауз)</p>' +
+        '<ul class="sum-list">' + items + "</ul>" +
+        '<p class="section-title">Текст для копирования</p>' +
+        '<pre class="copy-preview" id="copyPreview">' + escapeHtml(summaryText()) + "</pre>" +
+        '<div class="btn-col">' +
+          '<button type="button" class="primary" id="copyBtn">Скопировать итог</button>' +
+          '<button type="button" class="ghost" id="againBtn">К списку упражнений</button>' +
+        "</div>"
+      );
+    }
+
+    function renderSession() {
+      if (state.phase === "prep") return renderPrep();
+      if (state.phase === "work") return renderWork();
+      if (state.phase === "rest") return renderRest();
+      return "";
+    }
+
+    function updateHeader() {
+      const inSession = state.phase !== "overview";
+      const sw = document.getElementById("stopwatch");
+      const tools = document.getElementById("sessionTools");
+      const pauseBtn = document.getElementById("pauseBtn");
+      const muteBtn = document.getElementById("muteBtn");
+      sw.classList.toggle("hidden", !inSession || state.phase === "done");
+      tools.classList.toggle("hidden", !inSession || state.phase === "done");
+      sw.classList.toggle("paused", isPaused());
+      if (inSession) sw.textContent = fmtTime(sessionElapsed());
+      pauseBtn.setAttribute("aria-pressed", isPaused() ? "true" : "false");
+      pauseBtn.textContent = isPaused() ? "Дальше" : "Пауза";
+      muteBtn.setAttribute("aria-pressed", state.soundOn ? "false" : "true");
+      muteBtn.textContent = state.soundOn ? "Звук" : "Без звука";
+
+      const total = WORKOUT.exercises.length;
+      let done = 0;
+      if (state.phase === "done") done = total;
+      else if (state.phase !== "overview") done = state.exIndex;
+      document.getElementById("progressNum").textContent = done + "/" + total;
+      document.getElementById("progressLabel").textContent =
+        state.phase === "overview" ? "упражнения" : "готово";
+      document.getElementById("barFill").style.width = (total ? (done / total) * 100 : 0) + "%";
+    }
+
+    function updateLive() {
+      if (state.phase === "overview") return;
+      const sw = document.getElementById("stopwatch");
+      if (sw && state.phase !== "done") {
+        sw.textContent = fmtTime(sessionElapsed());
+        sw.classList.toggle("paused", isPaused());
+      }
+      if (state.phase !== "rest" || isPaused()) return;
+
+      const left = restLeft();
+      const restTime = document.getElementById("restTime");
+      const ring = document.getElementById("ringFill");
+      const card = document.getElementById("restCard");
+      const ex = WORKOUT.exercises[state.exIndex];
+      const total = Math.max(1, (ex.restSec || 0) * 1000);
+      if (restTime) restTime.textContent = fmtTime(left);
+      if (ring) {
+        const circ = 2 * Math.PI * 54;
+        ring.style.strokeDashoffset = String(circ * (1 - Math.min(1, left / total)));
+      }
+      if (card) card.classList.toggle("urgent", left <= 3000 && left > 0);
+
+      const sec = Math.ceil(left / 1000);
+      if (left > 0 && sec <= 3 && sec !== state.lastTickSec) {
+        state.lastTickSec = sec;
+        playTicks();
+        buzz(40);
+      }
+      if (left <= 0 && !state.restAlarmPlayed) {
+        state.restAlarmPlayed = true;
+        finishRest(true);
+      }
+    }
+
     function render() {
+      if (!WORKOUT || !WORKOUT.exercises) {
+        document.getElementById("app").innerHTML =
+          '<p class="notes">Нет тренировок. Добавь объект в WORKOUTS в файле trenirovka-data.js.</p>';
+        return;
+      }
       document.title = WORKOUT.title + " — " + WORKOUT.dayLabel;
       document.getElementById("workoutTitle").textContent = WORKOUT.title;
       document.getElementById("dayLabel").textContent = WORKOUT.dayLabel;
       document.getElementById("dateLabel").textContent = WORKOUT.dateLabel || "";
-
-      const done = loadDone();
-      const list = document.getElementById("list");
-      list.innerHTML = WORKOUT.exercises.map(function (ex, i) {
-        const id = String(i);
-        const isDone = done.has(id);
-        return (
-          '<article class="card' + (isDone ? " done" : "") + '" data-id="' + id + '">' +
-            '<div class="card-head">' +
-              '<span class="ex-index">' + (i + 1) + "</span>" +
-              '<h2 class="ex-name">' + escapeHtml(ex.name) + "</h2>" +
-            "</div>" +
-            '<div class="prescription">' +
-              '<span class="chip">' + escapeHtml(ex.sets) + "×" + escapeHtml(ex.reps) + "</span>" +
-              (ex.restSec ? '<span class="chip rest">' + restLabel(ex.restSec) + "</span>" : "") +
-            "</div>" +
-            mediaHtml(ex) +
-            (ex.notes ? '<p class="notes">' + escapeHtml(ex.notes) + "</p>" : "") +
-            '<button type="button" class="done-btn" data-id="' + id + '" aria-pressed="' + isDone + '">' +
-              (isDone ? "Сделано ✓" : "Готово") +
-            "</button>" +
-          "</article>"
-        );
-      }).join("");
-
-      updateProgress(done);
+      const app = document.getElementById("app");
+      if (state.phase === "overview") app.innerHTML = renderOverview();
+      else if (state.phase === "done") app.innerHTML = renderDone();
+      else app.innerHTML = renderSession();
+      updateHeader();
     }
 
-    function updateProgress(done) {
-      const total = WORKOUT.exercises.length;
-      const n = [...done].filter(function (id) {
-        return Number(id) < total;
-      }).length;
-      document.getElementById("progressNum").textContent = n + "/" + total;
-      document.getElementById("barFill").style.width = (total ? (n / total) * 100 : 0) + "%";
-      document.getElementById("doneAll").classList.toggle("show", total > 0 && n === total);
-    }
-
-    function toggle(id) {
-      const done = loadDone();
-      if (done.has(id)) done.delete(id);
-      else done.add(id);
-      saveDone(done);
-
-      const card = document.querySelector('.card[data-id="' + id + '"]');
-      const btn = document.querySelector('.done-btn[data-id="' + id + '"]');
-      const on = done.has(id);
-      if (card) card.classList.toggle("done", on);
-      if (btn) {
-        btn.setAttribute("aria-pressed", on);
-        btn.textContent = on ? "Сделано ✓" : "Готово";
+    function refreshLoadUi() {
+      Array.prototype.forEach.call(document.querySelectorAll("[data-weight-val]"), function (el) {
+        const bits = (el.getAttribute("data-weight-val") || "").split("-");
+        const scope = bits[0];
+        const kind = bits[1];
+        let kg = null;
+        if (scope === "equip") kg = state.equipKg[kind];
+        else {
+          const load = loadOf(state.exIndex);
+          kg = kind === "dumbbell" ? load.dumbbellKg : load.bandKg;
+        }
+        if (kg != null) el.textContent = kg + " кг";
+      });
+      const chip = document.querySelector(".chip.load");
+      if (chip) {
+        const text = loadText(loadOf(state.exIndex));
+        if (text) chip.textContent = text;
       }
-      updateProgress(done);
     }
 
-    document.getElementById("list").addEventListener("click", function (e) {
-      const btn = e.target.closest(".done-btn");
-      if (btn) toggle(btn.getAttribute("data-id"));
-    });
+    function adjustWeight(scope, kind, delta) {
+      if (kind !== "dumbbell" && kind !== "band") return;
+      const step = Number(delta) || 0;
+      if (scope === "equip") {
+        const prev = state.equipKg[kind] == null ? 0 : state.equipKg[kind];
+        const next = clampKg(prev + step);
+        state.equipKg[kind] = next;
+        (WORKOUT.exercises || []).forEach(function (ex, i) {
+          const uses = kind === "dumbbell" ? ex.dumbbellKg : ex.bandKg;
+          const customized = state.custom[i] && state.custom[i][kind];
+          if (uses === true && !customized) {
+            if (!state.loads[i]) state.loads[i] = { dumbbellKg: null, bandKg: null };
+            state.loads[i][kind === "dumbbell" ? "dumbbellKg" : "bandKg"] = next;
+          }
+        });
+        if (state.phase === "overview") render();
+        else refreshLoadUi();
+        return;
+      }
+      if (scope === "ex") {
+        const load = loadOf(state.exIndex);
+        const key = kind === "dumbbell" ? "dumbbellKg" : "bandKg";
+        if (load[key] == null) return;
+        load[key] = clampKg(load[key] + step);
+        if (!state.custom[state.exIndex]) {
+          state.custom[state.exIndex] = { dumbbell: false, band: false };
+        }
+        state.custom[state.exIndex][kind] = true;
+        refreshLoadUi();
+      }
+    }
 
-    document.getElementById("resetBtn").addEventListener("click", function () {
-      localStorage.removeItem(STORAGE_KEY);
+    function resetSession() {
+      selectWorkout(state.workoutId || window.ACTIVE_WORKOUT_ID);
+      state.phase = "overview";
+      state.exIndex = 0;
+      state.setIndex = 0;
+      state.startedAt = 0;
+      state.endedAt = 0;
+      state.pauseMs = 0;
+      state.pausedAt = 0;
+      state.workMs = WORKOUT.exercises.map(function () { return 0; });
+      state.restMs = WORKOUT.exercises.map(function () { return 0; });
+      state.skipped = WORKOUT.exercises.map(function () { return false; });
+      state.workStartedAt = 0;
+      state.restRemainingMs = 0;
+      state.restSegmentStartedAt = 0;
+      state.lastTickSec = null;
+      state.restAlarmPlayed = false;
+      releaseWake();
+    }
+
+    function startWorkout() {
+      unlockAudio();
+      state.startedAt = nowTs();
+      state.endedAt = 0;
+      state.pauseMs = 0;
+      state.pausedAt = 0;
+      state.phase = "prep";
+      state.exIndex = 0;
+      state.setIndex = 0;
+      state.workMs = WORKOUT.exercises.map(function () { return 0; });
+      state.restMs = WORKOUT.exercises.map(function () { return 0; });
+      state.skipped = WORKOUT.exercises.map(function () { return false; });
+      state.workStartedAt = 0;
+      state.restRemainingMs = 0;
+      state.restSegmentStartedAt = 0;
+      state.lastTickSec = null;
+      state.restAlarmPlayed = false;
+      requestWake();
       render();
+    }
+
+    function beginExercise() {
+      if (isPaused()) resumeSession();
+      state.phase = "work";
+      state.setIndex = 0;
+      state.workStartedAt = nowTs();
+      render();
+    }
+
+    function startRest() {
+      const ex = WORKOUT.exercises[state.exIndex];
+      const sec = Number(ex.restSec) || 0;
+      if (!sec) {
+        state.setIndex += 1;
+        state.phase = "work";
+        state.workStartedAt = nowTs();
+        render();
+        return;
+      }
+      state.phase = "rest";
+      state.restRemainingMs = sec * 1000;
+      state.restSegmentStartedAt = nowTs();
+      state.lastTickSec = null;
+      state.restAlarmPlayed = false;
+      render();
+    }
+
+    function finishRest(fromTimer) {
+      flushRest();
+      if (fromTimer) {
+        playRestEnd();
+        buzz([180, 70, 180]);
+        document.body.classList.remove("flash");
+        void document.body.offsetWidth;
+        document.body.classList.add("flash");
+        setTimeout(function () { document.body.classList.remove("flash"); }, 600);
+      }
+      state.setIndex += 1;
+      state.phase = "work";
+      state.workStartedAt = nowTs();
+      render();
+    }
+
+    function completeSet() {
+      if (isPaused()) resumeSession();
+      flushWork();
+      const ex = WORKOUT.exercises[state.exIndex];
+      const last = state.setIndex + 1 >= setsOf(ex);
+      if (last) {
+        goNextExercise();
+        return;
+      }
+      startRest();
+    }
+
+    function goNextExercise() {
+      const next = state.exIndex + 1;
+      if (next >= WORKOUT.exercises.length) {
+        finishWorkout();
+        return;
+      }
+      state.exIndex = next;
+      state.setIndex = 0;
+      state.phase = "prep";
+      state.workStartedAt = 0;
+      render();
+    }
+
+    function skipExercise() {
+      if (isPaused()) resumeSession();
+      if (state.phase === "work") flushWork();
+      if (state.phase === "rest") flushRest();
+      state.skipped[state.exIndex] = true;
+      goNextExercise();
+    }
+
+    function finishWorkout() {
+      if (state.phase === "work") flushWork();
+      if (state.phase === "rest") flushRest();
+      state.endedAt = nowTs();
+      state.pausedAt = 0;
+      state.phase = "done";
+      releaseWake();
+      render();
+    }
+
+    function pauseSession() {
+      if (state.pausedAt || state.phase === "overview" || state.phase === "done") return;
+      if (state.phase === "work") flushWork();
+      if (state.phase === "rest") flushRest();
+      state.pausedAt = nowTs();
+      updateHeader();
+      const pauseBtn = document.getElementById("pauseBtn");
+      pauseBtn.setAttribute("aria-pressed", "true");
+      pauseBtn.textContent = "Дальше";
+    }
+
+    function resumeSession() {
+      if (!state.pausedAt) return;
+      state.pauseMs += nowTs() - state.pausedAt;
+      state.pausedAt = 0;
+      if (state.phase === "work") state.workStartedAt = nowTs();
+      if (state.phase === "rest") state.restSegmentStartedAt = nowTs();
+      updateHeader();
+    }
+
+    function togglePause() {
+      if (isPaused()) resumeSession();
+      else pauseSession();
+    }
+
+    function copySummary() {
+      const text = summaryText();
+      const done = function () { showToast("Скопировано"); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(function () {
+          fallbackCopy(text);
+          done();
+        });
+      } else {
+        fallbackCopy(text);
+        done();
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+
+    document.getElementById("app").addEventListener("click", function (e) {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+      if (btn.dataset.action === "weight") {
+        adjustWeight(btn.dataset.scope, btn.dataset.kind, Number(btn.dataset.delta));
+        return;
+      }
+      if (btn.dataset.action === "pick-day") {
+        if (state.phase !== "overview") return;
+        selectWorkout(btn.dataset.id);
+        resetSession();
+        render();
+        return;
+      }
+      const id = btn.id;
+      if (!id) return;
+      if (id === "startBtn") startWorkout();
+      else if (id === "beginExBtn") beginExercise();
+      else if (id === "setDoneBtn") completeSet();
+      else if (id === "skipRestBtn") finishRest(false);
+      else if (id === "skipExBtn") skipExercise();
+      else if (id === "copyBtn") copySummary();
+      else if (id === "againBtn") {
+        resetSession();
+        render();
+      }
     });
 
+    document.getElementById("pauseBtn").addEventListener("click", togglePause);
+    document.getElementById("muteBtn").addEventListener("click", function () {
+      state.soundOn = !state.soundOn;
+      unlockAudio();
+      updateHeader();
+    });
+
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "visible" &&
+          state.phase !== "overview" && state.phase !== "done") {
+        requestWake();
+      }
+    });
+
+    resetSession();
     render();
+    tickTimer = setInterval(updateLive, 200);
   </script>
 </body>
 </html>

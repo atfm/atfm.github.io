@@ -160,10 +160,21 @@
       color: var(--muted);
     }
     .equip {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+      gap: 0.55rem;
       margin: 0 0 1.25rem;
+    }
+    .equip-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem 0.7rem 0.7rem;
+    }
+    .equip-card .eq-name {
+      margin: 0 0 0.45rem;
+      font-size: 0.92rem;
+      font-weight: 700;
     }
     .chip {
       background: var(--surface2);
@@ -175,6 +186,67 @@
     }
     .chip.rest { color: var(--warn); }
     .chip.equip-chip { color: var(--accent); }
+    .chip.load { color: var(--accent); }
+    .day-picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin: 0 0 1.15rem;
+    }
+    .day-tab {
+      font: inherit;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.5rem 0.85rem;
+      min-height: 44px;
+    }
+    .day-tab[aria-pressed="true"] {
+      background: var(--accent2);
+      color: #0a1018;
+      border-color: var(--accent2);
+    }
+    .weight-row {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .weight-row .w-lab {
+      font-size: 0.78rem;
+      color: var(--muted);
+      min-width: 4.2rem;
+    }
+    .weight-btn {
+      font: inherit;
+      font-size: 1.15rem;
+      font-weight: 700;
+      width: 2.5rem;
+      min-height: 44px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .weight-btn:active { transform: scale(0.96); }
+    .weight-val {
+      flex: 1;
+      text-align: center;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      font-size: 1.05rem;
+    }
+    .loads-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      margin: 0 0 0.85rem;
+    }
     .ex-list {
       list-style: none;
       margin: 0 0 1.25rem;
@@ -221,6 +293,15 @@
       font-weight: 700;
       color: var(--accent2);
       white-space: nowrap;
+      text-align: right;
+    }
+    .ex-row .rx small {
+      display: block;
+      margin-top: 0.2rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--accent);
+      white-space: normal;
     }
     .primary, .done-btn, .ghost, .danger {
       font: inherit;
@@ -471,8 +552,8 @@
 </head>
 <body>
   <!--
-    EDIT ONLY the workout data array; keep layout/CSS.
-    Завтрашняя тренировка = правка объекта WORKOUT ниже. Вёрстку не трогать.
+    АГЕНТ: перечень тренировок, упражнения и веса — только trenirovka-data.js.
+    Вёрстку и скрипт страницы не трогать.
   -->
   <header class="sticky">
     <div class="sticky-row">
@@ -503,62 +584,14 @@
     <p class="noscript">Нужен JavaScript, чтобы собрать карточки из списка упражнений.</p>
   </noscript>
 
+  <script src="trenirovka-data.js"></script>
   <script>
-    // EDIT ONLY the workout data array; keep layout/CSS.
-    // Меняйте только WORKOUT.
-    // Поля: title, dateLabel, dayLabel, equipment[], exercises[].
-    // Упражнение: name, sets, reps, restSec, gifUrl, notes?
-    // gifUrl: прямая ссылка на GIF/WebP/JPG (тег img) или MP4 (тег video, autoplay/loop/mute).
-    const WORKOUT = {
-      title: "Тренировка",
-      dateLabel: "дома · гантели + коврик",
-      dayLabel: "Day C — всё тело",
-      equipment: ["гантели", "коврик"],
-      exercises: [
-        {
-          name: "Присед с гантелями / Goblet squat",
-          sets: 3,
-          reps: "10",
-          restSec: 75,
-          gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-dumbbell-goblet-squat-front.mp4",
-          notes: "лёгкий день; глубина комфортная, пятки в пол."
-        },
-        {
-          name: "Отжимания (от пола или от дивана/стола) / Push-up",
-          sets: 3,
-          reps: "6–12",
-          restSec: 60,
-          gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Bodyweight-push-up-front.mp4",
-          notes: "до комфортного отказа в диапазоне 6–12; при необходимости руки на возвышении."
-        },
-        {
-          name: "Ягодичный мост / Glute bridge",
-          sets: 3,
-          reps: "12–15",
-          restSec: 60,
-          gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Bodyweight-glute-bridge-front.mp4",
-          notes: "на коврике, пауза сверху, не прогибаться в пояснице."
-        },
-        {
-          name: "Тяга в наклоне двумя руками / Dumbbell bent-over row",
-          sets: 3,
-          reps: "10",
-          restSec: 75,
-          gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Bent-Over-Dumbbell-Row.gif",
-          notes: "спина прямая, тянем к поясу, локти вдоль корпуса."
-        },
-        {
-          name: "Прогулка фермера / Farmer carry",
-          sets: 3,
-          reps: "30–40 с",
-          restSec: 60,
-          gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2022/02/Farmers-walk_Cardio.gif",
-          notes: "гантели в руках, ровная осанка, ходите по квартире."
-        }
-      ]
-    };
+
+    const catalog = Array.isArray(window.WORKOUTS) ? window.WORKOUTS : [];
+    let WORKOUT = catalog[0] || { title: "Тренировка", dayLabel: "", dateLabel: "", equipment: [], exercises: [] };
 
     const state = {
+      workoutId: "",
       phase: "overview",
       exIndex: 0,
       setIndex: 0,
@@ -569,6 +602,9 @@
       workMs: [],
       restMs: [],
       skipped: [],
+      equipKg: { dumbbell: null, band: null },
+      loads: [],
+      custom: [],
       workStartedAt: 0,
       restRemainingMs: 0,
       restSegmentStartedAt: 0,
@@ -621,6 +657,141 @@
     function setsOf(ex) {
       const n = Number(ex.sets);
       return n > 0 ? n : 1;
+    }
+
+    function kindFromName(name) {
+      const n = String(name || "").toLowerCase();
+      if (/гантел|гир|dumbbell/.test(n)) return "dumbbell";
+      if (/резин|эспандер|band/.test(n)) return "band";
+      return "other";
+    }
+
+    function normalizeEquip(item) {
+      if (typeof item === "string") {
+        const kind = kindFromName(item);
+        return {
+          kind: kind,
+          name: item,
+          weightKg: kind === "other" ? null : 0
+        };
+      }
+      const kind = item.kind || kindFromName(item.name);
+      const raw = item.weightKg;
+      return {
+        kind: kind,
+        name: item.name || "",
+        weightKg: kind === "other" ? null : (raw == null || raw === "" ? 0 : Number(raw))
+      };
+    }
+
+    function equipList() {
+      return (WORKOUT.equipment || []).map(normalizeEquip);
+    }
+
+    function clampKg(n) {
+      const v = Math.round(Number(n) || 0);
+      if (v < 0) return 0;
+      if (v > 80) return 80;
+      return v;
+    }
+
+    function resolveKg(value, kind) {
+      if (value === true) {
+        const eq = state.equipKg[kind];
+        return eq == null ? 0 : clampKg(eq);
+      }
+      if (typeof value === "number" && !isNaN(value)) return clampKg(value);
+      return null;
+    }
+
+    function plannedLoad(ex) {
+      return {
+        dumbbellKg: resolveKg(ex.dumbbellKg, "dumbbell"),
+        bandKg: resolveKg(ex.bandKg, "band")
+      };
+    }
+
+    function loadOf(i) {
+      return state.loads[i] || { dumbbellKg: null, bandKg: null };
+    }
+
+    function loadParts(load) {
+      const parts = [];
+      if (load.dumbbellKg != null) parts.push("гантели " + load.dumbbellKg + " кг");
+      if (load.bandKg != null) parts.push("резинка " + load.bandKg + " кг");
+      return parts;
+    }
+
+    function loadText(load) {
+      return loadParts(load).join(" · ");
+    }
+
+    function findWorkout(id) {
+      return catalog.find(function (w) { return w.id === id; }) || catalog[0] || WORKOUT;
+    }
+
+    function initLoadsFromWorkout() {
+      const equip = equipList();
+      state.equipKg = { dumbbell: null, band: null };
+      equip.forEach(function (item) {
+        if (item.kind === "dumbbell" || item.kind === "band") {
+          state.equipKg[item.kind] = clampKg(item.weightKg);
+        }
+      });
+      state.loads = (WORKOUT.exercises || []).map(plannedLoad);
+      state.custom = (WORKOUT.exercises || []).map(function () {
+        return { dumbbell: false, band: false };
+      });
+    }
+
+    function selectWorkout(id, keepPhase) {
+      WORKOUT = findWorkout(id);
+      state.workoutId = WORKOUT.id || "";
+      initLoadsFromWorkout();
+      if (!keepPhase) {
+        state.phase = "overview";
+        state.exIndex = 0;
+        state.setIndex = 0;
+        state.startedAt = 0;
+        state.endedAt = 0;
+        state.pauseMs = 0;
+        state.pausedAt = 0;
+        state.workStartedAt = 0;
+      }
+    }
+
+    function weightStepperHtml(scope, kind, kg, label) {
+      if (kg == null) return "";
+      return (
+        '<div class="weight-row" data-kind="' + kind + '">' +
+          (label ? '<span class="w-lab">' + escapeHtml(label) + "</span>" : "") +
+          '<button type="button" class="weight-btn" data-action="weight" data-scope="' + scope +
+            '" data-kind="' + kind + '" data-delta="-1" aria-label="меньше">−</button>' +
+          '<span class="weight-val" data-weight-val="' + scope + '-' + kind + '">' + kg + " кг</span>" +
+          '<button type="button" class="weight-btn" data-action="weight" data-scope="' + scope +
+            '" data-kind="' + kind + '" data-delta="1" aria-label="больше">+</button>' +
+        "</div>"
+      );
+    }
+
+    function exerciseLoadSteppers(i) {
+      const load = loadOf(i);
+      const bits = [];
+      if (load.dumbbellKg != null) bits.push(weightStepperHtml("ex", "dumbbell", load.dumbbellKg, "гантели"));
+      if (load.bandKg != null) bits.push(weightStepperHtml("ex", "band", load.bandKg, "резинка"));
+      if (!bits.length) return "";
+      return '<div class="loads-box">' + bits.join("") + "</div>";
+    }
+
+    function chipsHtml(ex, i) {
+      const load = loadText(loadOf(i));
+      return (
+        '<div class="prescription">' +
+          '<span class="chip">' + escapeHtml(ex.sets) + "×" + escapeHtml(ex.reps) + "</span>" +
+          (ex.restSec ? '<span class="chip rest">' + restLabel(ex.restSec) + "</span>" : "") +
+          (load ? '<span class="chip load">' + escapeHtml(load) + "</span>" : "") +
+        "</div>"
+      );
     }
 
     function nowTs() {
@@ -748,20 +919,32 @@
       );
     }
 
-    function chipsHtml(ex) {
-      return (
-        '<div class="prescription">' +
-          '<span class="chip">' + escapeHtml(ex.sets) + "×" + escapeHtml(ex.reps) + "</span>" +
-          (ex.restSec ? '<span class="chip rest">' + restLabel(ex.restSec) + "</span>" : "") +
-        "</div>"
-      );
-    }
-
     function renderOverview() {
-      const equip = (WORKOUT.equipment || []).map(function (item) {
-        return '<span class="chip equip-chip">' + escapeHtml(item) + "</span>";
+      const picker = catalog.length > 1
+        ? '<p class="section-title">Дни</p><div class="day-picker">' +
+            catalog.map(function (w) {
+              const on = w.id === state.workoutId;
+              return (
+                '<button type="button" class="day-tab" data-action="pick-day" data-id="' +
+                  escapeHtml(w.id) + '" aria-pressed="' + (on ? "true" : "false") + '">' +
+                  escapeHtml(w.dayLabel || w.id) +
+                "</button>"
+              );
+            }).join("") +
+          "</div>"
+        : "";
+      const equipCards = equipList().map(function (item) {
+        const canWeigh = item.kind === "dumbbell" || item.kind === "band";
+        const kg = canWeigh ? state.equipKg[item.kind] : null;
+        return (
+          '<div class="equip-card">' +
+            '<p class="eq-name">' + escapeHtml(item.name) + "</p>" +
+            (canWeigh ? weightStepperHtml("equip", item.kind, kg == null ? 0 : kg, "") : "") +
+          "</div>"
+        );
       }).join("");
       const rows = WORKOUT.exercises.map(function (ex, i) {
+        const load = loadText(loadOf(i));
         return (
           '<li class="ex-row">' +
             '<span class="n">' + (i + 1) + "</span>" +
@@ -770,12 +953,15 @@
               (ex.notes ? '<p class="sub">' + escapeHtml(ex.notes) + "</p>" : "") +
               (ex.restSec ? '<p class="sub">' + restLabel(ex.restSec) + " между подходами</p>" : "") +
             "</div>" +
-            '<span class="rx">' + escapeHtml(ex.sets) + "×" + escapeHtml(ex.reps) + "</span>" +
+            '<span class="rx">' + escapeHtml(ex.sets) + "×" + escapeHtml(ex.reps) +
+              (load ? "<small>" + escapeHtml(load) + "</small>" : "") +
+            "</span>" +
           "</li>"
         );
       }).join("");
       return (
-        (equip ? '<p class="section-title">Инвентарь</p><div class="equip">' + equip + "</div>" : "") +
+        picker +
+        (equipCards ? '<p class="section-title">Инвентарь</p><div class="equip">' + equipCards + "</div>" : "") +
         '<p class="section-title">Упражнения</p>' +
         '<ol class="ex-list">' + rows + "</ol>" +
         '<button type="button" class="primary" id="startBtn"' +
@@ -791,8 +977,9 @@
         '<article class="card">' +
           '<p class="phase-label">Подготовка · ' + (state.exIndex + 1) + " из " + n + "</p>" +
           '<h2 class="ex-name">' + escapeHtml(ex.name) + "</h2>" +
-          chipsHtml(ex) +
+          chipsHtml(ex, state.exIndex) +
           mediaHtml(ex) +
+          exerciseLoadSteppers(state.exIndex) +
           (ex.notes ? '<p class="notes">' + escapeHtml(ex.notes) + "</p>" : "") +
           '<div class="btn-col">' +
             '<button type="button" class="primary" id="beginExBtn">Старт</button>' +
@@ -810,9 +997,10 @@
         '<article class="card">' +
           '<p class="phase-label">Упражнение · ' + (state.exIndex + 1) + " из " + WORKOUT.exercises.length + "</p>" +
           '<h2 class="ex-name">' + escapeHtml(ex.name) + "</h2>" +
-          chipsHtml(ex) +
+          chipsHtml(ex, state.exIndex) +
           '<p class="set-now">Подход ' + (state.setIndex + 1) + " из " + sets + "</p>" +
           mediaHtml(ex) +
+          exerciseLoadSteppers(state.exIndex) +
           (ex.notes ? '<p class="notes">' + escapeHtml(ex.notes) + "</p>" : "") +
           '<div class="btn-col">' +
             '<button type="button" class="done-btn" id="setDoneBtn">' +
@@ -858,6 +1046,14 @@
       lines.push("Тренировка: " + WORKOUT.dayLabel);
       if (WORKOUT.dateLabel) lines.push(WORKOUT.dateLabel);
       lines.push("Дата: " + todayLabel());
+      const equipBits = equipList().map(function (item) {
+        if (item.kind === "dumbbell" || item.kind === "band") {
+          const kg = state.equipKg[item.kind];
+          return item.name + (kg == null ? "" : " " + kg + " кг");
+        }
+        return item.name;
+      });
+      if (equipBits.length) lines.push("Инвентарь: " + equipBits.join(", "));
       lines.push("");
       lines.push("Общее время: " + fmtTime(sessionElapsed()));
       const workTotal = state.workMs.reduce(function (a, b) { return a + b; }, 0);
@@ -868,7 +1064,11 @@
       lines.push("Время на каждое упражнение (без пауз):");
       WORKOUT.exercises.forEach(function (ex, i) {
         const mark = state.skipped[i] ? " — пропущено" : "";
-        lines.push((i + 1) + ". " + ex.name + " — " + fmtTime(state.workMs[i] || 0) + mark);
+        const load = loadText(loadOf(i));
+        lines.push(
+          (i + 1) + ". " + ex.name + " — " + fmtTime(state.workMs[i] || 0) +
+          (load ? " — " + load : "") + mark
+        );
       });
       return lines.join("\n");
     }
@@ -878,9 +1078,12 @@
       const restTotal = state.restMs.reduce(function (a, b) { return a + b; }, 0);
       const items = WORKOUT.exercises.map(function (ex, i) {
         const skip = state.skipped[i];
+        const load = loadText(loadOf(i));
         return (
           "<li" + (skip ? ' class="skipped"' : "") + ">" +
-            "<span>" + (i + 1) + ". " + escapeHtml(ex.name) + (skip ? " (пропущено)" : "") + "</span>" +
+            "<span>" + (i + 1) + ". " + escapeHtml(ex.name) +
+              (load ? " · " + escapeHtml(load) : "") +
+              (skip ? " (пропущено)" : "") + "</span>" +
             '<span class="t">' + fmtTime(state.workMs[i] || 0) + "</span>" +
           "</li>"
         );
@@ -972,6 +1175,11 @@
     }
 
     function render() {
+      if (!WORKOUT || !WORKOUT.exercises) {
+        document.getElementById("app").innerHTML =
+          '<p class="notes">Нет тренировок. Добавь объект в WORKOUTS в файле trenirovka-data.js.</p>';
+        return;
+      }
       document.title = WORKOUT.title + " — " + WORKOUT.dayLabel;
       document.getElementById("workoutTitle").textContent = WORKOUT.title;
       document.getElementById("dayLabel").textContent = WORKOUT.dayLabel;
@@ -983,7 +1191,60 @@
       updateHeader();
     }
 
+    function refreshLoadUi() {
+      Array.prototype.forEach.call(document.querySelectorAll("[data-weight-val]"), function (el) {
+        const bits = (el.getAttribute("data-weight-val") || "").split("-");
+        const scope = bits[0];
+        const kind = bits[1];
+        let kg = null;
+        if (scope === "equip") kg = state.equipKg[kind];
+        else {
+          const load = loadOf(state.exIndex);
+          kg = kind === "dumbbell" ? load.dumbbellKg : load.bandKg;
+        }
+        if (kg != null) el.textContent = kg + " кг";
+      });
+      const chip = document.querySelector(".chip.load");
+      if (chip) {
+        const text = loadText(loadOf(state.exIndex));
+        if (text) chip.textContent = text;
+      }
+    }
+
+    function adjustWeight(scope, kind, delta) {
+      if (kind !== "dumbbell" && kind !== "band") return;
+      const step = Number(delta) || 0;
+      if (scope === "equip") {
+        const prev = state.equipKg[kind] == null ? 0 : state.equipKg[kind];
+        const next = clampKg(prev + step);
+        state.equipKg[kind] = next;
+        (WORKOUT.exercises || []).forEach(function (ex, i) {
+          const uses = kind === "dumbbell" ? ex.dumbbellKg : ex.bandKg;
+          const customized = state.custom[i] && state.custom[i][kind];
+          if (uses === true && !customized) {
+            if (!state.loads[i]) state.loads[i] = { dumbbellKg: null, bandKg: null };
+            state.loads[i][kind === "dumbbell" ? "dumbbellKg" : "bandKg"] = next;
+          }
+        });
+        if (state.phase === "overview") render();
+        else refreshLoadUi();
+        return;
+      }
+      if (scope === "ex") {
+        const load = loadOf(state.exIndex);
+        const key = kind === "dumbbell" ? "dumbbellKg" : "bandKg";
+        if (load[key] == null) return;
+        load[key] = clampKg(load[key] + step);
+        if (!state.custom[state.exIndex]) {
+          state.custom[state.exIndex] = { dumbbell: false, band: false };
+        }
+        state.custom[state.exIndex][kind] = true;
+        refreshLoadUi();
+      }
+    }
+
     function resetSession() {
+      selectWorkout(state.workoutId || window.ACTIVE_WORKOUT_ID);
       state.phase = "overview";
       state.exIndex = 0;
       state.setIndex = 0;
@@ -1004,10 +1265,21 @@
 
     function startWorkout() {
       unlockAudio();
-      resetSession();
       state.startedAt = nowTs();
+      state.endedAt = 0;
+      state.pauseMs = 0;
+      state.pausedAt = 0;
       state.phase = "prep";
       state.exIndex = 0;
+      state.setIndex = 0;
+      state.workMs = WORKOUT.exercises.map(function () { return 0; });
+      state.restMs = WORKOUT.exercises.map(function () { return 0; });
+      state.skipped = WORKOUT.exercises.map(function () { return false; });
+      state.workStartedAt = 0;
+      state.restRemainingMs = 0;
+      state.restSegmentStartedAt = 0;
+      state.lastTickSec = null;
+      state.restAlarmPlayed = false;
       requestWake();
       render();
     }
@@ -1149,7 +1421,20 @@
     }
 
     document.getElementById("app").addEventListener("click", function (e) {
-      const id = e.target.closest("button") && e.target.closest("button").id;
+      const btn = e.target.closest("button");
+      if (!btn) return;
+      if (btn.dataset.action === "weight") {
+        adjustWeight(btn.dataset.scope, btn.dataset.kind, Number(btn.dataset.delta));
+        return;
+      }
+      if (btn.dataset.action === "pick-day") {
+        if (state.phase !== "overview") return;
+        selectWorkout(btn.dataset.id);
+        resetSession();
+        render();
+        return;
+      }
+      const id = btn.id;
       if (!id) return;
       if (id === "startBtn") startWorkout();
       else if (id === "beginExBtn") beginExercise();

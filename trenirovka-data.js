@@ -24,9 +24,67 @@
  * gifUrl: GIF/WebP/JPG или MP4.
  * ============================================================================= */
 
-var ACTIVE_WORKOUT_ID = "day-c";
+var ACTIVE_WORKOUT_ID = "day-b";
 
 var WORKOUTS = [
+  {
+    id: "day-b",
+    title: "Тренировка",
+    dayLabel: "Day B — верх",
+    dateLabel: "дома · гантели 3,5 кг + тросы",
+    equipment: [
+      { kind: "dumbbell", name: "гантели", weightKg: 3.5 },
+      { kind: "band", name: "тросы KETTLER", weightKg: 10 },
+      { kind: "other", name: "коврик" }
+    ],
+    exercises: [
+      {
+        name: "Жим гантелей на полу / Dumbbell floor press",
+        sets: 3,
+        reps: "10–12",
+        restSec: 75,
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-floor-press-front.mp4",
+        notes: "после болезни — обычный объём, без отказа; локти на пол, пауза, затем жим.",
+        dumbbellKg: true
+      },
+      {
+        name: "Тяга троса к поясу (дверное крепление) / Band or cable row",
+        sets: 3,
+        reps: "10",
+        restSec: 75,
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-band-single-arm-row-front.mp4",
+        notes: "якорь в двери на уровне груди/пояса; тяга к поясу, корпус спокойный. KETTLER ~10 кг, не максимум.",
+        bandKg: true
+      },
+      {
+        name: "Жим стоя / Dumbbell overhead press",
+        sets: 3,
+        reps: "10",
+        restSec: 75,
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-overhead-press-front.mp4",
+        notes: "гантели 3,5 кг; корпус напряжён, не прогибаться в пояснице. Стоп за 1–2 повтора до отказа.",
+        dumbbellKg: true
+      },
+      {
+        name: "Разведения в наклоне / Rear delt fly",
+        sets: 3,
+        reps: "12",
+        restSec: 60,
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-rear-delt-fly-front.mp4",
+        notes: "гантели 3,5 кг; лёгкий наклон, локти мягкие, лопатки сводим. Без рывков.",
+        dumbbellKg: true
+      },
+      {
+        name: "Dead bug",
+        sets: 3,
+        reps: "8 на сторону",
+        restSec: 50,
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Bodyweight-dead-bug-front.mp4",
+        notes: "на коврике; поясница прижата к полу, противоположные рука и нога."
+      }
+    ]
+  },
+
   {
     id: "day-c",
     title: "Тренировка",

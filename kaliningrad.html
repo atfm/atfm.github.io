@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#e86a17" />
+  <title>Калининград на двоих — 18–19 сентября</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #fff8f1;
+      --paper-deep: #f6e6d4;
+      --white: #ffffff;
+      --ink: #2b170c;
+      --ink-soft: #6d4d3a;
+      --muted: #8b6b56;
+      --orange: #e86a17;
+      --orange-deep: #c24e08;
+      --peach: #ffd7b4;
+      --peach-hot: #ffb777;
+      --line: rgba(194, 78, 8, 0.16);
+      --ok: #2f7a4a;
+      --warn: #b45309;
+      --danger: #b42318;
+      --shadow: 0 18px 40px -24px rgba(194, 78, 8, 0.45);
+      --radius: 22px;
+      --font-display: "Fraunces", Georgia, serif;
+      --font-body: "Manrope", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: var(--font-body);
+      line-height: 1.55;
+      background:
+        radial-gradient(900px 480px at 8% -10%, rgba(255, 183, 119, 0.55), transparent 58%),
+        radial-gradient(720px 420px at 110% 8%, rgba(232, 106, 23, 0.18), transparent 52%),
+        radial-gradient(600px 380px at 50% 120%, rgba(255, 215, 180, 0.5), transparent 55%),
+        linear-gradient(180deg, #fffdfb 0%, var(--paper) 38%, var(--paper-deep) 100%);
+      background-attachment: fixed;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.28;
+      background-image:
+        repeating-linear-gradient(
+          -18deg,
+          transparent,
+          transparent 13px,
+          rgba(194, 78, 8, 0.035) 13px,
+          rgba(194, 78, 8, 0.035) 14px
+        );
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 1.1rem 5.5rem;
+    }
+
+    .hero {
+      padding: 2.1rem 0 1.4rem;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin: 0;
+      padding: 0.28rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(232, 106, 23, 0.12);
+      color: var(--orange-deep);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0.85rem 0 0.45rem;
+      font-family: var(--font-display);
+      font-size: clamp(2.05rem, 8vw, 3.35rem);
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+    }
+
+    .lede {
+      margin: 0;
+      max-width: 38rem;
+      color: var(--ink-soft);
+      font-size: 1.05rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.65rem;
+      margin-top: 1.35rem;
+    }
+
+    .stat {
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 0.8rem 0.75rem 0.75rem;
+      box-shadow: var(--shadow);
+    }
+
+    .stat b {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--orange-deep);
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .progress-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      margin: 1rem -1.1rem 0;
+      padding: 0.7rem 1.1rem 0.75rem;
+      background: rgba(255, 248, 241, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 10px;
+      background: #f3ddc8;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar > i {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ffb777, var(--orange) 55%, var(--orange-deep));
+      border-radius: inherit;
+      transition: width 0.28s ease;
+    }
+
+    .progress-label {
+      min-width: 4.6rem;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--orange-deep);
+      text-align: right;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.7rem;
+    }
+
+    .toolbar button,
+    .day-nav a,
+    .chip {
+      font: inherit;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 0.38rem 0.78rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .toolbar button:hover,
+    .day-nav a:hover,
+    .chip:hover { border-color: var(--orange); color: var(--orange-deep); }
+
+    .toolbar button[aria-pressed="true"],
+    .day-nav a.is-active,
+    .chip.is-active {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: #fff;
+    }
+
+    .ghost { background: transparent; }
+
+    .day-nav {
+      display: flex;
+      gap: 0.45rem;
+      margin: 1.1rem 0 0.4rem;
+    }
+
+    .note {
+      background: #fff7ea;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1rem 1.05rem 1.05rem;
+      margin: 1rem 0;
+      box-shadow: var(--shadow);
+    }
+
+    .note h2,
+    .day-head h2 {
+      margin: 0 0 0.4rem;
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      letter-spacing: -0.02em;
+    }
+
+    .note p, .day-head p { margin: 0.35rem 0 0; color: var(--ink-soft); }
+
+    .warn-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-top: 0.7rem;
+      padding: 0.65rem 0.75rem;
+      border-radius: 14px;
+      background: rgba(232, 106, 23, 0.08);
+      color: var(--warn);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .place {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.8rem 0.9rem;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1rem 1rem 1.05rem;
+      margin: 0.85rem 0;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .place:target {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(232, 106, 23, 0.18), var(--shadow);
+    }
+
+    .place.done {
+      background: #fff4ea;
+      border-color: rgba(232, 106, 23, 0.28);
+    }
+
+    .place.done .title { text-decoration: line-through; text-decoration-thickness: 2px; color: var(--muted); }
+
+    .check {
+      position: relative;
+      width: 28px;
+      height: 28px;
+      margin-top: 0.15rem;
+      flex: 0 0 28px;
+    }
+
+    .check input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      margin: 0;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .check .tick {
+      position: absolute;
+      inset: 0;
+      border: 2px solid #e0b48c;
+      border-radius: 9px;
+      background: #fff;
+      pointer-events: none;
+    }
+
+    .check input:checked + .tick {
+      background: var(--orange);
+      border-color: var(--orange);
+    }
+
+    .check input:checked + .tick::after {
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: 3px;
+      width: 7px;
+      height: 13px;
+      border: solid #fff;
+      border-width: 0 2.5px 2.5px 0;
+      transform: rotate(45deg);
+    }
+
+    .check input:focus-visible + .tick {
+      outline: 3px solid rgba(232, 106, 23, 0.35);
+      outline-offset: 2px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      background: #fff1e4;
+      color: var(--orange-deep);
+    }
+
+    .tag.eat { background: #fff0e8; color: #9a3412; }
+    .tag.must { background: #ffe4c4; }
+    .tag.opt { background: #f4efe9; color: var(--muted); }
+    .tag.warn {
+      background: #fff4cc;
+      color: #92400e;
+    }
+    .tag.hard {
+      background: #fee4e2;
+      color: var(--danger);
+    }
+
+    .title {
+      margin: 0;
+      font-size: 1.12rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+
+    .desc {
+      margin: 0.4rem 0 0;
+      color: var(--ink-soft);
+      font-size: 0.95rem;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem 0.9rem;
+      margin-top: 0.7rem;
+    }
+
+    .links a {
+      color: var(--orange-deep);
+      font-weight: 800;
+      font-size: 0.88rem;
+      text-decoration: none;
+      border-bottom: 1.5px solid var(--peach-hot);
+    }
+
+    .links a:hover { color: var(--orange); }
+
+    .day { scroll-margin-top: 4.6rem; }
+    .day-head { margin: 1.6rem 0 0.3rem; }
+
+    .route {
+      display: flex;
+      gap: 0.65rem;
+      overflow-x: auto;
+      padding: 0.2rem 0 0.5rem;
+      margin: 0.4rem 0 0.2rem;
+      scrollbar-width: thin;
+    }
+
+    .route a {
+      flex: 0 0 auto;
+      text-decoration: none;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 0.55rem 0.7rem;
+      min-width: 7.4rem;
+      box-shadow: var(--shadow);
+    }
+
+    .route a b {
+      display: block;
+      color: var(--orange-deep);
+      font-size: 0.78rem;
+    }
+
+    .route a span {
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    footer {
+      margin-top: 2.2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 640px) {
+      .stats { grid-template-columns: 1fr 1fr 1fr; }
+      .stat { padding: 0.65rem 0.5rem; }
+      .stat b { font-size: 1.05rem; }
+      h1 { font-size: 2.05rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <p class="kicker">гид · Калининград · машина</p>
+      <h1>Два дня на двоих: море, коса и город</h1>
+      <p class="lede">Сегодня — голосование, Зеленоградск и Куршская коса. Завтра — центр Калининграда. Программа максимум, но по времени и километрам она реально проходится на машине.</p>
+      <div class="stats">
+        <div class="stat"><b>пт–сб</b><span>18–19 сентября</span></div>
+        <div class="stat"><b>~90 км</b><span>до высоты Эфа</span></div>
+        <div class="stat"><b>8:00</b><span>участки открыты</span></div>
+      </div>
+    </header>
+
+    <div class="progress-wrap">
+      <div class="progress-row">
+        <div class="progress-bar" aria-hidden="true"><i id="bar"></i></div>
+        <div class="progress-label" id="progressLabel">0 / 0</div>
+      </div>
+      <div class="toolbar">
+        <button type="button" data-filter="all" aria-pressed="true">Все</button>
+        <button type="button" data-filter="see">Смотреть</button>
+        <button type="button" data-filter="eat">Поесть</button>
+        <button type="button" data-filter="must">Главное</button>
+        <button type="button" class="ghost" id="resetBtn">Сбросить чек-лист</button>
+      </div>
+    </div>
+
+    <nav class="day-nav" aria-label="Дни">
+      <a class="is-active" href="#day1">Сегодня, пт 18</a>
+      <a href="#day2">Завтра, сб 19</a>
+      <a href="#tips">Советы</a>
+    </nav>
+
+    <section class="note" id="logic">
+      <h2>Как устроен день</h2>
+      <p>Голосование закрываем утром в центре, иначе КПП косы и Зеленоградск съедят светлое время. На косе не пытайтесь увидеть всё: Королевский бор и границу с Литвой сознательно пропускаем. Завтра город пешком плюс машина на Амалиенау.</p>
+      <div class="warn-line">Дорога Калининград → Зеленоградск бесплатная. Платный только въезд в нацпарк «Куршская коса»: экосбор ~400 ₽ с человека, машину отдельно уже не берут. QR лучше купить заранее на <a href="https://kkosa.ru/" target="_blank" rel="noopener">kkosa.ru</a>.</div>
+    </section>
+
+    <section class="day" id="day1">
+      <div class="day-head">
+        <h2>Пятница, 18 сентября</h2>
+        <p>Голос → Зеленоградск → коса до высоты Эфа → ужин у моря. В пути около 2,5 часов суммарно, на местах — весь день.</p>
+      </div>
+      <div class="route" aria-label="Таймлайн пятницы">
+        <a href="#d1-vote"><b>08:00</b><span>Голос</span></a>
+        <a href="#d1-coffee"><b>09:30</b><span>Кофе</span></a>
+        <a href="#d1-kpp"><b>10:10</b><span>КПП косы</span></a>
+        <a href="#d1-dance"><b>11:20</b><span>Танцующий лес</span></a>
+        <a href="#d1-efa"><b>12:20</b><span>Высота Эфа</span></a>
+        <a href="#d1-lunch"><b>14:00</b><span>Обед</span></a>
+        <a href="#d1-promenade"><b>16:00</b><span>Променад</span></a>
+        <a href="#d1-dinner"><b>18:30</b><span>Ужин</span></a>
+      </div>
+
+      <article class="place" id="d1-vote" data-id="d1-vote" data-kind="must">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag must">08:00–08:40</span>
+            <span class="tag">20–40 мин</span>
+            <span class="tag warn">паспорт</span>
+          </div>
+          <h3 class="title">Проголосовать в центре</h3>
+          <p class="desc">Участки открыты 18, 19 и 20 сентября с 8:00 до 20:00. Лучше закрыть это утром, до выезда на косу: вечером вы вернётесь ближе к 20:00, и очереди уже ни к чему. Возьмите паспорт. Если оформляли ДЭГ — голосуйте на портале, участок не обязателен.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Калининград%2C%20избирательный%20участок" target="_blank" rel="noopener">Яндекс Карты: участок</a>
+            <a href="https://cikrf.ru/digital-services/nayti-svoy-izbiratelnyy-uchastok/" target="_blank" rel="noopener">Найти свой УИК</a>
+            <a href="https://vybory.gov.ru/" target="_blank" rel="noopener">ДЭГ vybory.gov.ru</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d1-drive" data-id="d1-drive" data-kind="see">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag">08:45–09:25</span>
+            <span class="tag">~35–45 мин</span>
+            <span class="tag">32–40 км</span>
+          </div>
+          <h3 class="title">Переезд в Зеленоградск</h3>
+          <p class="desc">Из центра по Приморскому кольцу / А191 без платных участков. Камер много, лимит обычно 90, в городе резко падает. Заправьтесь в Калининграде или Зеленоградске: на самой косе заправок почти нет.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?rtext=Калининград~Зеленоградск&rtt=auto" target="_blank" rel="noopener">Маршрут в Яндекс Картах</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d1-coffee" data-id="d1-coffee" data-kind="eat">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag eat">поесть</span>
+            <span class="tag">09:30–10:00</span>
+            <span class="tag">30 мин</span>
+          </div>
+          <h3 class="title">Кофе и выпечка в Курхаусе Кранц</h3>
+          <p class="desc">Курортный проспект, 16 — сердце старого Кранца. Пекарня при «БАЛТе» открывается раньше ресторана: кофе, сыр и хлеб из печи, чтобы не ехать на косу голодными. Машину оставьте на ближайшей парковке у Курортного — в сезон центр плотный.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Зеленоградск%2C%20Курортный%20проспект%2016%20Курхаус%20Кранц" target="_blank" rel="noopener">Яндекс Карты</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d1-kpp" data-id="d1-kpp" data-kind="must">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag must">главное</span>
+            <span class="tag">10:10</span>
+            <span class="tag warn">экосбор ~400 ₽</span>
+            <span class="tag warn">QR заранее</span>
+          </div>
+          <h3 class="title">КПП национального парка</h3>
+          <p class="desc">Шлагбаум сразу за Зеленоградском, у посёлка Лесной. Покупайте билет онлайн на дату поездки и покажите QR — так не стоите в кассе. На тропах ходите только по настилам: сход на дюну — штраф. До литовской границы (Нида) не ехать: это Шенген, без заранее оформленных документов не пустят.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Куршская%20коса%20КПП%20Лесной" target="_blank" rel="noopener">Яндекс Карты: КПП</a>
+            <a href="https://kkosa.ru/" target="_blank" rel="noopener">Оплатить экосбор</a>
+            <a href="https://park-kosa.ru/" target="_blank" rel="noopener">Сайт парка</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d1-fringilla" data-id="d1-fringilla" data-kind="see">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag opt">по желанию</span>
+            <span class="tag">23-й км</span>
+            <span class="tag">40–60 мин</span>
+            <span class="tag warn">отдельный билет ~450 ₽</span>
+          </div>
+          <h3 class="title">Орнитологическая станция «Фрингилла»</h3>
+          <p class="desc">Ловушки для птиц и рассказ кольцевателей. Интересно, но это плюс час и отдельный билет сверх экосбора. Если хотите успеть Эфу при свете, спокойно пропускайте: Танцующий лес и дюна важнее.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Куршская%20коса%20Фрингилла" target="_blank" rel="noopener">Яндекс Карты</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d1-dance" data-id="d1-dance" data-kind="must">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag must">смотреть</span>
+            <span class="tag">37-й км</span>
+            <span class="tag">30–40 мин</span>
+          </div>
+          <h3 class="title">Танцующий лес</h3>
+          <p class="desc">Сосны, закрученные штопором на дюне Круглой. Тропа короткая, с настилами, фотографируются все. Не ломайте ветки и не сходите в песок — лес и так хрупкий. Парковка у трассы, туалет обычно есть.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Куршская%20коса%20Танцующий%20лес" target="_blank" rel="noopener">Яндекс Карты</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d1-efa" data-id="d1-efa" data-kind="must">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag must">смотреть</span>
+            <span class="tag">42-й км</span>
+            <span class="tag">50–80 мин</span>
+          </div>
+          <h3 class="title">Высота Эфа</h3>
+          <p class="desc">Главный кадр косы: с деревянных площадок сразу море, залив, лес и посёлок Морское. Тропа ~2,4 км, подъём спокойный, ветер бывает жёсткий. Это разворотная точка дня — дальше только озеро Лебедь и граница, туда не стоит.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Куршская%20коса%20Высота%20Эфа" target="_blank" rel="noopener">Яндекс Карты</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d1-lunch" data-id="d1-lunch" data-kind="eat">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag eat">поесть</span>
+            <span class="tag">14:00</span>
+            <span class="tag">45–60 мин</span>
+          </div>
+          <h3 class="title">Обед: трактир «Эфа» в Морском</h3>
+          <p class="desc">Набережная, 1В, у остановки «Дюна Эфа». Простая еда после ветра: суп, шашлык, рыба с гриля. Если очередь или закрыто, рядом киоски и «Эфа-рия». Нормальный ужин лучше оставить Зеленоградску — здесь это заправка, не гастрономия.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Морское%20трактир%20Эфа%20Набережная%201В" target="_blank" rel="noopener">Яндекс Карты</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d1-promenade" data-id="d1-promenade" data-kind="must">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag must">смотреть</span>
+            <span class="tag">16:00</span>
+            <span class="tag">40–60 мин</span>
+          </div>
+          <h3 class="title">Променад и капитанский мостик</h3>
+          <p class="desc">Обратная дорога от Эфы до Зеленоградска ~50 минут. Набережная ~2 км, пирс, море и закатный свет. Сюда возвращаемся специально: утром коса важнее, вечером курорт красивее. Если холодно, хватит мостика и часовой петли.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Зеленоградск%20променад%20Капитанский%20мостик" target="_blank" rel="noopener">Яндекс Карты</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d1-murarium" data-id="d1-murarium" data-kind="see">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag">смотреть</span>
+            <span class="tag">10:00–20:00</span>
+            <span class="tag">30–40 мин</span>
+            <span class="tag warn">билет ~450 ₽</span>
+          </div>
+          <h3 class="title">Мурариум в водонапорной башне</h3>
+          <p class="desc">Саратовская, 2а. Башня 1905 года, наверху смотровая, внутри тысячи котов. Билеты на месте, очередь бывает к вечеру. Если времени мало, башню всё равно обойдите снаружи — это символ города.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Зеленоградск%20Мурариум%20Саратовская%202а" target="_blank" rel="noopener">Яндекс Карты</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d1-cats" data-id="d1-cats" data-kind="see">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag">смотреть</span>
+            <span class="tag">20–30 мин</span>
+          </div>
+          <h3 class="title">Курортный проспект и коты Кранца</h3>
+          <p class="desc">Пешеходная улица с пряничными домами, скульптурами кошек и лавками. Идите от Курхауса к башне: это и есть «город котов», ради которого сюда едут. Сувениры янтаря здесь дороже, чем завтра в Музее янтаря.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Зеленоградск%20Курортный%20проспект" target="_blank" rel="noopener">Яндекс Карты</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d1-park" data-id="d1-park" data-kind="see">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag opt">если останутся силы</span>
+            <span class="tag">20 мин</span>
+          </div>
+          <h3 class="title">Курортный парк и бювет королевы Луизы</h3>
+          <p class="desc">Теневые аллеи и Тортилин пруд сразу за променадом. Бювет — красивая точка на фото, вода по сезону. Если уже темнеет, спокойно пропускайте и идите ужинать.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Зеленоградск%20бювет%20королевы%20Луизы" target="_blank" rel="noopener">Яндекс Карты</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d1-dinner" data-id="d1-dinner" data-kind="eat">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag eat">поесть</span>
+            <span class="tag must">главное</span>
+            <span class="tag">18:30</span>
+            <span class="tag warn">лучше забронировать</span>
+          </div>
+          <h3 class="title">Ужин в «БАЛТе»</h3>
+          <p class="desc">Тот же Курхаус, Курортный, 16. Локальная балтийская кухня, своя сыроварня и печь — лучший осмысленный ужин дня. Пятница вечером бывает полной: звоните +7 906 238-99-74. Если не посадят, запасные с видом на море: «Променад» (Володарского, 24В) или «Душа» (Гагарина, 12).</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Зеленоградск%20ресторан%20БАЛТ%20Курортный%2016" target="_blank" rel="noopener">Яндекс Карты: БАЛТ</a>
+            <a href="https://yandex.ru/maps/?text=Зеленоградск%20ресторан%20Променад%20Володарского%2024В" target="_blank" rel="noopener">Запасной: Променад</a>
+            <a href="https://yandex.ru/maps/?text=Зеленоградск%20ресторан%20Душа%20Гагарина%2012" target="_blank" rel="noopener">Запасной: Душа</a>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="day" id="day2">
+      <div class="day-head">
+        <h2>Суббота, 19 сентября</h2>
+        <p>Центр пешком, машина — на Амалиенау. Орган в 14:00, янтарь после обеда. «Планету Океан» не ставим в обязательную программу: билеты сеансовые и часто кончаются заранее.</p>
+      </div>
+      <div class="route" aria-label="Таймлайн субботы">
+        <a href="#d2-breakfast"><b>09:00</b><span>Завтрак</span></a>
+        <a href="#d2-fish"><b>10:00</b><span>Рыбная деревня</span></a>
+        <a href="#d2-kant"><b>11:00</b><span>Остров Канта</span></a>
+        <a href="#d2-ocean"><b>12:00</b><span>Океан</span></a>
+        <a href="#d2-lunch"><b>13:10</b><span>Обед</span></a>
+        <a href="#d2-organ"><b>14:00</b><span>Орган</span></a>
+        <a href="#d2-amber"><b>15:20</b><span>Янтарь</span></a>
+        <a href="#d2-amalienau"><b>17:30</b><span>Амалиенау</span></a>
+        <a href="#d2-dinner"><b>19:30</b><span>Ужин</span></a>
+      </div>
+
+      <article class="place" id="d2-breakfast" data-id="d2-breakfast" data-kind="eat">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag eat">поесть</span>
+            <span class="tag">09:00</span>
+            <span class="tag">40 мин</span>
+          </div>
+          <h3 class="title">Завтрак: «Лев Бородинский» или сырное кафе Branden</h3>
+          <p class="desc">Пекарня ближе к Рыбной деревне, Branden — если хотите тот самый сырный кофе. Не затягивайте: собор и набережная красивее до туристической волны. Машину на день лучше оставить на парковке у острова / Эстакадного моста.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Калининград%20Лев%20Бородинский" target="_blank" rel="noopener">Яндекс Карты: Лев Бородинский</a>
+            <a href="https://yandex.ru/maps/?text=Калининград%20кафе%20Branden" target="_blank" rel="noopener">Яндекс Карты: Branden</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d2-fish" data-id="d2-fish" data-kind="must">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag must">смотреть</span>
+            <span class="tag">10:00</span>
+            <span class="tag">40 мин</span>
+            <span class="tag warn">маяк ~100 ₽</span>
+          </div>
+          <h3 class="title">Рыбная деревня и маяк</h3>
+          <p class="desc">Новая «старая» набережная на Преголе: фахверк, мостки, вид на собор. Поднимитесь на маяк, если нет очереди и колени в порядке — лестница крутая. Хомлина Карла ищите на перилах Медового моста по пути на остров.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Калининград%20Рыбная%20деревня" target="_blank" rel="noopener">Яндекс Карты</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d2-kant" data-id="d2-kant" data-kind="must">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag must">смотреть</span>
+            <span class="tag">11:00</span>
+            <span class="tag">40 мин</span>
+          </div>
+          <h3 class="title">Остров Канта и собор снаружи</h3>
+          <p class="desc">Кафедральный собор, липы и могила Канта. Сначала обойдите остров и купите билеты на орган на 14:00 — касса напротив собора, онлайн тоже работает. Музей Канта внутри можно совместить с концертом, если останется окно.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Калининград%20Кафедральный%20собор%20улица%20Канта%201" target="_blank" rel="noopener">Яндекс Карты</a>
+            <a href="https://tickets.sobor-kaliningrad.ru/" target="_blank" rel="noopener">Билеты в собор</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d2-ocean" data-id="d2-ocean" data-kind="see">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag">смотреть</span>
+            <span class="tag">12:00</span>
+            <span class="tag">45–70 мин</span>
+            <span class="tag warn">корабли — билет на месте</span>
+            <span class="tag hard">«Планета Океан» — сеансы заранее</span>
+          </div>
+          <h3 class="title">Набережная Музея Мирового океана</h3>
+          <p class="desc">Наб. Петра Великого, 1. Для максимума достаточно «Витязя» и прогулки вдоль судов — это и есть открыточная картинка. «Планету Океан» берите, только если билеты уже на руках: сеансы, вход по слотам, в субботу раскупают. Без билета не стойте в надежде.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Калининград%20Музей%20Мирового%20океана" target="_blank" rel="noopener">Яндекс Карты</a>
+            <a href="https://www.world-ocean.ru/" target="_blank" rel="noopener">Билеты музея</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d2-lunch" data-id="d2-lunch" data-kind="eat">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag eat">поесть</span>
+            <span class="tag">13:10</span>
+            <span class="tag">50 мин</span>
+          </div>
+          <h3 class="title">Обед в «Пармезане»</h3>
+          <p class="desc">Рыбная деревня, вид на воду, удобно не опаздывать на орган в 14:00. Итальянская кухня и рыба, средний чек нормальный для набережной. Запасные столики рядом: «Мадам Буше» у маяка или «Телиани», если хочется грузинского.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Калининград%20ресторан%20Пармезан%20Рыбная%20деревня" target="_blank" rel="noopener">Яндекс Карты: Пармезан</a>
+            <a href="https://yandex.ru/maps/?text=Калининград%20Мадам%20Буше%20Рыбная%20деревня" target="_blank" rel="noopener">Запасной: Мадам Буше</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d2-organ" data-id="d2-organ" data-kind="must">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag must">главное</span>
+            <span class="tag">14:00</span>
+            <span class="tag">40 мин</span>
+            <span class="tag warn">билет ~700 ₽, лучше заранее</span>
+          </div>
+          <h3 class="title">Органный мини-концерт</h3>
+          <p class="desc">Дневные сеансы обычно в 12:00, 14:00, 16:00 и 18:00. Сорок минут в зале собора — лучшая «посадка» дня. Билеты онлайн или в кассе с 10:00; на 14:00 в субботу могут закончиться. Если не успеете, берите 16:00 и сдвиньте янтарь.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Калининград%20Кафедральный%20собор%20органный%20зал" target="_blank" rel="noopener">Яндекс Карты</a>
+            <a href="https://tickets.sobor-kaliningrad.ru/" target="_blank" rel="noopener">Купить билет</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d2-amber" data-id="d2-amber" data-kind="must">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag must">смотреть</span>
+            <span class="tag">15:20–17:00</span>
+            <span class="tag">70–90 мин</span>
+            <span class="tag warn">билет 500 ₽, касса до 18:00</span>
+          </div>
+          <h3 class="title">Музей янтаря в башне Дона</h3>
+          <p class="desc">Пл. Василевского, 1. В сентябре открыт ежедневно 10:00–19:00. Это не сувенирная лавка, а нормальный музей в форте: самородки, камеи, история добычи. До башни 10–15 минут на машине или ~25 пешком через Верхний пруд. Смотровая башни — отдельно и по сеансам.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Калининград%20Музей%20янтаря%20площадь%20Василевского%201" target="_blank" rel="noopener">Яндекс Карты</a>
+            <a href="https://ambermuseum.ru/for_visitors/prices/" target="_blank" rel="noopener">Цены и часы</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d2-pond" data-id="d2-pond" data-kind="see">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag">смотреть</span>
+            <span class="tag">20–30 мин</span>
+          </div>
+          <h3 class="title">Верхний пруд и Росгартенские ворота</h3>
+          <p class="desc">Сразу у музея. Короткая петля вдоль воды и краснокирпичные ворота — переход от Кёнигсберга-крепости к городу вилл. Если устали, это хорошая пауза перед машиной.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Калининград%20Росгартенские%20ворота" target="_blank" rel="noopener">Яндекс Карты</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d2-amalienau" data-id="d2-amalienau" data-kind="must">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag must">смотреть</span>
+            <span class="tag">17:30</span>
+            <span class="tag">40–50 мин</span>
+            <span class="tag">на машине</span>
+          </div>
+          <h3 class="title">Амалиенау: виллы на Кутузова</h3>
+          <p class="desc">Довоенный район особняков, кирха Луизы, храм Архангела Михаила. Ехать 10 минут от пруда. Не ищите одну точку — медленно проедьте Кутузова, Пушкина и Каштановую аллею, пару раз остановитесь. К закату свет на фасадах очень тёплый.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Калининград%20улица%20Кутузова%20Амалиенау" target="_blank" rel="noopener">Яндекс Карты</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d2-gates" data-id="d2-gates" data-kind="see">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag">смотреть</span>
+            <span class="tag">20 мин</span>
+          </div>
+          <h3 class="title">Королевские ворота и площадь Победы</h3>
+          <p class="desc">Две быстрые фототочки на машине: ворота на Фрунзе и Дом Советов / площадь Победы в центре. Не превращайте это в квест по всем семи воротам. Бранденбургские на Багратиона — только если едете мимо на ужин.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Калининград%20Королевские%20ворота" target="_blank" rel="noopener">Яндекс Карты: Королевские</a>
+            <a href="https://yandex.ru/maps/?text=Калининград%20площадь%20Победы%20Дом%20Советов" target="_blank" rel="noopener">Яндекс Карты: Победы</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d2-fort" data-id="d2-fort" data-kind="see">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag opt">по желанию</span>
+            <span class="tag">1,5 часа</span>
+            <span class="tag warn">билеты на месте</span>
+          </div>
+          <h3 class="title">Форт №5 — только если день идёт слишком легко</h3>
+          <p class="desc">Север города, ~20 минут от центра. Настоящий форт с рвом, но внутри легко потерять вечер. Светлогорск в этот же день тоже не влезает: 40 минут в одну сторону после полного центра будет уже третьей поездкой.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Калининград%20Форт%205" target="_blank" rel="noopener">Яндекс Карты</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place" id="d2-dinner" data-id="d2-dinner" data-kind="eat">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta">
+            <span class="tag eat">поесть</span>
+            <span class="tag">19:30</span>
+            <span class="tag warn">к закату лучше столик</span>
+          </div>
+          <h3 class="title">Ужин снова на Преголе</h3>
+          <p class="desc">Вернитесь в Рыбную деревню на вечернюю подсветку собора. Если обед был в «Пармезане», вечером возьмите «Мадам Буше» или грузинский «Телиани». Это короткая петля до дома в центре, без новой дороги за город.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?text=Калининград%20ресторан%20Телиани%20Рыбная%20деревня" target="_blank" rel="noopener">Яндекс Карты: Телиани</a>
+            <a href="https://yandex.ru/maps/?text=Калининград%20Мадам%20Буше%20Рыбная%20деревня" target="_blank" rel="noopener">Яндекс Карты: Мадам Буше</a>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="day" id="tips">
+      <div class="day-head">
+        <h2>Чтобы день не развалился</h2>
+        <p>Короткий чек-лист в машину. Погода в середине сентября на косе: 12–18 °C и ветер, даже если в городе солнечно.</p>
+      </div>
+
+      <article class="place" id="tip-docs" data-id="tip-docs" data-kind="must">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta"><span class="tag must">с собой</span></div>
+          <h3 class="title">Паспорт, права, QR экосбора</h3>
+          <p class="desc">Паспорт нужен и на участок, и может пригодиться на КПП. Права и полис проката — в бардачке. QR косы сохраните в фотоплёнку, сеть на дюнах слабая.</p>
+        </div>
+      </article>
+
+      <article class="place" id="tip-car" data-id="tip-car" data-kind="must">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta"><span class="tag warn">коса</span></div>
+          <h3 class="title">Скорость, камеры, дюны</h3>
+          <p class="desc">На косе узкая дорога и камеры, обгон бессмысленный. Кормить животных и сходить с настила на песок нельзя. Туалеты — у больших парковок леса, Эфы и в Зеленоградске.</p>
+        </div>
+      </article>
+
+      <article class="place" id="tip-planb" data-id="tip-planb" data-kind="see">
+        <label class="check"><input type="checkbox" /><span class="tick" aria-hidden="true"></span></label>
+        <div>
+          <div class="meta"><span class="tag">план Б</span></div>
+          <h3 class="title">Если голосование затянется</h3>
+          <p class="desc">Участки работают и завтра, и в воскресенье до 20:00. Но вы просили сегодня — поэтому старт в 8:00. Если утро сорвётся, едьте сразу на косу, а голос отдайте после 19:00 уже в Калининграде.</p>
+          <div class="links">
+            <a href="https://yandex.ru/maps/?rtext=Калининград~Зеленоградск~Куршская%20коса%20Танцующий%20лес~Куршская%20коса%20Высота%20Эфа&rtt=auto" target="_blank" rel="noopener">Весь маршрут дня в Картах</a>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      Чек-лист живёт только в этом браузере (localStorage). Страница для поездки 18–19 сентября 2026, цены и часы проверяйте по ссылкам в день выезда.
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var KEY = "kaliningrad-trip-2026-09-checks";
+      var places = Array.prototype.slice.call(document.querySelectorAll(".place[data-id]"));
+      var bar = document.getElementById("bar");
+      var label = document.getElementById("progressLabel");
+      var filter = "all";
+
+      function load() {
+        try {
+          return JSON.parse(localStorage.getItem(KEY) || "{}");
+        } catch (e) {
+          return {};
+        }
+      }
+
+      function save(state) {
+        localStorage.setItem(KEY, JSON.stringify(state));
+      }
+
+      function visibleCount() {
+        return places.filter(function (el) {
+          return !el.classList.contains("hidden");
+        });
+      }
+
+      function render() {
+        var state = load();
+        var vis = visibleCount();
+        var done = 0;
+        vis.forEach(function (el) {
+          var on = !!state[el.dataset.id];
+          var input = el.querySelector("input[type=checkbox]");
+          input.checked = on;
+          el.classList.toggle("done", on);
+          if (on) done += 1;
+        });
+        var total = vis.length;
+        label.textContent = done + " / " + total;
+        bar.style.width = (total ? Math.round((done / total) * 100) : 0) + "%";
+      }
+
+      function applyFilter(next) {
+        filter = next;
+        document.querySelectorAll(".toolbar button[data-filter]").forEach(function (btn) {
+          btn.setAttribute("aria-pressed", btn.dataset.filter === filter ? "true" : "false");
+        });
+        places.forEach(function (el) {
+          var kind = el.dataset.kind;
+          var show = filter === "all" || kind === filter || (filter === "must" && kind === "must") || (filter === "see" && (kind === "see" || kind === "must")) || (filter === "eat" && kind === "eat");
+          el.classList.toggle("hidden", !show);
+        });
+        render();
+      }
+
+      places.forEach(function (el) {
+        var input = el.querySelector("input[type=checkbox]");
+        input.addEventListener("change", function () {
+          var state = load();
+          if (input.checked) state[el.dataset.id] = true;
+          else delete state[el.dataset.id];
+          save(state);
+          render();
+        });
+      });
+
+      document.querySelectorAll(".toolbar button[data-filter]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          applyFilter(btn.dataset.filter);
+        });
+      });
+
+      document.getElementById("resetBtn").addEventListener("click", function () {
+        if (!confirm("Сбросить все галочки?")) return;
+        localStorage.removeItem(KEY);
+        render();
+      });
+
+      var dayLinks = document.querySelectorAll(".day-nav a");
+      dayLinks.forEach(function (a) {
+        a.addEventListener("click", function () {
+          dayLinks.forEach(function (x) { x.classList.remove("is-active"); });
+          a.classList.add("is-active");
+        });
+      });
+
+      applyFilter("all");
+    })();
+  </script>
+</body>
+</html>

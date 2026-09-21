@@ -24,7 +24,7 @@
  * gifUrl: GIF/WebP/JPG или MP4.
  * ============================================================================= */
 
-var ACTIVE_WORKOUT_ID = "day-b";
+var ACTIVE_WORKOUT_ID = "day-a";
 
 var WORKOUTS = [
   {
@@ -143,29 +143,70 @@ var WORKOUTS = [
     ]
   },
 
-  /* Ещё день: раскомментируй объект ниже (и запятая уже стоит).
   {
     id: "day-a",
     title: "Тренировка",
-    dayLabel: "Day A — ноги",
-    dateLabel: "дома",
+    dayLabel: "Day A — низ",
+    dateLabel: "дома · гантели 3,5 кг + тросы",
     equipment: [
-      { kind: "dumbbell", name: "гантели", weightKg: 12 },
-      { kind: "band", name: "резинки", weightKg: 20 },
+      { kind: "dumbbell", name: "гантели", weightKg: 3.5 },
+      { kind: "band", name: "тросы KETTLER", weightKg: 12 },
       { kind: "other", name: "коврик" }
     ],
     exercises: [
       {
-        name: "Название / English name",
+        name: "Присед гоблет / Goblet squat",
+        sets: 3,
+        reps: "10–12",
+        restSec: 75,
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-dumbbell-goblet-squat-front.mp4",
+        notes: "гантель 3,5 кг у груди; пятки в пол, глубина комфортная.",
+        dumbbellKg: true
+      },
+      {
+        name: "Румынская тяга с гантелями / Romanian deadlift DB",
         sets: 3,
         reps: "10",
         restSec: 75,
-        gifUrl: "https://...",
-        notes: "",
-        dumbbellKg: true,
-        bandKg: 15
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-romanian-deadlift-front.mp4",
+        notes: "гантели 3,5 кг; мягкие колени, таз назад, спина нейтральная.",
+        dumbbellKg: true
+      },
+      {
+        name: "Отведение ноги назад тросом / Band/cable glute kickback (ankle strap, door anchor)",
+        sets: 3,
+        reps: "12 на сторону",
+        restSec: 60,
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Cables-cable-glute-kickback-front.mp4",
+        notes: "KETTLER ~10–15 кг, якорь внизу двери; корпус спокойный, работа ягодицей.",
+        bandKg: true
+      },
+      {
+        name: "Выпады назад с гантелями / Reverse lunges DB",
+        sets: 3,
+        reps: "8–10 на ногу",
+        restSec: 75,
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-reverse-lunge-front.mp4",
+        notes: "гантели 3,5 кг; колено задней ноги к полу, переднее колено над стопой.",
+        dumbbellKg: true
+      },
+      {
+        name: "Подъёмы на носки / Standing calf raise DB",
+        sets: 3,
+        reps: "12–15",
+        restSec: 50,
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-calf-raise-front.mp4",
+        notes: "гантели 3,5 кг; пауза сверху, полный диапазон.",
+        dumbbellKg: true
+      },
+      {
+        name: "Ягодичный мост / Glute bridge",
+        sets: 3,
+        reps: "12",
+        restSec: 50,
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Bodyweight-glute-bridge-front.mp4",
+        notes: "на коврике; пауза сверху, не прогибаться в пояснице."
       }
     ]
-  },
-  */
+  }
 ];

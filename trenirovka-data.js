@@ -24,17 +24,17 @@
  * gifUrl: GIF/WebP/JPG или MP4.
  * ============================================================================= */
 
-var ACTIVE_WORKOUT_ID = "day-a";
+var ACTIVE_WORKOUT_ID = "day-b";
 
 var WORKOUTS = [
   {
     id: "day-b",
     title: "Тренировка",
     dayLabel: "Day B — верх",
-    dateLabel: "дома · гантели 3,5 кг + тросы",
+    dateLabel: "23.09 · дома · гантели 3,5 кг + тросы 20 кг",
     equipment: [
       { kind: "dumbbell", name: "гантели", weightKg: 3.5 },
-      { kind: "band", name: "тросы KETTLER", weightKg: 10 },
+      { kind: "band", name: "тросы KETTLER", weightKg: 20 },
       { kind: "other", name: "коврик" }
     ],
     exercises: [
@@ -44,7 +44,7 @@ var WORKOUTS = [
         reps: "10–12",
         restSec: 75,
         gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-floor-press-front.mp4",
-        notes: "после болезни — обычный объём, без отказа; локти на пол, пауза, затем жим.",
+        notes: "гантели 3,5 кг; локти на пол, пауза, затем жим; стоп за 1–2 до отказа.",
         dumbbellKg: true
       },
       {
@@ -53,7 +53,7 @@ var WORKOUTS = [
         reps: "10",
         restSec: 75,
         gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-band-single-arm-row-front.mp4",
-        notes: "якорь в двери на уровне груди/пояса; тяга к поясу, корпус спокойный. KETTLER ~10 кг, не максимум.",
+        notes: "KETTLER ~20 кг (доступны только 10/15/20/30); якорь на уровне груди/пояса; тяга к поясу, корпус спокойный.",
         bandKg: true
       },
       {
@@ -62,17 +62,17 @@ var WORKOUTS = [
         reps: "10",
         restSec: 75,
         gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-overhead-press-front.mp4",
-        notes: "гантели 3,5 кг; корпус напряжён, не прогибаться в пояснице. Стоп за 1–2 повтора до отказа.",
+        notes: "гантели 3,5 кг; корпус напряжён, без прогиба в пояснице.",
         dumbbellKg: true
       },
       {
-        name: "Разведения в наклоне / Rear delt fly",
+        name: "Face pull (трос/лента, дверное крепление)",
         sets: 3,
-        reps: "12",
+        reps: "12–15",
         restSec: 60,
-        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-rear-delt-fly-front.mp4",
-        notes: "гантели 3,5 кг; лёгкий наклон, локти мягкие, лопатки сводим. Без рывков.",
-        dumbbellKg: true
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-band-face-pull-front.mp4",
+        notes: "KETTLER 10–15 кг (не максимум; шаг 10 или 15); якорь на уровне лица/выше; локти высоко, тяга к лицу, лопатки сводим.",
+        bandKg: true
       },
       {
         name: "Dead bug",
@@ -80,7 +80,7 @@ var WORKOUTS = [
         reps: "8 на сторону",
         restSec: 50,
         gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Bodyweight-dead-bug-front.mp4",
-        notes: "на коврике; поясница прижата к полу, противоположные рука и нога."
+        notes: "на коврике; поясница прижата."
       }
     ]
   },

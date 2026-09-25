@@ -24,16 +24,16 @@
  * gifUrl: GIF/WebP/JPG или MP4.
  * ============================================================================= */
 
-var ACTIVE_WORKOUT_ID = "day-b";
+var ACTIVE_WORKOUT_ID = "day-c";
 
 var WORKOUTS = [
   {
     id: "day-b",
     title: "Тренировка",
     dayLabel: "Day B — верх",
-    dateLabel: "23.09 · дома · гантели 3,5 кг + тросы 20 кг",
+    dateLabel: "23.09 · дома · гантели 6,5 кг + тросы 20 кг",
     equipment: [
-      { kind: "dumbbell", name: "гантели", weightKg: 3.5 },
+      { kind: "dumbbell", name: "гантели", weightKg: 6.5 },
       { kind: "band", name: "тросы KETTLER", weightKg: 20 },
       { kind: "other", name: "коврик" }
     ],
@@ -44,7 +44,7 @@ var WORKOUTS = [
         reps: "10–12",
         restSec: 75,
         gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-floor-press-front.mp4",
-        notes: "гантели 3,5 кг; локти на пол, пауза, затем жим; стоп за 1–2 до отказа.",
+        notes: "гантели 6,5 кг; локти на пол, пауза, затем жим; стоп за 1–2 до отказа.",
         dumbbellKg: true
       },
       {
@@ -62,7 +62,7 @@ var WORKOUTS = [
         reps: "10",
         restSec: 75,
         gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-overhead-press-front.mp4",
-        notes: "гантели 3,5 кг; корпус напряжён, без прогиба в пояснице.",
+        notes: "гантели 6,5 кг; корпус напряжён, без прогиба в пояснице.",
         dumbbellKg: true
       },
       {
@@ -88,69 +88,11 @@ var WORKOUTS = [
   {
     id: "day-c",
     title: "Тренировка",
-    dayLabel: "Day C — всё тело",
-    dateLabel: "дома",
+    dayLabel: "Day C — всё тело легче",
+    dateLabel: "25.09 · дома · гантели 6,5 кг + тросы KETTLER",
     equipment: [
-      { kind: "dumbbell", name: "гантели", weightKg: 10 },
-      { kind: "band", name: "резинки", weightKg: 15 },
-      { kind: "other", name: "коврик" }
-    ],
-    exercises: [
-      {
-        name: "Присед с гантелями / Goblet squat",
-        sets: 3,
-        reps: "10",
-        restSec: 75,
-        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-dumbbell-goblet-squat-front.mp4",
-        notes: "лёгкий день; глубина комфортная, пятки в пол.",
-        dumbbellKg: true
-      },
-      {
-        name: "Отжимания (от пола или от дивана/стола) / Push-up",
-        sets: 3,
-        reps: "6–12",
-        restSec: 60,
-        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Bodyweight-push-up-front.mp4",
-        notes: "до комфортного отказа в диапазоне 6–12; при необходимости руки на возвышении."
-      },
-      {
-        name: "Ягодичный мост / Glute bridge",
-        sets: 3,
-        reps: "12–15",
-        restSec: 60,
-        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Bodyweight-glute-bridge-front.mp4",
-        notes: "на коврике, пауза сверху, не прогибаться в пояснице.",
-        bandKg: true
-      },
-      {
-        name: "Тяга в наклоне двумя руками / Dumbbell bent-over row",
-        sets: 3,
-        reps: "10",
-        restSec: 75,
-        gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Bent-Over-Dumbbell-Row.gif",
-        notes: "спина прямая, тянем к поясу, локти вдоль корпуса.",
-        dumbbellKg: true
-      },
-      {
-        name: "Прогулка фермера / Farmer carry",
-        sets: 3,
-        reps: "30–40 с",
-        restSec: 60,
-        gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2022/02/Farmers-walk_Cardio.gif",
-        notes: "гантели в руках, ровная осанка, ходите по квартире.",
-        dumbbellKg: true
-      }
-    ]
-  },
-
-  {
-    id: "day-a",
-    title: "Тренировка",
-    dayLabel: "Day A — низ",
-    dateLabel: "дома · гантели 3,5 кг + тросы",
-    equipment: [
-      { kind: "dumbbell", name: "гантели", weightKg: 3.5 },
-      { kind: "band", name: "тросы KETTLER", weightKg: 12 },
+      { kind: "dumbbell", name: "гантели", weightKg: 6.5 },
+      { kind: "band", name: "тросы KETTLER", weightKg: 20 },
       { kind: "other", name: "коврик" }
     ],
     exercises: [
@@ -160,7 +102,72 @@ var WORKOUTS = [
         reps: "10–12",
         restSec: 75,
         gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-dumbbell-goblet-squat-front.mp4",
-        notes: "гантель 3,5 кг у груди; пятки в пол, глубина комфортная.",
+        notes: "гантель 6,5 кг у груди; лёгкий день; пятки в пол, глубина комфортная.",
+        dumbbellKg: true
+      },
+      {
+        name: "Отжимания (пол или возвышение) / Push-up",
+        sets: 3,
+        reps: "6–12",
+        restSec: 60,
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Bodyweight-push-up-front.mp4",
+        notes: "до комфортного отказа 6–12; при необходимости руки на диване/столе."
+      },
+      {
+        name: "Ягодичный мост / Glute bridge",
+        sets: 3,
+        reps: "12–15",
+        restSec: 60,
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Bodyweight-glute-bridge-front.mp4",
+        notes: "на коврике; пауза сверху, без прогиба поясницы."
+      },
+      {
+        name: "Тяга в наклоне / Dumbbell bent-over row",
+        sets: 3,
+        reps: "10–12",
+        restSec: 75,
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-row-bilateral-front.mp4",
+        notes: "гантели 6,5 кг; спина прямая, тяга к поясу.",
+        dumbbellKg: true
+      },
+      {
+        name: "Прогулка фермера / Farmer carry",
+        sets: 3,
+        reps: "30–40 с",
+        restSec: 60,
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-farmer-walk-front.mp4",
+        notes: "гантели по 6,5 кг; ровная осанка, по квартире.",
+        dumbbellKg: true
+      },
+      {
+        name: "Dead bug",
+        sets: 2,
+        reps: "8 на сторону",
+        restSec: 50,
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Bodyweight-dead-bug-front.mp4",
+        notes: "на коврике; поясница прижата, без весов."
+      }
+    ]
+  },
+
+  {
+    id: "day-a",
+    title: "Тренировка",
+    dayLabel: "Day A — низ",
+    dateLabel: "дома · гантели 6,5 кг + тросы",
+    equipment: [
+      { kind: "dumbbell", name: "гантели", weightKg: 6.5 },
+      { kind: "band", name: "тросы KETTLER", weightKg: 15 },
+      { kind: "other", name: "коврик" }
+    ],
+    exercises: [
+      {
+        name: "Присед гоблет / Goblet squat",
+        sets: 3,
+        reps: "10–12",
+        restSec: 75,
+        gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-dumbbell-goblet-squat-front.mp4",
+        notes: "гантель 6,5 кг у груди; пятки в пол, глубина комфортная.",
         dumbbellKg: true
       },
       {
@@ -169,7 +176,7 @@ var WORKOUTS = [
         reps: "10",
         restSec: 75,
         gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-romanian-deadlift-front.mp4",
-        notes: "гантели 3,5 кг; мягкие колени, таз назад, спина нейтральная.",
+        notes: "гантели 6,5 кг; мягкие колени, таз назад, спина нейтральная.",
         dumbbellKg: true
       },
       {
@@ -187,7 +194,7 @@ var WORKOUTS = [
         reps: "8–10 на ногу",
         restSec: 75,
         gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-reverse-lunge-front.mp4",
-        notes: "гантели 3,5 кг; колено задней ноги к полу, переднее колено над стопой.",
+        notes: "гантели 6,5 кг; колено задней ноги к полу, переднее колено над стопой.",
         dumbbellKg: true
       },
       {
@@ -196,7 +203,7 @@ var WORKOUTS = [
         reps: "12–15",
         restSec: 50,
         gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-calf-raise-front.mp4",
-        notes: "гантели 3,5 кг; пауза сверху, полный диапазон.",
+        notes: "гантели 6,5 кг; пауза сверху, полный диапазон.",
         dumbbellKg: true
       },
       {

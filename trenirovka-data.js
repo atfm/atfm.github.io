@@ -24,7 +24,7 @@
  * gifUrl: GIF/WebP/JPG или MP4.
  * ============================================================================= */
 
-var ACTIVE_WORKOUT_ID = "day-c";
+var ACTIVE_WORKOUT_ID = "day-a";
 
 var WORKOUTS = [
   {
@@ -154,7 +154,7 @@ var WORKOUTS = [
     id: "day-a",
     title: "Тренировка",
     dayLabel: "Day A — низ",
-    dateLabel: "дома · гантели 6,5 кг + тросы",
+    dateLabel: "28.09 · дома · гантели 6,5 кг + тросы KETTLER",
     equipment: [
       { kind: "dumbbell", name: "гантели", weightKg: 6.5 },
       { kind: "band", name: "тросы KETTLER", weightKg: 15 },
@@ -185,7 +185,7 @@ var WORKOUTS = [
         reps: "12 на сторону",
         restSec: 60,
         gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Cables-cable-glute-kickback-front.mp4",
-        notes: "KETTLER ~10–15 кг, якорь внизу двери; корпус спокойный, работа ягодицей.",
+        notes: "KETTLER ~15 кг (или 10–15; доступны только 10/15/20/30, без 12 кг); якорь внизу двери; корпус спокойный, работа ягодицей.",
         bandKg: true
       },
       {

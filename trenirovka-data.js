@@ -24,7 +24,7 @@
  * gifUrl: GIF/WebP/JPG или MP4.
  * ============================================================================= */
 
-var ACTIVE_WORKOUT_ID = "day-a";
+var ACTIVE_WORKOUT_ID = "day-c";
 
 var WORKOUTS = [
   {
@@ -89,7 +89,7 @@ var WORKOUTS = [
     id: "day-c",
     title: "Тренировка",
     dayLabel: "Day C — всё тело легче",
-    dateLabel: "25.09 · дома · гантели 6,5 кг + тросы KETTLER",
+    dateLabel: "02.10 · дома · гантели 6,5 кг + тросы KETTLER",
     equipment: [
       { kind: "dumbbell", name: "гантели", weightKg: 6.5 },
       { kind: "band", name: "тросы KETTLER", weightKg: 20 },

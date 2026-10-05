@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#0f1419" />
+  <title>Дни большой жизни</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --surface2: #243044;
+      --text: #e8edf4;
+      --muted: #8b9cb3;
+      --accent: #5b9fd4;
+      --accent2: #6bc9a8;
+      --border: #2d3a4f;
+      --radius: 14px;
+      --font: "Segoe UI", system-ui, -apple-system, sans-serif;
+      --done: #2f9e6b;
+      --stairs: #b7e4f8;
+      --sick: #9aa3ad;
+      --skip: #d85c5c;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      padding: 0 0 7.5rem;
+    }
+    .sticky {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(15, 20, 25, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: calc(0.7rem + env(safe-area-inset-top, 0px)) 1rem 0.75rem;
+    }
+    .sticky-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+      max-width: 42rem;
+      margin: 0 auto;
+    }
+    h1 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .meta {
+      margin: 0.2rem 0 0;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+    .train-link {
+      flex-shrink: 0;
+      font: inherit;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--text);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.4rem 0.65rem;
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+    }
+    .train-link:active { transform: scale(0.97); }
+    .wrap {
+      max-width: 42rem;
+      margin: 0 auto;
+      padding: 1rem 0.9rem 0;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin: 0 0 0.55rem;
+    }
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.7rem 0.35rem 0.6rem;
+      text-align: center;
+    }
+    .stat b {
+      display: block;
+      font-size: 1.45rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--accent2);
+      line-height: 1.1;
+    }
+    .stat span {
+      display: block;
+      margin-top: 0.2rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .hint {
+      margin: 0 0 0.85rem;
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.75rem;
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .legend li {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .swatch {
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 3px;
+      display: inline-block;
+      border: 1px solid var(--border);
+      background: transparent;
+    }
+    .swatch.is-done { background: var(--done); border-color: var(--done); }
+    .swatch.is-stairs { background: var(--stairs); border-color: var(--stairs); }
+    .swatch.is-sick { background: var(--sick); border-color: var(--sick); }
+    .swatch.is-skip { background: var(--skip); border-color: var(--skip); }
+    .month {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.8rem 0.55rem 0.7rem;
+      margin: 0 0 0.85rem;
+    }
+    .month h2 {
+      margin: 0 0.25rem 0.55rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 0.28rem;
+    }
+    .dow {
+      text-align: center;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding-bottom: 0.2rem;
+    }
+    .pad { min-height: 2.55rem; }
+    .day {
+      font: inherit;
+      color: var(--text);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      min-height: 2.7rem;
+      padding: 0.2rem 0.05rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.05rem;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .day:active { transform: scale(0.97); }
+    .day .n {
+      font-size: 0.9rem;
+      font-weight: 700;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .day .w {
+      font-size: 0.62rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0.03em;
+    }
+    .day.is-done {
+      background: var(--done);
+      border-color: var(--done);
+      color: #f4fff8;
+    }
+    .day.is-stairs {
+      background: var(--stairs);
+      border-color: var(--stairs);
+      color: #102028;
+    }
+    .day.is-sick {
+      background: var(--sick);
+      border-color: var(--sick);
+      color: #1c242c;
+    }
+    .day.is-skip {
+      background: var(--skip);
+      border-color: var(--skip);
+      color: #fff8f8;
+    }
+    .day.is-today {
+      box-shadow: inset 0 0 0 2px #f4f7fb;
+    }
+    .day.is-selected {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+    .detail {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 30;
+      background: rgba(26, 35, 50, 0.97);
+      border-top: 1px solid var(--border);
+      padding: 0.7rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .detail-inner {
+      max-width: 42rem;
+      margin: 0 auto;
+    }
+    .detail-date {
+      margin: 0;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent2);
+    }
+    .detail-body {
+      margin: 0.15rem 0 0;
+      font-size: 0.92rem;
+    }
+    .empty-note {
+      margin: 0 0 0.8rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    @media (max-width: 360px) {
+      .grid { gap: 0.18rem; }
+      .day { min-height: 2.45rem; border-radius: 8px; }
+      .day .n { font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="sticky">
+    <div class="sticky-row">
+      <div>
+        <h1>Дни большой жизни</h1>
+        <p class="meta" id="todayLine">календарь привычек</p>
+      </div>
+      <a class="train-link" href="trenirovka.html">Тренировка</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="stats" aria-label="Сводка">
+      <div class="stat">
+        <b id="streakNum">0</b>
+        <span>Серия</span>
+      </div>
+      <div class="stat">
+        <b id="weekNum">0</b>
+        <span>Неделя</span>
+      </div>
+      <div class="stat">
+        <b id="monthNum">0</b>
+        <span>Месяц</span>
+      </div>
+    </section>
+    <p class="hint">Серия — подряд засчитанные дни Пн/Ср/Пт и любая тренировка или лестница, пока не болезнь, пропуск или пустой Пн/Ср/Пт. Сегодня без отметки серию не сбрасывает. Неделя (пн–вс) и месяц считают «сделано» и «лестница».</p>
+    <ul class="legend">
+      <li><i class="swatch is-done"></i>сделано</li>
+      <li><i class="swatch is-stairs"></i>лестница</li>
+      <li><i class="swatch is-sick"></i>болезнь</li>
+      <li><i class="swatch is-skip"></i>пропуск</li>
+      <li><i class="swatch"></i>нет данных</li>
+    </ul>
+    <p class="empty-note" id="missingNote" hidden>В trenirovka-data.js нет списка HABIT_DAYS.</p>
+    <div id="months"></div>
+  </main>
+
+  <div class="detail" id="detail" aria-live="polite">
+    <div class="detail-inner">
+      <p class="detail-date" id="detailDate">День</p>
+      <p class="detail-body" id="detailBody">Нажми на день — здесь будет заметка.</p>
+    </div>
+  </div>
+
+  <script src="trenirovka-data.js"></script>
+  <script>
+    (function () {
+      /*
+       * Серия (current streak):
+       * Идём от сегодня назад по календарю.
+       * +1 и продолжаем: status "done" или "stairs" в любой день недели.
+       * Обрыв: "sick", "skip", а также прошедший Пн/Ср/Пт без записи или со статусом "unknown".
+       * Не считаем и не обрываем: прочие дни без записи (и "unknown" не в Пн/Ср/Пт).
+       * Сегодня, если на нём ещё нет done/stairs, пропускаем — незакрытый день серию не обнуляет.
+       * Неделя и месяц: число записей done + stairs в текущей календарной неделе пн–вс
+       * и в текущем месяце. При повторе date побеждает более поздняя запись.
+       * Месяцы на экране: с сентября 2026 по текущий месяц браузера, новый сверху.
+       */
+      var START_YEAR = 2026;
+      var START_MONTH = 8;
+      var MONTHS = ["январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь"];
+      var MONTHS_GEN = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+      var WEEKDAYS = ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"];
+      var WEEK_HEAD = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+      var STATUS_LABEL = {
+        done: "сделано",
+        stairs: "лестница",
+        sick: "болезнь",
+        skip: "пропуск",
+        unknown: "неизвестно"
+      };
+      var STATUS_CLASS = {
+        done: "is-done",
+        stairs: "is-stairs",
+        sick: "is-sick",
+        skip: "is-skip"
+      };
+
+      var raw = window.HABIT_DAYS;
+      var byDate = {};
+      if (Array.isArray(raw)) {
+        raw.forEach(function (item) {
+          if (!item || typeof item.date !== "string") return;
+          byDate[item.date] = item;
+        });
+      } else {
+        var missing = document.getElementById("missingNote");
+        if (missing) missing.hidden = false;
+      }
+
+      function isoDate(d) {
+        var m = String(d.getMonth() + 1);
+        var day = String(d.getDate());
+        if (m.length < 2) m = "0" + m;
+        if (day.length < 2) day = "0" + day;
+        return d.getFullYear() + "-" + m + "-" + day;
+      }
+
+      function parseIso(iso) {
+        var p = iso.split("-");
+        return new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+      }
+
+      function isScheduled(d) {
+        var dow = d.getDay();
+        return dow === 1 || dow === 3 || dow === 5;
+      }
+
+      function isWorkoutStatus(status) {
+        return status === "done" || status === "stairs";
+      }
+
+      function streakCount(today) {
+        var cursor = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        var todayEntry = byDate[isoDate(cursor)];
+        if (!todayEntry || !isWorkoutStatus(todayEntry.status)) {
+          cursor.setDate(cursor.getDate() - 1);
+        }
+        var count = 0;
+        for (var i = 0; i < 800; i++) {
+          var entry = byDate[isoDate(cursor)];
+          var status = entry ? entry.status : "";
+          if (isWorkoutStatus(status)) {
+            count += 1;
+            cursor.setDate(cursor.getDate() - 1);
+            continue;
+          }
+          if (status === "sick" || status === "skip") break;
+          if (isScheduled(cursor)) break;
+          cursor.setDate(cursor.getDate() - 1);
+        }
+        return count;
+      }
+
+      function countBetween(fromIso, toIso) {
+        var n = 0;
+        Object.keys(byDate).forEach(function (key) {
+          var entry = byDate[key];
+          if (key >= fromIso && key <= toIso && entry && isWorkoutStatus(entry.status)) n += 1;
+        });
+        return n;
+      }
+
+      function weekBounds(today) {
+        var monday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        var shift = (monday.getDay() + 6) % 7;
+        monday.setDate(monday.getDate() - shift);
+        var sunday = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + 6);
+        return [isoDate(monday), isoDate(sunday)];
+      }
+
+      function monthBounds(today) {
+        var first = new Date(today.getFullYear(), today.getMonth(), 1);
+        var last = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+        return [isoDate(first), isoDate(last)];
+      }
+
+      function escapeHtml(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function detailParts(entry) {
+        if (!entry) return ["Нет записи"];
+        var bits = [];
+        bits.push(STATUS_LABEL[entry.status] || entry.status || "нет статуса");
+        if (entry.workout) bits.push("день " + entry.workout);
+        if (typeof entry.stairsMin === "number") bits.push(entry.stairsMin + " мин лестницы");
+        var head = bits.join(" · ");
+        if (entry.note) return [head, entry.note];
+        return [head];
+      }
+
+      function formatLong(d) {
+        return WEEKDAYS[d.getDay()] + ", " + d.getDate() + " " + MONTHS_GEN[d.getMonth()] + " " + d.getFullYear();
+      }
+
+      var today = new Date();
+      var todayIso = isoDate(today);
+      document.getElementById("todayLine").textContent = formatLong(today);
+      document.getElementById("streakNum").textContent = String(streakCount(today));
+      var week = weekBounds(today);
+      var month = monthBounds(today);
+      document.getElementById("weekNum").textContent = String(countBetween(week[0], week[1]));
+      document.getElementById("monthNum").textContent = String(countBetween(month[0], month[1]));
+
+      var endYear = today.getFullYear();
+      var endMonth = today.getMonth();
+      if (endYear < START_YEAR || (endYear === START_YEAR && endMonth < START_MONTH)) {
+        endYear = START_YEAR;
+        endMonth = START_MONTH;
+      }
+
+      var months = [];
+      var y = endYear;
+      var m = endMonth;
+      while (y > START_YEAR || (y === START_YEAR && m >= START_MONTH)) {
+        months.push({ year: y, month: m });
+        m -= 1;
+        if (m < 0) {
+          m = 11;
+          y -= 1;
+        }
+        if (months.length > 48) break;
+      }
+
+      var html = months.map(function (item) {
+        var firstDow = new Date(item.year, item.month, 1).getDay();
+        var pad = (firstDow + 6) % 7;
+        var days = new Date(item.year, item.month + 1, 0).getDate();
+        var cells = WEEK_HEAD.map(function (name) {
+          return '<div class="dow">' + name + "</div>";
+        }).join("");
+        var i;
+        for (i = 0; i < pad; i++) cells += '<span class="pad"></span>';
+        for (i = 1; i <= days; i++) {
+          var date = new Date(item.year, item.month, i);
+          var iso = isoDate(date);
+          var entry = byDate[iso];
+          var cls = "day";
+          if (entry && STATUS_CLASS[entry.status]) cls += " " + STATUS_CLASS[entry.status];
+          if (iso === todayIso) cls += " is-today";
+          var label = formatLong(date);
+          var parts = detailParts(entry);
+          label += ". " + parts.join(". ");
+          cells += '<button type="button" class="' + cls + '" data-date="' + iso + '"';
+          if (entry && entry.status) cells += ' data-status="' + escapeHtml(entry.status) + '"';
+          if (iso === todayIso) cells += ' aria-current="date"';
+          cells += ' aria-label="' + escapeHtml(label) + '">';
+          cells += '<span class="n">' + i + "</span>";
+          if (entry && entry.workout) cells += '<span class="w">' + escapeHtml(entry.workout) + "</span>";
+          cells += "</button>";
+        }
+        return (
+          '<section class="month">' +
+            "<h2>" + MONTHS[item.month] + " " + item.year + "</h2>" +
+            '<div class="grid">' + cells + "</div>" +
+          "</section>"
+        );
+      }).join("");
+      document.getElementById("months").innerHTML = html;
+
+      function showDate(iso) {
+        var buttons = document.querySelectorAll("button[data-date]");
+        Array.prototype.forEach.call(buttons, function (btn) {
+          btn.classList.toggle("is-selected", btn.getAttribute("data-date") === iso);
+        });
+        var date = parseIso(iso);
+        var parts = detailParts(byDate[iso]);
+        document.getElementById("detailDate").textContent = formatLong(date);
+        document.getElementById("detailBody").textContent = parts.join(" — ");
+      }
+
+      var root = document.getElementById("months");
+      function dateFromEvent(e) {
+        var node = e.target;
+        if (!node || !node.closest) return "";
+        var btn = node.closest("button[data-date]");
+        return btn ? btn.getAttribute("data-date") : "";
+      }
+      root.addEventListener("click", function (e) {
+        var iso = dateFromEvent(e);
+        if (iso) showDate(iso);
+      });
+      root.addEventListener("mouseover", function (e) {
+        var iso = dateFromEvent(e);
+        if (iso) showDate(iso);
+      });
+      root.addEventListener("focusin", function (e) {
+        var iso = dateFromEvent(e);
+        if (iso) showDate(iso);
+      });
+
+      if (document.querySelector('button[data-date="' + todayIso + '"]')) showDate(todayIso);
+    })();
+  </script>
+</body>
+</html>

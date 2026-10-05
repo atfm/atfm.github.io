@@ -7,9 +7,20 @@
  * Что менять:
  *   1. ACTIVE_WORKOUT_ID  — какой день открыть по умолчанию
  *   2. WORKOUTS           — перечень дней; добавь объект, чтобы появился новый день
+ *   3. HABIT_DAYS         — календарь привычек для daysofgreatlife.html
  *
  * Добавить день: скопируй любой объект в WORKOUTS, поставь новый id,
  *   поменяй dayLabel / equipment / exercises. День сразу появится в списке.
+ *
+ * HABIT_DAYS — один массив, одна запись на дату. Новый день: допиши объект.
+ *   Обновить день: правь существующий объект с этой date, второй с той же date не добавляй.
+ *   Поля записи:
+ *     date       — "YYYY-MM-DD", обязательно и уникально
+ *     status     — "done" | "stairs" | "sick" | "skip" | "unknown"
+ *     workout?   — буква тренировки "A" | "B" | "C", если была
+ *     stairsMin? — минуты лестницы, число
+ *     note?      — короткая заметка
+ *   В статистике календаря done и stairs считаются тренировкой.
  *
  * Упражнение, поля:
  *   name, sets, reps, restSec, gifUrl, notes?
@@ -24,7 +35,7 @@
  * gifUrl: GIF/WebP/JPG или MP4.
  * ============================================================================= */
 
-var ACTIVE_WORKOUT_ID = "day-c";
+var ACTIVE_WORKOUT_ID = "day-a";
 
 var WORKOUTS = [
   {
@@ -154,10 +165,10 @@ var WORKOUTS = [
     id: "day-a",
     title: "Тренировка",
     dayLabel: "Day A — низ",
-    dateLabel: "28.09 · дома · гантели 6,5 кг + тросы KETTLER",
+    dateLabel: "05.10 · дома · гантели 6,5 кг + тросы KETTLER 20 кг",
     equipment: [
       { kind: "dumbbell", name: "гантели", weightKg: 6.5 },
-      { kind: "band", name: "тросы KETTLER", weightKg: 15 },
+      { kind: "band", name: "тросы KETTLER", weightKg: 20 },
       { kind: "other", name: "коврик" }
     ],
     exercises: [
@@ -167,7 +178,7 @@ var WORKOUTS = [
         reps: "10–12",
         restSec: 75,
         gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-dumbbell-goblet-squat-front.mp4",
-        notes: "гантель 6,5 кг у груди; пятки в пол, глубина комфортная.",
+        notes: "гантель 6,5 кг у груди; пятки в пол, глубина комфортная. Первая после болезни — стоп за 2 повтора до отказа; если горло болит — пас.",
         dumbbellKg: true
       },
       {
@@ -185,7 +196,7 @@ var WORKOUTS = [
         reps: "12 на сторону",
         restSec: 60,
         gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Cables-cable-glute-kickback-front.mp4",
-        notes: "KETTLER ~15 кг (или 10–15; доступны только 10/15/20/30, без 12 кг); якорь внизу двери; корпус спокойный, работа ягодицей.",
+        notes: "KETTLER 20 кг (уже делал 3 подхода на 20 кг 21.09; доступны только 10/15/20/30, 12 кг нет); якорь внизу двери; корпус спокойный, работа ягодицей.",
         bandKg: true
       },
       {
@@ -216,4 +227,16 @@ var WORKOUTS = [
       }
     ]
   }
+];
+
+var HABIT_DAYS = [
+  { date: "2026-09-13", status: "sick", note: "температура 38" },
+  { date: "2026-09-14", status: "sick", note: "температура 38" },
+  { date: "2026-09-15", status: "done", workout: "B", note: "18 мин, гантели 3,5 кг, трос 10 кг, судорога на разведениях" },
+  { date: "2026-09-21", status: "done", workout: "A" },
+  { date: "2026-09-23", status: "done", workout: "B", note: "28 мин, гантели 3,5 кг, трос 20 кг, жим и тяга по 20 повторов" },
+  { date: "2026-09-25", status: "sick", workout: "C", note: "горло" },
+  { date: "2026-09-28", status: "sick", workout: "A", note: "горло" },
+  { date: "2026-09-30", status: "unknown" },
+  { date: "2026-10-02", status: "sick", workout: "C", note: "горло" }
 ];

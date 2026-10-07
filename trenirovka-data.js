@@ -35,14 +35,14 @@
  * gifUrl: GIF/WebP/JPG или MP4.
  * ============================================================================= */
 
-var ACTIVE_WORKOUT_ID = "day-a";
+var ACTIVE_WORKOUT_ID = "day-b";
 
 var WORKOUTS = [
   {
     id: "day-b",
     title: "Тренировка",
     dayLabel: "Day B — верх",
-    dateLabel: "23.09 · дома · гантели 6,5 кг + тросы 20 кг",
+    dateLabel: "07.10 · дома · гантели 6,5 кг + тросы KETTLER 20–30 кг",
     equipment: [
       { kind: "dumbbell", name: "гантели", weightKg: 6.5 },
       { kind: "band", name: "тросы KETTLER", weightKg: 20 },
@@ -52,20 +52,20 @@ var WORKOUTS = [
       {
         name: "Жим гантелей на полу / Dumbbell floor press",
         sets: 3,
-        reps: "10–12",
+        reps: "12–15",
         restSec: 75,
         gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-floor-press-front.mp4",
-        notes: "гантели 6,5 кг; локти на пол, пауза, затем жим; стоп за 1–2 до отказа.",
+        notes: "гантели 6,5 кг; медленный темп (~3 с вниз, пауза на полу). 23.09 легко сделал 20 повторов — теперь медленнее, а не больше повторов; стоп за 1–2 до отказа. Первая Day B после ~2 недель с больным горлом: если горло болит — пас. Лестницы сегодня нет, по желанию 8–10 лёгких минут после.",
         dumbbellKg: true
       },
       {
         name: "Тяга троса к поясу (дверное крепление) / Band or cable row",
         sets: 3,
-        reps: "10",
+        reps: "10–12",
         restSec: 75,
         gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-band-single-arm-row-front.mp4",
-        notes: "KETTLER ~20 кг (доступны только 10/15/20/30); якорь на уровне груди/пояса; тяга к поясу, корпус спокойный.",
-        bandKg: true
+        notes: "KETTLER 20–30 кг: попробуй 30 кг; если форма ломается — назад на 20. Только 10/15/20/30 (12 кг нет); якорь на двери, тяга к поясу, корпус спокойный.",
+        bandKg: 30
       },
       {
         name: "Жим стоя / Dumbbell overhead press",
@@ -82,8 +82,8 @@ var WORKOUTS = [
         reps: "12–15",
         restSec: 60,
         gifUrl: "https://media.musclewiki.com/media/uploads/videos/branded/male-band-face-pull-front.mp4",
-        notes: "KETTLER 10–15 кг (не максимум; шаг 10 или 15); якорь на уровне лица/выше; локти высоко, тяга к лицу, лопатки сводим.",
-        bandKg: true
+        notes: "KETTLER 15 кг (не 20: в прошлый раз на 20 кг напрягалась шея); плечи вниз, от ушей, локти на высоте плеч.",
+        bandKg: 15
       },
       {
         name: "Dead bug",
@@ -238,5 +238,6 @@ var HABIT_DAYS = [
   { date: "2026-09-25", status: "sick", workout: "C", note: "горло" },
   { date: "2026-09-28", status: "sick", workout: "A", note: "горло" },
   { date: "2026-09-30", status: "unknown" },
-  { date: "2026-10-02", status: "sick", workout: "C", note: "горло" }
+  { date: "2026-10-02", status: "sick", workout: "C", note: "горло" },
+  { date: "2026-10-05", status: "unknown", workout: "A" }
 ];
